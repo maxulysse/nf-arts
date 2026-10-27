@@ -124,4 +124,4 @@ To publish to the Nextflow Registry, copy `.env.example` to `.env`, set `NPR_API
 
 ## License
 
-Apache License 2.0. See the [`COPYING`](COPYING) file for details.
+MIT. See the [`LICENSE`](LICENSE) file for details.
