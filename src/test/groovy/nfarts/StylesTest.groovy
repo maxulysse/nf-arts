@@ -72,6 +72,24 @@ class StylesTest extends Specification {
         style << ['radial', 'hilbert']
     }
 
+    def 'memory should be on a log scale between the smallest and largest task' () {
+        given:
+        def run = new Run([
+            new TaskTile('A', 0, 1, 1_000_000, 'COMPLETED'),
+            new TaskTile('A', 0, 1, 1_000_000_000, 'COMPLETED'),
+            new TaskTile('A', 0, 1, 1_000_000_000_000, 'COMPLETED'),
+            new TaskTile('A', 0, 1, 0, 'COMPLETED'),
+        ])
+        def single = new TaskTile('A', 0, 1, 5, 'COMPLETED')
+
+        expect:
+        run.memory(run.tiles[0]) == 0d
+        Math.abs(run.memory(run.tiles[1]) - 0.5d) < 1e-9
+        run.memory(run.tiles[2]) == 1d
+        run.memory(run.tiles[3]) == 0d
+        new Run([single]).memory(single) == 1d
+    }
+
     def 'should handle a single task and an empty run' () {
         expect:
         new String(Artist.paint([new TaskTile('A', 0, 0, 0, 'COMPLETED')], new ArtsConfig(style: style), 'svg', 1)).contains('stroke=')

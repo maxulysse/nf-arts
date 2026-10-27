@@ -19,7 +19,8 @@ class Run {
     final List<String> processes
     final long t0
     final long span
-    final long maxMemory
+    private final double logMin
+    private final double logMax
 
     Run(List<TaskTile> tiles) {
         this.tiles = tiles.toSorted { TaskTile it -> it.start() }
@@ -28,7 +29,9 @@ class Run {
         this.t0 = this.tiles*.start().min() as long
         final t1 = this.tiles.collect { TaskTile it -> it.start() + it.duration() }.max() as long
         this.span = Math.max(1L, t1 - t0)
-        this.maxMemory = Math.max(1L, this.tiles*.memory().max() as long)
+        final used = this.tiles*.memory().findAll { long m -> m > 0 }
+        this.logMin = used ? Math.log(used.min() as double) : 0d
+        this.logMax = used ? Math.log(used.max() as double) : 0d
     }
 
     String color(TaskTile tile, Palette palette) {
@@ -36,9 +39,13 @@ class Run {
         palette.at(processes.size() > 1 ? i / (double) (processes.size() - 1) : 0.5d)
     }
 
-    /** memory relative to the largest task, sqrt so small tasks stay visible */
+    /** memory in [0,1] on a log scale between the smallest and largest task, so one big task does not flatten the rest */
     double memory(TaskTile tile) {
-        Math.sqrt(tile.memory() / (double) maxMemory)
+        if( tile.memory() <= 0 )
+            return 0d
+        if( logMax == logMin )
+            return 1d
+        (Math.log(tile.memory() as double) - logMin) / (logMax - logMin)
     }
 
     static double opacity(TaskTile tile) {
@@ -71,7 +78,7 @@ class RadialStyle implements Style {
             final r = inner + band * (ring + 0.5d + (random.nextDouble() - 0.5d) * 0.6d)
             final start = -90d + 360d * (tile.start() - run.t0) / run.span
             final sweep = Math.max(0.6d, 360d * tile.duration() / run.span)
-            double stroke = Math.max(1d, band * (0.15d + 0.75d * run.memory(tile)))
+            double stroke = Math.max(1d, band * (0.4d + 0.8d * run.memory(tile)))
             if( tile.status() == 'FAILED' )
                 stroke = Math.max(1d, stroke / 3)
             canvas.arc(cx, cy, r, start, sweep, stroke, run.color(tile, palette), Run.opacity(tile))
@@ -112,7 +119,7 @@ class HilbertStyle implements Style {
                 points[(d - from) * 2] = ox + xy[0] * cell
                 points[(d - from) * 2 + 1] = oy + xy[1] * cell
             }
-            double stroke = cell * (0.25d + 0.5d * run.memory(tile))
+            double stroke = cell * (0.3d + 0.5d * run.memory(tile))
             if( tile.status() == 'FAILED' )
                 stroke = stroke / 3
             canvas.polyline(points, stroke, run.color(tile, palette), Run.opacity(tile))
