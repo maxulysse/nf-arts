@@ -52,7 +52,7 @@ It takes the same options as the `arts` scope (`--style`, `--palette`, `--colors
 ```groovy
 arts {
     file    = "${params.outdir}/pipeline_info/art.png" // .svg or .png
-    style   = 'hilbert'                                 // radial or hilbert
+    style   = 'hilbert'                                 // see Styles below
     palette = 'magma'
     width   = 1600
     height  = 1600
