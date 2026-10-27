@@ -16,7 +16,7 @@ import nextflow.script.dsl.Description
 @CompileStatic
 class ArtsConfig implements ConfigScope {
 
-    static final List<String> STYLES = ['radial', 'hilbert']
+    static final List<String> STYLES = Artist.STYLES.keySet().toList()
     static final List<String> FORMATS = ['svg', 'png']
 
     @ConfigOption
@@ -28,7 +28,7 @@ class ArtsConfig implements ConfigScope {
     final String file
 
     @ConfigOption
-    @Description('Art style: `radial` or `hilbert` (default: `radial`).')
+    @Description('Art style: `radial`, `hilbert`, `ridgeline`, `phyllotaxis`, `flowfield`, `mondrian` or `tree` (default: `radial`).')
     final String style
 
     @ConfigOption

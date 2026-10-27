@@ -23,7 +23,7 @@ Options:
   --trace FILE        read an execution trace file (local, s3://, gs://, az://, http(s)://)
   --dir DIR           project directory with the .nextflow history (default: .)
   --file FILE         output .svg or .png (default: art-<run>.svg)
-  --style NAME        radial or hilbert
+  --style NAME        radial, hilbert, ridgeline, phyllotaxis, flowfield, mondrian or tree
   --palette NAME      viridis, magma, nfcore, ocean, sunset or mono
   --colors A,B,...    custom hex colors
   --background HEX    background color

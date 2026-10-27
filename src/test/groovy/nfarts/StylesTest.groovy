@@ -56,7 +56,7 @@ class StylesTest extends Specification {
         image.width == 320
         image.height == 240
         where:
-        style << ['radial', 'hilbert']
+        style << ArtsConfig.STYLES
     }
 
     def 'same seed should give the same art, other seeds other art' () {
@@ -69,7 +69,7 @@ class StylesTest extends Specification {
         // hilbert only has the 8 symmetries of the square
         (1..8).collect { new String(Artist.paint(tiles, config, 'svg', it)) }.unique().size() > 1
         where:
-        style << ['radial', 'hilbert']
+        style << ArtsConfig.STYLES
     }
 
     def 'memory should be on a log scale between the smallest and largest task' () {
@@ -92,9 +92,35 @@ class StylesTest extends Specification {
 
     def 'should handle a single task and an empty run' () {
         expect:
-        new String(Artist.paint([new TaskTile('A', 0, 0, 0, 'COMPLETED')], new ArtsConfig(style: style), 'svg', 1)).contains('stroke=')
+        new String(Artist.paint([new TaskTile('A', 0, 0, 0, 'COMPLETED')], new ArtsConfig(style: style), 'svg', 1)) =~ /<(path|polyline|polygon|circle) /
         new String(Artist.paint([], new ArtsConfig(style: style), 'svg', 1)).contains('<rect')
         where:
-        style << ['radial', 'hilbert']
+        style << ArtsConfig.STYLES
+    }
+
+    def 'new styles should draw their shapes' () {
+        given:
+        def tiles = SyntheticRun.create(1, 4)
+        def failed = tiles.count { it.status() == 'FAILED' }
+        def processes = tiles*.process().unique().size()
+        def svg = { String style -> new String(Artist.paint(tiles, new ArtsConfig(style: style), 'svg', 1)) }
+
+        expect:
+        svg('phyllotaxis').count('<circle ') == tiles.size()
+        svg('flowfield').count('<polyline ') == tiles.size()
+        svg('ridgeline').count('<polyline ') == processes
+        svg('ridgeline').count('<polygon ') == processes
+        svg('mondrian').count('<polygon ') + svg('mondrian').count('<polyline ') == tiles.size()
+        svg('mondrian').count('<polyline ') == failed
+        svg('tree').count('<circle ') == tiles.size() - failed
+    }
+
+    def 'mondrian partition should split area by weight' () {
+        when:
+        def blocks = MondrianStyle.partition([1d, 1d, 2d], 0, 0, 400, 100, new Random(1))
+        then:
+        blocks.size() == 3
+        blocks.collect { it[2] * it[3] } == [10_000d, 10_000d, 20_000d]
+        blocks.every { it[0] >= 0 && it[1] >= 0 && it[0] + it[2] <= 400 + 1e-9 && it[1] + it[3] <= 100 + 1e-9 }
     }
 }

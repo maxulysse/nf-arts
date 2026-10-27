@@ -6,6 +6,7 @@ import java.awt.Color
 import java.awt.Graphics2D
 import java.awt.RenderingHints
 import java.awt.geom.Arc2D
+import java.awt.geom.Ellipse2D
 import java.awt.geom.Path2D
 import java.awt.image.BufferedImage
 import javax.imageio.ImageIO
@@ -23,6 +24,9 @@ interface Canvas {
     void arc(double cx, double cy, double r, double startDeg, double sweepDeg, double stroke, String color, double opacity)
     /** points are interleaved x,y pairs */
     void polyline(double[] points, double stroke, String color, double opacity)
+    /** filled, no outline; points are interleaved x,y pairs */
+    void polygon(double[] points, String color, double opacity)
+    void circle(double cx, double cy, double r, String color, double opacity)
     byte[] bytes()
 }
 
@@ -51,14 +55,30 @@ class SvgCanvas implements Canvas {
             cx + r * Math.cos(a1), cy + r * Math.sin(a1), color, stroke, opacity))
     }
 
-    @Override
-    void polyline(double[] points, double stroke, String color, double opacity) {
+    private static String join(double[] points) {
         final pts = new StringBuilder()
         for( int i = 0; i < points.length; i += 2 )
             pts.append(String.format(Locale.ROOT, '%s%.2f,%.2f', i ? ' ' : '', points[i], points[i + 1]))
+        return pts.toString()
+    }
+
+    @Override
+    void polyline(double[] points, double stroke, String color, double opacity) {
         body.append(String.format(Locale.ROOT,
             '<polyline points="%s" stroke="%s" stroke-width="%.2f" stroke-opacity="%.2f"/>\n',
-            pts, color, stroke, opacity))
+            join(points), color, stroke, opacity))
+    }
+
+    @Override
+    void polygon(double[] points, String color, double opacity) {
+        body.append(String.format(Locale.ROOT,
+            '<polygon points="%s" fill="%s" fill-opacity="%.2f"/>\n', join(points), color, opacity))
+    }
+
+    @Override
+    void circle(double cx, double cy, double r, String color, double opacity) {
+        body.append(String.format(Locale.ROOT,
+            '<circle cx="%.2f" cy="%.2f" r="%.2f" fill="%s" fill-opacity="%.2f"/>\n', cx, cy, r, color, opacity))
     }
 
     @Override
@@ -105,14 +125,32 @@ class PngCanvas implements Canvas {
         g.draw(new Arc2D.Double(cx - r, cy - r, 2 * r, 2 * r, -startDeg, -sweepDeg, Arc2D.OPEN))
     }
 
-    @Override
-    void polyline(double[] points, double stroke, String color, double opacity) {
-        pen(stroke, color, opacity)
+    private static Path2D path(double[] points) {
         final path = new Path2D.Double()
         path.moveTo(points[0], points[1])
         for( int i = 2; i < points.length; i += 2 )
             path.lineTo(points[i], points[i + 1])
-        g.draw(path)
+        return path
+    }
+
+    @Override
+    void polyline(double[] points, double stroke, String color, double opacity) {
+        pen(stroke, color, opacity)
+        g.draw(path(points))
+    }
+
+    @Override
+    void polygon(double[] points, String color, double opacity) {
+        pen(1, color, opacity)
+        final shape = path(points)
+        shape.closePath()
+        g.fill(shape)
+    }
+
+    @Override
+    void circle(double cx, double cy, double r, String color, double opacity) {
+        pen(1, color, opacity)
+        g.fill(new Ellipse2D.Double(cx - r, cy - r, 2 * r, 2 * r))
     }
 
     @Override

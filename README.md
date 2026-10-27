@@ -76,7 +76,7 @@ arts {
 | --- | --- | --- |
 | `enabled` | `true` | Create the artwork at the end of the run. |
 | `file` | `art-<runName>.svg` | Output file. The `.svg` or `.png` extension sets the format. Cloud paths work too. An existing file is overwritten. |
-| `style` | `radial` | `radial` or `hilbert`. |
+| `style` | `radial` | `radial`, `hilbert`, `ridgeline`, `phyllotaxis`, `flowfield`, `mondrian` or `tree`. |
 | `palette` | `viridis` | `viridis`, `magma`, `nfcore`, `ocean`, `sunset` or `mono`. |
 | `colors` | | List of hex colors. Overrides `palette`. |
 | `background` | from palette | Hex background color. |
@@ -88,7 +88,17 @@ arts {
 
 **hilbert**: tasks are laid end to end, in start order, along a [Hilbert curve](https://en.wikipedia.org/wiki/Hilbert_curve). Each task gets a share of the curve proportional to its duration. Line thickness is peak memory. The curve's resolution grows with the number of tasks. The seed picks one of the 8 orientations of the square.
 
-In both styles, color is the process, cached tasks are faded and failed tasks are thin.
+**ridgeline**: one ridge per process, stacked top to bottom, with time running left to right. The height of a ridge is how many tasks of that process were running, relative to that process's busiest moment.
+
+**phyllotaxis**: tasks are seeds of a sunflower, placed on a golden-angle spiral in start order. Dot size is peak memory.
+
+**flowfield**: each task is a brush stroke drifting through a flow field seeded by the run. A stroke starts at the task's place in start order (x), in its process's row (y). Stroke length is duration and width is peak memory.
+
+**mondrian**: the canvas is split into one block per process, then one block per task, with area proportional to duration. Opacity is peak memory and failed tasks are hollow.
+
+**tree**: the run is the trunk, and each process is a branch, in start order from the bottom up. Branch length is how long the process was active. Each task is a twig with a leaf: twig length is duration and leaf size is peak memory. Failed tasks have no leaf.
+
+In all styles, color is the process, cached tasks are faded and failed tasks are thin or empty.
 
 ### Gallery
 
@@ -102,6 +112,16 @@ nf-core megatests, painted with `render` from the trace files on `s3://nf-core-a
 | mag, 3207 tasks, `ocean` | ![](docs/images/megatest-mag-radial.png) | ![](docs/images/megatest-mag-hilbert.png) |
 | raredisease, 990 tasks, `sunset` | ![](docs/images/megatest-raredisease-radial.png) | ![](docs/images/megatest-raredisease-hilbert.png) |
 | viralrecon, 3239 tasks, `mono` | ![](docs/images/megatest-viralrecon-radial.png) | ![](docs/images/megatest-viralrecon-hilbert.png) |
+
+The other styles on the rnavar test profile, the rnavar megatest and the sarek megatest:
+
+| Style | rnavar test, 43 tasks | rnavar megatest, 553 tasks | sarek megatest, 4645 tasks |
+| --- | :---: | :---: | :---: |
+| ridgeline | ![](docs/images/test-rnavar-ridgeline.png) | ![](docs/images/megatest-rnavar-ridgeline.png) | ![](docs/images/megatest-sarek-ridgeline.png) |
+| phyllotaxis | ![](docs/images/test-rnavar-phyllotaxis.png) | ![](docs/images/megatest-rnavar-phyllotaxis.png) | ![](docs/images/megatest-sarek-phyllotaxis.png) |
+| flowfield | ![](docs/images/test-rnavar-flowfield.png) | ![](docs/images/megatest-rnavar-flowfield.png) | ![](docs/images/megatest-sarek-flowfield.png) |
+| mondrian | ![](docs/images/test-rnavar-mondrian.png) | ![](docs/images/megatest-rnavar-mondrian.png) | ![](docs/images/megatest-sarek-mondrian.png) |
+| tree | ![](docs/images/test-rnavar-tree.png) | ![](docs/images/megatest-rnavar-tree.png) | ![](docs/images/megatest-sarek-tree.png) |
 
 ## Plugin development
 

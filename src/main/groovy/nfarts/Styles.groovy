@@ -19,8 +19,10 @@ class Run {
     final List<String> processes
     final long t0
     final long span
-    private final double logMin
-    private final double logMax
+    private final double memMin
+    private final double memMax
+    private final double durMin
+    private final double durMax
 
     Run(List<TaskTile> tiles) {
         this.tiles = tiles.toSorted { TaskTile it -> it.start() }
@@ -29,9 +31,12 @@ class Run {
         this.t0 = this.tiles*.start().min() as long
         final t1 = this.tiles.collect { TaskTile it -> it.start() + it.duration() }.max() as long
         this.span = Math.max(1L, t1 - t0)
-        final used = this.tiles*.memory().findAll { long m -> m > 0 }
-        this.logMin = used ? Math.log(used.min() as double) : 0d
-        this.logMax = used ? Math.log(used.max() as double) : 0d
+        final memory = this.tiles*.memory().findAll { long m -> m > 0 }
+        this.memMin = memory ? Math.log(memory.min() as double) : 0d
+        this.memMax = memory ? Math.log(memory.max() as double) : 0d
+        final duration = this.tiles*.duration().findAll { long d -> d > 0 }
+        this.durMin = duration ? Math.log(duration.min() as double) : 0d
+        this.durMax = duration ? Math.log(duration.max() as double) : 0d
     }
 
     String color(TaskTile tile, Palette palette) {
@@ -41,11 +46,24 @@ class Run {
 
     /** memory in [0,1] on a log scale between the smallest and largest task, so one big task does not flatten the rest */
     double memory(TaskTile tile) {
-        if( tile.memory() <= 0 )
+        scale(tile.memory(), memMin, memMax)
+    }
+
+    /** duration in [0,1], on the same log scale as memory */
+    double duration(TaskTile tile) {
+        scale(tile.duration(), durMin, durMax)
+    }
+
+    private static double scale(long value, double min, double max) {
+        if( value <= 0 )
             return 0d
-        if( logMax == logMin )
+        if( max == min )
             return 1d
-        (Math.log(tile.memory() as double) - logMin) / (logMax - logMin)
+        (Math.log(value as double) - min) / (max - min)
+    }
+
+    List<TaskTile> tasksOf(String process) {
+        tiles.findAll { TaskTile it -> it.process() == process }
     }
 
     static double opacity(TaskTile tile) {
