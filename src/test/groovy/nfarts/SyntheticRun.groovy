@@ -1,7 +1,7 @@
 package nfarts
 
 /**
- * Fake runs for tests and the showcase: samples flow through a chain of
+ * Fake runs for tests: samples flow through a chain of
  * processes, with a final aggregation step.
  */
 class SyntheticRun {

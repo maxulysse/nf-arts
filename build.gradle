@@ -23,10 +23,3 @@ nextflowPlugin {
         url = System.getenv('NPR_API_URL')
     }
 }
-
-// Render the showcase images in docs/images from synthetic runs
-tasks.register('showcase', JavaExec) {
-    classpath = sourceSets.test.runtimeClasspath
-    mainClass = 'nfarts.Showcase'
-    args 'docs/images'
-}

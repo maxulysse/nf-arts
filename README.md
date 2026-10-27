@@ -8,9 +8,9 @@ The plugin records every task of the run: process, start time, duration, peak me
 
 | Radial | Hilbert |
 | :---: | :---: |
-| ![radial](docs/images/real-radial-nfcore.png) | ![hilbert](docs/images/real-hilbert-magma.png) |
+| ![radial](docs/images/test-rnavar-radial.png) | ![hilbert](docs/images/test-rnavar-hilbert.png) |
 
-Both images come from real runs of the [validation pipeline](validation/main.nf).
+Both images come from a real run of `nf-core/rnavar -profile test,docker` (43 tasks).
 
 ## Get Started
 
@@ -47,10 +47,6 @@ nextflow plugin nf-arts:render \
 
 It takes the same options as the `arts` scope (`--style`, `--palette`, `--colors a,b,c`, `--background`, `--width`, `--height`, `--file`), plus `--dir` for another project directory. For a local run it uses the same seed as the live plugin, so it gives the same image.
 
-| rnavar megatest, radial | rnavar megatest, hilbert |
-| :---: | :---: |
-| ![](docs/images/megatest-rnavar-radial.png) | ![](docs/images/megatest-rnavar-hilbert.png) |
-
 ## Examples
 
 ```groovy
@@ -72,7 +68,7 @@ arts {
 }
 ```
 
-<img src="docs/images/real-radial-custom.svg" width="300" alt="radial art with custom colors, as SVG">
+<img src="docs/images/test-rnavar-custom.svg" width="300" alt="radial art of the rnavar test profile with custom colors, as SVG">
 
 ### Options
 
@@ -96,12 +92,16 @@ In both styles, color is the process, cached tasks are faded and failed tasks ar
 
 ### Gallery
 
-These images come from synthetic runs: 12 to 48 samples through an 8-step alignment and variant-calling pipeline. The `resumed` images show a run where most early steps were cached.
+nf-core megatests, painted with `render` from the trace files on `s3://nf-core-awsmegatests`:
 
-| | | | |
-| :---: | :---: | :---: | :---: |
-| ![](docs/images/radial-viridis.png) `radial` `viridis` | ![](docs/images/radial-magma.png) `radial` `magma` | ![](docs/images/radial-nfcore.png) `radial` `nfcore` | ![](docs/images/radial-mono-resumed.png) `radial` `mono` resumed |
-| ![](docs/images/hilbert-viridis.png) `hilbert` `viridis` | ![](docs/images/hilbert-ocean.png) `hilbert` `ocean` | ![](docs/images/hilbert-sunset.png) `hilbert` `sunset` | ![](docs/images/hilbert-mono-resumed.png) `hilbert` `mono` resumed |
+| Pipeline | Radial | Hilbert |
+| --- | :---: | :---: |
+| rnavar, 553 tasks, `nfcore` | ![](docs/images/megatest-rnavar-radial.png) | ![](docs/images/megatest-rnavar-hilbert.png) |
+| sarek, 4645 tasks (3273 cached), `magma` | ![](docs/images/megatest-sarek-radial.png) | ![](docs/images/megatest-sarek-hilbert.png) |
+| rnaseq, 332 tasks, `viridis` | ![](docs/images/megatest-rnaseq-radial.png) | ![](docs/images/megatest-rnaseq-hilbert.png) |
+| mag, 3207 tasks, `ocean` | ![](docs/images/megatest-mag-radial.png) | ![](docs/images/megatest-mag-hilbert.png) |
+| raredisease, 990 tasks, `sunset` | ![](docs/images/megatest-raredisease-radial.png) | ![](docs/images/megatest-raredisease-hilbert.png) |
+| viralrecon, 3239 tasks, `mono` | ![](docs/images/megatest-viralrecon-radial.png) | ![](docs/images/megatest-viralrecon-hilbert.png) |
 
 ## Plugin development
 
@@ -109,7 +109,6 @@ These images come from synthetic runs: 12 to 48 samples through an 8-step alignm
 make test       # unit tests
 make install    # install into ~/.nextflow/plugins
 nextflow run validation/ -plugins nf-arts@0.1.0
-./gradlew showcase   # regenerate docs/images from synthetic runs
 ```
 
 `nextflow plugin` only finds a plugin by its bare id, and resolves it from the registry. To try `render` on an unpublished build:
