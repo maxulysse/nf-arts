@@ -39,9 +39,9 @@ nextflow run nf-core/rnavar -profile test,docker --outdir results \
 # last run in this directory, or pass a run name or session id
 nextflow plugin nf-arts:render --style hilbert --file art.png
 
-# any trace file, e.g. an nf-core megatest published on S3
+# any trace file, e.g. an nf-core megatest on S3 (no AWS credentials needed for public buckets)
 nextflow plugin nf-arts:render \
-    --trace https://nf-core-awsmegatests.s3.amazonaws.com/rnavar/results-ea2c7b6286f5ae18f5b51dc0af6b5330ecd6a13a/pipeline_info/execution_trace_2025-12-05_11-13-40.txt \
+    --trace s3://nf-core-awsmegatests/rnavar/results-ea2c7b6286f5ae18f5b51dc0af6b5330ecd6a13a/pipeline_info/execution_trace_2025-12-05_11-13-40.txt \
     --file rnavar.png --palette nfcore
 ```
 

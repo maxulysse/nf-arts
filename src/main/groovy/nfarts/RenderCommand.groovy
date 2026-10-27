@@ -35,7 +35,7 @@ Paint a finished run. RUN is a run name or session id from the local
 history (default: the last run), or use --trace.
 
 Options:
-  --trace FILE        read an execution trace file (local path or http(s) URL)
+  --trace FILE        read an execution trace file (local, s3://, gs://, az://, http(s)://)
   --dir DIR           project directory with the .nextflow history (default: .)
   --file FILE         output .svg or .png (default: art-<run>.svg)
   --style NAME        radial or hilbert
