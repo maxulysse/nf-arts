@@ -37,10 +37,10 @@ nextflow run nf-core/rnavar -profile test,docker --outdir results \
 
 ```bash
 # last run in this directory, or pass a run name or session id
-nextflow plugin nf-arts@0.1.0:render --style hilbert --file art.png
+nextflow plugin nf-arts:render --style hilbert --file art.png
 
 # any trace file, e.g. an nf-core megatest published on S3
-nextflow plugin nf-arts@0.1.0:render \
+nextflow plugin nf-arts:render \
     --trace https://nf-core-awsmegatests.s3.amazonaws.com/rnavar/results-ea2c7b6286f5ae18f5b51dc0af6b5330ecd6a13a/pipeline_info/execution_trace_2025-12-05_11-13-40.txt \
     --file rnavar.png --palette nfcore
 ```
@@ -110,6 +110,14 @@ make test       # unit tests
 make install    # install into ~/.nextflow/plugins
 nextflow run validation/ -plugins nf-arts@0.1.0
 ./gradlew showcase   # regenerate docs/images from synthetic runs
+```
+
+`nextflow plugin` only finds a plugin by its bare id, and resolves it from the registry. To try `render` on an unpublished build:
+
+```bash
+make dev-repo
+export NXF_PLUGINS_TEST_REPOSITORY="file://$PWD/build/plugin-repo/plugins.json"
+nextflow plugin nf-arts:render
 ```
 
 To publish to the Nextflow Registry, copy `.env.example` to `.env`, set `NPR_API_KEY`, then run `make release`.

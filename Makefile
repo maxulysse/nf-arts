@@ -27,3 +27,12 @@ install:
 # Publish the plugin
 release:
 	$(LOAD_ENV) $(GRADLE) releasePlugin
+
+# Local plugin repository, so `nextflow plugin nf-arts:render` resolves this build.
+# Then: export NXF_PLUGINS_TEST_REPOSITORY="file://$(CURDIR)/build/plugin-repo/plugins.json"
+VERSION = $(shell sed -n "s/^version = '\(.*\)'/\1/p" build.gradle)
+dev-repo: assemble
+	mkdir -p build/plugin-repo
+	ZIP="$(CURDIR)/build/distributions/nf-arts-$(VERSION).zip"; \
+	SHA=$$(sha512sum "$$ZIP" | cut -d' ' -f1); \
+	printf '[{"id": "nf-arts", "releases": [{"version": "$(VERSION)", "date": "1970-01-01T00:00:00.000Z", "requires": ">=25.10.0", "url": "file://%s", "sha512sum": "%s"}]}]\n' "$$ZIP" "$$SHA" > build/plugin-repo/plugins.json

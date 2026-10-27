@@ -54,4 +54,7 @@ jobs:
         run: nextflow run validation/ -plugins nf-arts@0.1.0 && test -s results/art.png
 
       - name: Render the finished run
-        run: nextflow plugin nf-arts@0.1.0:render --file results/rendered.png && test -s results/rendered.png
+        run: |
+          make dev-repo
+          export NXF_PLUGINS_TEST_REPOSITORY="file://$PWD/build/plugin-repo/plugins.json"
+          nextflow plugin nf-arts:render --file results/rendered.png && test -s results/rendered.png
