@@ -52,3 +52,6 @@ jobs:
 
       - name: Test
         run: nextflow run validation/ -plugins nf-arts@0.1.0 && test -s results/art.png
+
+      - name: Render the finished run
+        run: nextflow plugin nf-arts@0.1.0:render --file results/rendered.png && test -s results/rendered.png

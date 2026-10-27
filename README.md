@@ -24,6 +24,33 @@ plugins {
 
 When the run ends, the plugin writes `art-<runName>.svg` to the launch directory.
 
+To add it to a pipeline you don't edit, such as an nf-core pipeline, repeat the pipeline's own plugins. Both `-plugins` and a `plugins {}` block in a `-c` config replace the pipeline's plugins instead of adding to them:
+
+```bash
+nextflow run nf-core/rnavar -profile test,docker --outdir results \
+    -plugins nf-core-utils@0.4.0,nf-schema@2.6.1,nf-arts@0.1.0
+```
+
+### Paint a finished run
+
+`render` paints a run that already finished, from the local history and cache (like [nf-diff](https://github.com/mribeirodantas/nf-diff)) or from an execution trace file:
+
+```bash
+# last run in this directory, or pass a run name or session id
+nextflow plugin nf-arts@0.1.0:render --style hilbert --file art.png
+
+# any trace file, e.g. an nf-core megatest published on S3
+nextflow plugin nf-arts@0.1.0:render \
+    --trace https://nf-core-awsmegatests.s3.amazonaws.com/rnavar/results-ea2c7b6286f5ae18f5b51dc0af6b5330ecd6a13a/pipeline_info/execution_trace_2025-12-05_11-13-40.txt \
+    --file rnavar.png --palette nfcore
+```
+
+It takes the same options as the `arts` scope (`--style`, `--palette`, `--colors a,b,c`, `--background`, `--width`, `--height`, `--file`), plus `--dir` for another project directory. For a local run it uses the same seed as the live plugin, so it gives the same image.
+
+| rnavar megatest, radial | rnavar megatest, hilbert |
+| :---: | :---: |
+| ![](docs/images/megatest-rnavar-radial.png) | ![](docs/images/megatest-rnavar-hilbert.png) |
+
 ## Examples
 
 ```groovy

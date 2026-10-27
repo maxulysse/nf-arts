@@ -58,14 +58,9 @@ class ArtsObserver implements TraceObserverV2 {
     }
 
     private void add(TraceRecord trace, boolean cached) {
-        if( trace == null )
-            return
-        final duration = (trace.get('realtime') ?: trace.get('duration') ?: 0L) as long
         // cached traces carry the times of the earlier run, so replay them now
-        final start = cached ? System.currentTimeMillis() : (trace.get('start') ?: trace.get('submit') ?: System.currentTimeMillis()) as long
-        final status = cached ? 'CACHED' : (trace.get('status') == 'COMPLETED' ? 'COMPLETED' : 'FAILED')
-        final memory = (trace.get('peak_rss') ?: 0L) as long
-        tiles << new TaskTile(trace.getProcessName() ?: trace.get('name') as String, start, duration, memory, status)
+        if( trace != null )
+            tiles << RunReader.tile(trace, cached, System.currentTimeMillis())
     }
 
     List<TaskTile> getTiles() {
