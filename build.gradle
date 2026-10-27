@@ -1,0 +1,25 @@
+plugins {
+    id 'io.nextflow.nextflow-plugin' version '1.0.0-beta.15'
+}
+
+version = '0.1.0'
+
+nextflowPlugin {
+    nextflowVersion = '25.10.0'
+
+    provider = 'provider-name'
+    className = 'acme.plugin.MyPlugin'
+    extensionPoints = [
+        'acme.plugin.MyExtension',
+        'acme.plugin.MyFactory'
+    ]
+
+    registry {
+        // Taken from the environment, which `make` fills from .env. Set here because this block
+        // outranks every other source the release task consults, so a token in .env is what gets
+        // used; and never passed as a command-line property, which would put it in the process
+        // list.
+        apiKey = System.getenv('NPR_API_KEY')
+        url = System.getenv('NPR_API_URL')
+    }
+}
