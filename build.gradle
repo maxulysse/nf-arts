@@ -7,11 +7,11 @@ version = '0.1.0'
 nextflowPlugin {
     nextflowVersion = '25.10.0'
 
-    provider = 'provider-name'
-    className = 'acme.plugin.MyPlugin'
+    provider = 'maxulysse'
+    className = 'nfarts.ArtsPlugin'
     extensionPoints = [
-        'acme.plugin.MyExtension',
-        'acme.plugin.MyFactory'
+        'nfarts.ArtsConfig',
+        'nfarts.ArtsFactory'
     ]
 
     registry {
@@ -22,4 +22,11 @@ nextflowPlugin {
         apiKey = System.getenv('NPR_API_KEY')
         url = System.getenv('NPR_API_URL')
     }
+}
+
+// Render the showcase images in docs/images from synthetic runs
+tasks.register('showcase', JavaExec) {
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'nfarts.Showcase'
+    args 'docs/images'
 }

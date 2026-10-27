@@ -1,5 +1,5 @@
 /*
- * Copyright 2025, Seqera Labs
+ * Copyright 2026, Maxime U. Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,28 +14,19 @@
  * limitations under the License.
  */
 
-package acme.plugin
+package nfarts
 
 import groovy.transform.CompileStatic
-import groovy.util.logging.Slf4j
-import nextflow.Session
-import nextflow.trace.TraceObserver
+import nextflow.plugin.BasePlugin
+import org.pf4j.PluginWrapper
 
 /**
- * Implements an observer that allows implementing custom
- * logic on nextflow execution events.
+ * The plugin entry point
  */
-@Slf4j
 @CompileStatic
-class MyObserver implements TraceObserver {
+class ArtsPlugin extends BasePlugin {
 
-    @Override
-    void onFlowCreate(Session session) {
-        println "Pipeline is starting! 🚀"
-    }
-
-    @Override
-    void onFlowComplete() {
-        println "Pipeline complete! 👋"
+    ArtsPlugin(PluginWrapper wrapper) {
+        super(wrapper)
     }
 }

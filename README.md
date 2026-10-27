@@ -1,86 +1,92 @@
-# nf-plugin-template
+# nf-arts
 
 ## Summary
 
-`nf-plugin-template` is a Nextflow plugin scaffolded from the official plugin
-template. Out of the box it provides:
+`nf-arts` is a Nextflow plugin that turns each pipeline run into a piece of generative art.
 
-- A custom function `sayHello` that can be imported into Nextflow scripts.
-- A workflow observer that reacts to pipeline lifecycle events (start and
-  completion).
+The plugin records every task of the run: process, start time, duration, peak memory and status. When the run ends, it draws those tasks as an SVG or PNG image. The run's session ID is the random seed, so the same run always gives the same image.
 
-Replace this section with a description of what your plugin actually does.
+| Radial | Hilbert |
+| :---: | :---: |
+| ![radial](docs/images/real-radial-nfcore.png) | ![hilbert](docs/images/real-hilbert-magma.png) |
 
-Note: The **Summary**, **Get Started**, **Examples**, and **License** sections are
-mandatory: they are required by the Nextflow Registry, which uses this
-file as the plugin description. The **Plugin development** section below is
-guidance for working on the plugin and can be removed before publishing.
+Both images come from real runs of the [validation pipeline](validation/main.nf).
 
 ## Get Started
 
-Enable the plugin in your pipeline `nextflow.config`:
+Enable the plugin in your pipeline's `nextflow.config`:
 
 ```groovy
 plugins {
-    id 'nf-plugin-template@0.1.0'
+    id 'nf-arts@0.1.0'
 }
 ```
 
-Nextflow downloads the plugin from the Nextflow Registry the first time
-the pipeline runs.
+When the run ends, the plugin writes `art-<runName>.svg` to the launch directory.
 
 ## Examples
 
-Import and call the `sayHello` function from a Nextflow script:
-
-```nextflow
-include { sayHello } from 'plugin/nf-plugin-template'
-
-workflow {
-    channel.of('Mundo', 'World').map { target -> sayHello(target) }
+```groovy
+arts {
+    file    = "${params.outdir}/pipeline_info/art.png" // .svg or .png
+    style   = 'hilbert'                                 // radial or hilbert
+    palette = 'magma'
+    width   = 1600
+    height  = 1600
 }
 ```
 
-The bundled observer prints a message when the pipeline starts and completes,
-so running any pipeline with the plugin enabled produces:
+Custom colors:
 
+```groovy
+arts {
+    colors     = ['#ff006e', '#8338ec', '#3a86ff']
+    background = '#ffffff'
+}
 ```
-Pipeline is starting! 🚀
-Pipeline complete! 👋
-```
+
+<img src="docs/images/real-radial-custom.svg" width="300" alt="radial art with custom colors, as SVG">
+
+### Options
+
+| Option | Default | Description |
+| --- | --- | --- |
+| `enabled` | `true` | Create the artwork at the end of the run. |
+| `file` | `art-<runName>.svg` | Output file. The `.svg` or `.png` extension sets the format. Cloud paths work too. An existing file is overwritten. |
+| `style` | `radial` | `radial` or `hilbert`. |
+| `palette` | `viridis` | `viridis`, `magma`, `nfcore`, `ocean`, `sunset` or `mono`. |
+| `colors` | | List of hex colors. Overrides `palette`. |
+| `background` | from palette | Hex background color. |
+| `width`, `height` | `1200` | Size in pixels (16 to 10000). |
+
+### Styles
+
+**radial**: each process is a ring and each task is an arc on its ring. The angle is time: 12 o'clock is the start of the run, and the run goes clockwise. Arc thickness is peak memory.
+
+**hilbert**: tasks are laid end to end, in start order, along a [Hilbert curve](https://en.wikipedia.org/wiki/Hilbert_curve). Each task gets a share of the curve proportional to its duration. Line thickness is peak memory. The curve's resolution grows with the number of tasks. The seed picks one of the 8 orientations of the square.
+
+In both styles, color is the process, cached tasks are faded and failed tasks are thin.
+
+### Gallery
+
+These images come from synthetic runs: 12 to 48 samples through an 8-step alignment and variant-calling pipeline. The `resumed` images show a run where most early steps were cached.
+
+| | | | |
+| :---: | :---: | :---: | :---: |
+| ![](docs/images/radial-viridis.png) `radial` `viridis` | ![](docs/images/radial-magma.png) `radial` `magma` | ![](docs/images/radial-nfcore.png) `radial` `nfcore` | ![](docs/images/radial-mono-resumed.png) `radial` `mono` resumed |
+| ![](docs/images/hilbert-viridis.png) `hilbert` `viridis` | ![](docs/images/hilbert-ocean.png) `hilbert` `ocean` | ![](docs/images/hilbert-sunset.png) `hilbert` `sunset` | ![](docs/images/hilbert-mono-resumed.png) `hilbert` `mono` resumed |
 
 ## Plugin development
 
-This project was created from the [Nextflow plugin template](https://www.nextflow.io/docs/latest/guides/gradle-plugin.html#gradle-plugin-create).
-
-### Building
-
-To build the plugin:
-
 ```bash
-make assemble
+make test       # unit tests
+make install    # install into ~/.nextflow/plugins
+nextflow run validation/ -plugins nf-arts@0.1.0
+./gradlew showcase   # regenerate docs/images from synthetic runs
 ```
 
-### Testing with Nextflow
-
-The plugin can be tested without a local Nextflow installation:
-
-1. Build and install the plugin to your local Nextflow installation: `make install`
-2. Run a pipeline with the plugin: `nextflow run hello -plugins nf-plugin-template@0.1.0`
-
-### Publishing
-
-Plugins can be published to a central Nextflow registry to make them accessible to the Nextflow community.
-
-Follow these steps to publish the plugin to the Nextflow Registry:
-
-1. Create a file named `$HOME/.gradle/gradle.properties`, where `$HOME` is your home directory. Add the following properties:
-    * `npr.apiKey`: Your Nextflow Registry access token.
-2. Package your plugin and publish it to the registry: `make release`.
+To publish to the Nextflow Registry, copy `.env.example` to `.env`, set `NPR_API_KEY`, then run `make release`.
 
 ## License
 
 Apache License 2.0. See the [`COPYING`](COPYING) file for details.
-
-Note: The above license is given for guidance only; however the Nextflow Registry
-requires the plugin to include an OSS (open source software) license.

@@ -9,3 +9,6 @@ work
 
 # Local credentials - see .env.example
 .env
+
+# Validation pipeline output
+results

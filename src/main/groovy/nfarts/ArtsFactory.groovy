@@ -1,5 +1,5 @@
 /*
- * Copyright 2025, Seqera Labs
+ * Copyright 2026, Maxime U. Garcia
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,24 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-package acme.plugin
+package nfarts
 
 import groovy.transform.CompileStatic
 import nextflow.Session
-import nextflow.trace.TraceObserver
-import nextflow.trace.TraceObserverFactory
+import nextflow.trace.TraceObserverFactoryV2
+import nextflow.trace.TraceObserverV2
 
 /**
- * Implements a factory object required to create
- * the {@link MyObserver} instance.
+ * Creates the {@link ArtsObserver} when the plugin is enabled.
  */
 @CompileStatic
-class MyFactory implements TraceObserverFactory {
+class ArtsFactory implements TraceObserverFactoryV2 {
 
     @Override
-    Collection<TraceObserver> create(Session session) {
-        return List.<TraceObserver>of(new MyObserver())
+    Collection<TraceObserverV2> create(Session session) {
+        final config = new ArtsConfig(session.config.navigate('arts') as Map ?: [:])
+        return config.enabled ? List.<TraceObserverV2>of(new ArtsObserver(config)) : List.<TraceObserverV2>of()
     }
-
 }
