@@ -13,9 +13,12 @@ class RunReaderTest extends Specification {
 
     def 'should read an nf-core execution trace' () {
         when:
-        def tiles = RunReader.fromTrace(TRACE)
-        def fresh = tiles.findAll { it.status() != 'CACHED' }
+        def run = RunReader.fromTrace(TRACE)
+        def tiles = run.tiles()
         then:
+        // caption and session from the execution report next to the trace
+        run.title() == new Title('nf-core/rnavar', '1.2.2', 'exotic_kimura')
+        run.session() == UUID.fromString('1ba77276-0c91-46e0-862d-e017d222de42')
         tiles.size() == 5
         tiles[0].process() == 'NFCORE_RNAVAR:PREPARE_GENOME:STAR_INDEXVERSION'
         tiles[1].process() == 'NFCORE_RNAVAR:PREPARE_GENOME:SAMTOOLS_FAIDX'
@@ -25,8 +28,8 @@ class RunReaderTest extends Specification {
         // '-' values
         tiles[4].duration() == 0
         tiles[4].memory() == 0
-        // cached tasks move to the start of this run
-        tiles[3].start() == fresh*.start().min()
+        // cached tasks keep the times of the run they come from
+        tiles[3].start() < tiles[0].start()
         tiles[3].duration() == 60_000
     }
 
@@ -50,7 +53,8 @@ class RunReaderTest extends Specification {
 
         expect:
         RunReader.tile(trace, false, 1) == new TaskTile('FOO', 100, 50, 7, 'COMPLETED')
-        RunReader.tile(trace, true, 1) == new TaskTile('FOO', 1, 50, 7, 'CACHED')
+        RunReader.tile(trace, true, 1) == new TaskTile('FOO', 100, 50, 7, 'CACHED')
+        RunReader.tile(new TraceRecord(), false, 1).start() == 1
     }
 
     def 'should find runs in the history' () {

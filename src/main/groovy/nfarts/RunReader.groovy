@@ -18,18 +18,21 @@ import nextflow.util.MemoryUnit
 @CompileStatic
 class RunReader {
 
-    static TaskTile tile(TraceRecord trace, boolean cached, long cachedStart) {
+    /** `fallbackStart` is for tasks with neither a start nor a submit time */
+    static TaskTile tile(TraceRecord trace, boolean cached, long fallbackStart) {
         final duration = (trace.get('realtime') ?: trace.get('duration') ?: 0L) as long
-        final start = cached ? cachedStart : (trace.get('start') ?: trace.get('submit') ?: cachedStart) as long
+        final start = (trace.get('start') ?: trace.get('submit') ?: fallbackStart) as long
         final status = cached ? 'CACHED' : (trace.get('status') == 'COMPLETED' ? 'COMPLETED' : 'FAILED')
         final memory = (trace.get('peak_rss') ?: 0L) as long
         return new TaskTile(trace.getProcessName() ?: trace.get('name') as String, start, duration, memory, status)
     }
 
     /**
-     * Tasks of a run from the cache in `dir`/.nextflow
+     * A run from the history and cache in `dir`/.nextflow: the last run when `idOrName` is null,
+     * else the run with that name or session ID prefix.
      */
-    static List<TaskTile> fromCache(Path dir, HistoryFile.Record record) {
+    static PaintedRun fromHistory(Path dir, String idOrName) {
+        final record = record(new HistoryFile(dir.resolve('.nextflow/history')), idOrName)
         final db = new CacheDB(new DefaultCacheStore(record.sessionId, record.runName, dir.resolve('.nextflow'))).openForRead()
         final tiles = new ArrayList<TaskTile>()
         try {
@@ -38,12 +41,9 @@ class RunReader {
         finally {
             db.close()
         }
-        return replayCached(tiles)
+        return new PaintedRun(tiles, Title.fromCommand(record.command, record.runName), record.sessionId)
     }
 
-    /**
-     * The last run when `idOrName` is null, else the run with that name or session id prefix.
-     */
     static HistoryFile.Record record(HistoryFile history, String idOrName) {
         if( !history.exists() )
             throw new IllegalArgumentException("No run history found: ${history}")
@@ -58,9 +58,15 @@ class RunReader {
     }
 
     /**
-     * Tasks from an execution trace file, e.g. `pipeline_info/execution_trace_*.txt`.
+     * A run from an execution trace file, e.g. `pipeline_info/execution_trace_*.txt`,
+     * with the caption and session from the execution report next to it, if any.
      */
-    static List<TaskTile> fromTrace(Path file) {
+    static PaintedRun fromTrace(Path file) {
+        final report = report(file)
+        return new PaintedRun(tasks(file), report?.title() ?: new Title(null, null, null), report?.session())
+    }
+
+    static List<TaskTile> tasks(Path file) {
         final lines = Files.readAllLines(file)
         if( !lines )
             throw new IllegalArgumentException("Empty trace file: ${file}")
@@ -86,7 +92,7 @@ class RunReader {
                 rss ? MemoryUnit.of(rss).toBytes() : 0L,
                 status)
         }
-        return replayCached(tiles)
+        return tiles
     }
 
     /**
@@ -103,8 +109,7 @@ class RunReader {
             final head = Files.newInputStream(trace.resolveSibling(name)).withCloseable { InputStream it -> it.readNBytes(512 * 1024) }
             return Report.parse(new String(head, 'UTF-8'))
         }
-        catch( Exception e ) {
-            System.err.println "nf-arts: no execution report next to the trace (${e.message?.take(80)}), use --pipeline, --revision and --run-name for the caption"
+        catch( Exception ignored ) {
             return null
         }
     }
@@ -112,16 +117,5 @@ class RunReader {
     private static String value(Map<String, String> row, String key) {
         final v = row[key]
         return v && v != '-' ? v : null
-    }
-
-    /** cached tasks carry the times of an earlier run, so move them to the start of this one */
-    static List<TaskTile> replayCached(List<TaskTile> tiles) {
-        final fresh = tiles.findAll { TaskTile it -> it.status() != 'CACHED' }
-        if( !fresh || fresh.size() == tiles.size() )
-            return tiles
-        final t0 = fresh*.start().min() as long
-        return tiles.collect { TaskTile it ->
-            it.status() == 'CACHED' ? new TaskTile(it.process(), t0, it.duration(), it.memory(), it.status()) : it
-        }
     }
 }

@@ -1,11 +1,9 @@
 package nfarts
 
-import java.nio.file.Files
 import java.nio.file.Paths
 
 import groovy.transform.CompileStatic
 import nextflow.file.FileHelper
-import nextflow.util.HistoryFile
 
 /**
  * `nextflow plugin nf-arts:render`: paints a finished run.
@@ -63,32 +61,19 @@ Options:
         }
 
         final trace = opts.remove('trace') as String
-        final pipeline = opts.remove('pipeline') as String
-        final revision = opts.remove('revision') as String
-        final runName = opts.remove('run-name') as String
         final dir = Paths.get((opts.remove('dir') ?: '.') as String)
-        final record = trace ? null : RunReader.record(new HistoryFile(dir.resolve('.nextflow/history')), run)
-        final tracePath = trace ? FileHelper.asPath(trace) : null
-        final report = tracePath ? RunReader.report(tracePath) : null
-        final tiles = trace
-            ? RunReader.fromTrace(tracePath)
-            : RunReader.fromCache(dir, record)
-        if( !tiles )
-            throw new IllegalArgumentException('The run has no tasks to paint')
-
-        final name = trace ? trace.tokenize('/').last().replaceFirst(/\.[^.]+$/, '') : record.runName
+        final overrides = new Title(opts.remove('pipeline') as String, opts.remove('revision') as String, opts.remove('run-name') as String)
         final config = new ArtsConfig(opts)
-        final out = Paths.get(config.file ?: "art-${name}.svg".toString())
-        // same seed as the live plugin when the session is known, else same tasks same art
-        final session = record?.sessionId ?: report?.session()
-        final seed = session ? session.mostSignificantBits : (long) tiles.hashCode()
-        final history = record ? Title.fromCommand(record.command, record.runName) : report?.title() ?: new Title(null, null, null)
-        final title = new Title(pipeline ?: history.pipeline(), revision ?: history.revision(), runName ?: history.runName())
-        final bytes = Artist.paint(tiles, config, ArtsConfig.format(out.toString()), seed, title)
-        if( out.toAbsolutePath().parent )
-            Files.createDirectories(out.toAbsolutePath().parent)
-        Files.write(out, bytes)
-        println "nf-arts: painted ${tiles.size()} tasks to ${out}"
+
+        final source = trace ? RunReader.fromTrace(FileHelper.asPath(trace)) : RunReader.fromHistory(dir, run)
+        if( !source.tiles() )
+            throw new IllegalArgumentException('The run has no tasks to paint')
+        final painted = new PaintedRun(source.tiles(), source.title().overriddenBy(overrides), source.session())
+        if( config.title && !painted.title().text() )
+            System.err.println 'nf-arts: no execution report next to the trace, use --pipeline, --revision and --run-name for the caption'
+
+        final out = Artist.save(painted, config)
+        println "nf-arts: painted ${painted.tiles().size()} tasks to ${out}"
         return 0
     }
 }
