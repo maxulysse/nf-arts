@@ -26,7 +26,7 @@ class PaletteTest extends Specification {
 
     def 'should reject unknown palette and bad colors' () {
         when:
-        Palette.of('rainbow')
+        Palette.of('plaid')
         then:
         def e = thrown(IllegalArgumentException)
         e.message.contains('viridis')

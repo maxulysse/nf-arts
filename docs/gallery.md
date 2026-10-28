@@ -25,6 +25,7 @@ The rnavar images use the `nfcore` palette, sarek `magma`, and mondrian its own 
 | mag, 3207 tasks, `ocean` | ![](images/megatest-mag-radial.png) | ![](images/megatest-mag-hilbert.png) |
 | raredisease, 990 tasks, `sunset` | ![](images/megatest-raredisease-radial.png) | ![](images/megatest-raredisease-hilbert.png) |
 | viralrecon, 3239 tasks, `mono` | ![](images/megatest-viralrecon-radial.png) | ![](images/megatest-viralrecon-hilbert.png) |
+| taxprofiler, 239 tasks, `rainbow` | ![](images/megatest-taxprofiler-radial.png) | ![](images/megatest-taxprofiler-hilbert.png) |
 
 ## Custom colors
 

@@ -38,7 +38,7 @@ arts {
 | `enabled` | `true` | Draw the artwork when the run ends. |
 | `file` | `art-<runName>.svg` | Output file. `.svg` or `.png` sets the format. Cloud paths work. Overwrites an existing file. |
 | `style` | `radial` | One of the [styles](styles.md). |
-| `palette` | `viridis` | `viridis`, `magma`, `nfcore`, `ocean`, `sunset`, `mono` or `mondrian`. The mondrian style defaults to `mondrian`. |
+| `palette` | `viridis` | `viridis`, `magma`, `nfcore`, `ocean`, `sunset`, `rainbow`, `mono` or `mondrian`. The mondrian style defaults to `mondrian`. |
 | `colors` | | Hex colors (`#rrggbb`), overriding `palette`. |
 | `background` | from the palette | Hex background color. |
 | `width`, `height` | `1200` | Size in pixels, 16 to 10000. |
