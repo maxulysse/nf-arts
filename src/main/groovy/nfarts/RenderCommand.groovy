@@ -11,7 +11,7 @@ import nextflow.file.FileHelper
 @CompileStatic
 class RenderCommand {
 
-    static final String USAGE = '''\
+    static final String USAGE = """\
 Usage: nextflow plugin nf-arts:render [RUN] [options]
 
 Paint a finished run. RUN is a run name or session id from the local
@@ -21,8 +21,8 @@ Options:
   --trace FILE        read an execution trace file (local, s3://, gs://, az://, http(s)://)
   --dir DIR           project directory with the .nextflow history (default: .)
   --file FILE         output .svg or .png (default: art-<run>.svg)
-  --style NAME        radial, hilbert, ridgeline, phyllotaxis, flowfield, mondrian, tree or ginkgo
-  --palette NAME      viridis, magma, nfcore, ocean, sunset, mono or mondrian
+  --style NAME        ${Artist.STYLES.keySet().join(', ')}
+  --palette NAME      ${Palette.NAMED.keySet().join(', ')}
   --colors A,B,...    custom hex colors
   --background HEX    background color
   --width N           width in pixels
@@ -32,7 +32,7 @@ Options:
   --revision REV      caption version
   --run-name NAME     caption run name
                       (default: from the history, or from the execution
-                      report next to the trace file)'''
+                      report next to the trace file)""".toString()
 
     static final List<String> INTS = ['width', 'height']
     static final List<String> BOOLEANS = ['title', 'enabled']

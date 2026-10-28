@@ -18,3 +18,5 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 ### Changed
 
 - Live, history and trace runs share one path to the image file and one rule for cached tasks ([#4](https://github.com/maxulysse/nf-arts/pull/4)).
+- Task status is a `Status` enum that sets opacity and thinning; styles get one `Run` built by `Artist`, and choose their own default palette. `render --help` lists styles and palettes from the code ([#5](https://github.com/maxulysse/nf-arts/pull/5)).
+- A trace without an execution report gets a new, stable seed ([#5](https://github.com/maxulysse/nf-arts/pull/5)).

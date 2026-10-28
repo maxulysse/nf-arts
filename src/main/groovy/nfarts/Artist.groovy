@@ -55,7 +55,7 @@ class Artist {
         final band = config.title ? (int) Math.round(Math.min(config.width, config.height) * 0.1d) : 0
         // mix the seed: java.util.Random gives near-identical first draws for nearby seeds
         if( tiles )
-            style.draw(tiles, band ? new InsetCanvas(canvas, config.height - band) : canvas, palette, new Random(seed * 0x9E3779B97F4A7C15L))
+            style.draw(new Run(tiles), band ? new InsetCanvas(canvas, config.height - band) : canvas, palette, new Random(seed * 0x9E3779B97F4A7C15L))
         if( band ) {
             final text = title?.text()
             if( text )

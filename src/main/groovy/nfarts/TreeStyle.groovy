@@ -11,8 +11,7 @@ import groovy.transform.CompileStatic
 class TreeStyle implements Style {
 
     @Override
-    void draw(List<TaskTile> tiles, Canvas canvas, Palette palette, Random random) {
-        final run = new Run(tiles)
+    void draw(Run run, Canvas canvas, Palette palette, Random random) {
         final size = Math.min(canvas.width, canvas.height)
         final cx = canvas.width / 2d
         final base = canvas.height * 0.95d, crown = canvas.height * 0.12d
@@ -44,7 +43,7 @@ class TreeStyle implements Style {
                 final len = size * (0.015d + 0.06d * run.duration(tile))
                 final qx = px + tx * len, qy = py + ty * len
                 canvas.polyline([px, py, qx, qy] as double[], Math.max(0.6d, size * 0.002d * (0.5d + run.memory(tile))), palette.at(0), 0.8d)
-                if( tile.status() != 'FAILED' ) {
+                if( tile.status() != Status.FAILED ) {
                     leaves << ([qx, qy, size * (0.004d + 0.012d * run.memory(tile))] as double[])
                     leafTiles << tile
                 }
@@ -52,7 +51,7 @@ class TreeStyle implements Style {
         }
         // leaves on top of every branch
         leaves.eachWithIndex { double[] leaf, int k ->
-            canvas.circle(leaf[0], leaf[1], leaf[2], run.color(leafTiles[k], palette), Run.opacity(leafTiles[k]))
+            canvas.circle(leaf[0], leaf[1], leaf[2], run.color(leafTiles[k], palette), leafTiles[k].status().opacity)
         }
     }
 }

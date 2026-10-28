@@ -22,9 +22,8 @@ class RunReader {
     static TaskTile tile(TraceRecord trace, boolean cached, long fallbackStart) {
         final duration = (trace.get('realtime') ?: trace.get('duration') ?: 0L) as long
         final start = (trace.get('start') ?: trace.get('submit') ?: fallbackStart) as long
-        final status = cached ? 'CACHED' : (trace.get('status') == 'COMPLETED' ? 'COMPLETED' : 'FAILED')
         final memory = (trace.get('peak_rss') ?: 0L) as long
-        return new TaskTile(trace.getProcessName() ?: trace.get('name') as String, start, duration, memory, status)
+        return new TaskTile(trace.getProcessName() ?: trace.get('name') as String, start, duration, memory, Status.of(trace.get('status'), cached))
     }
 
     /**
@@ -84,13 +83,12 @@ class RunReader {
             final when = value(row, 'start') ?: value(row, 'submit')
             final time = value(row, 'realtime') ?: value(row, 'duration')
             final rss = value(row, 'peak_rss')
-            final status = row.status == 'CACHED' ? 'CACHED' : row.status == 'COMPLETED' ? 'COMPLETED' : 'FAILED'
             tiles << new TaskTile(
                 row.name.replaceFirst(/ \(.*\)$/, ''),
                 when ? dates.parse(when).time : 0L,
                 time ? Duration.of(time).toMillis() : 0L,
                 rss ? MemoryUnit.of(rss).toBytes() : 0L,
-                status)
+                Status.of(row.status, false))
         }
         return tiles
     }

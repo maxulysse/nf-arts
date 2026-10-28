@@ -31,15 +31,15 @@ class SyntheticRun {
                 final memory = (long) (p.mem * (0.5 + rnd.nextDouble()) * 1_000_000)
                 if( !cached && rnd.nextDouble() < 0.04 ) {
                     // failed attempt, then a retry
-                    tiles << new TaskTile(p.name, t, duration.intdiv(3), memory, 'FAILED')
+                    tiles << new TaskTile(p.name, t, duration.intdiv(3), memory, Status.FAILED)
                     t += duration.intdiv(3)
                 }
-                tiles << new TaskTile(p.name, cached ? 0 : t, duration, memory, cached ? 'CACHED' : 'COMPLETED')
+                tiles << new TaskTile(p.name, cached ? 0 : t, duration, memory, cached ? Status.CACHED : Status.COMPLETED)
                 if( !cached ) t += duration
                 last = Math.max(last, t)
             }
         }
-        tiles << new TaskTile('MULTIQC', last, 8 * min, 2_000_000_000L, 'COMPLETED')
+        tiles << new TaskTile('MULTIQC', last, 8 * min, 2_000_000_000L, Status.COMPLETED)
         return tiles
     }
 }

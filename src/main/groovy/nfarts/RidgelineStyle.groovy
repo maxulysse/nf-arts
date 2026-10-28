@@ -13,8 +13,7 @@ class RidgelineStyle implements Style {
     static final int BINS = 240
 
     @Override
-    void draw(List<TaskTile> tiles, Canvas canvas, Palette palette, Random random) {
-        final run = new Run(tiles)
+    void draw(Run run, Canvas canvas, Palette palette, Random random) {
         final processes = run.processes.size()
         final size = Math.min(canvas.width, canvas.height)
         final left = canvas.width * 0.08d, right = canvas.width * 0.92d
@@ -28,7 +27,7 @@ class RidgelineStyle implements Style {
             final p = run.processes.indexOf(tile.process())
             final a = (tile.start() - run.t0) / (double) run.span * BINS
             final b = (tile.start() + Math.max(1L, tile.duration()) - run.t0) / (double) run.span * BINS
-            final weight = tile.status() == 'CACHED' ? 0.3d : 1d
+            final weight = tile.status() == Status.CACHED ? 0.3d : 1d
             for( int k = (int) a; k < Math.min(BINS, (int) Math.ceil(b)); k++ )
                 load[p][k] += weight * (Math.min(b, k + 1d) - Math.max(a, (double) k))
         }
