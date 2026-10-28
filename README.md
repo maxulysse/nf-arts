@@ -1,4 +1,9 @@
-# nf-arts
+<h1>
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="docs/images/logo-wordmark-dark.svg">
+    <img alt="nf-arts" src="docs/images/logo-wordmark.svg" width="360">
+  </picture>
+</h1>
 
 ## Summary
 
