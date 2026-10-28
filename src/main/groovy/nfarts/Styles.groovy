@@ -25,7 +25,7 @@ class Run {
     private final double durMax
 
     Run(List<TaskTile> tiles) {
-        this.tiles = tiles.toSorted { TaskTile it -> it.start() }
+        this.tiles = replayCached(tiles).toSorted { TaskTile it -> it.start() }
         // processes in order of first appearance
         this.processes = this.tiles.collect { TaskTile it -> it.process() }.unique()
         this.t0 = this.tiles*.start().min() as long
@@ -37,6 +37,17 @@ class Run {
         final duration = this.tiles*.duration().findAll { long d -> d > 0 }
         this.durMin = duration ? Math.log(duration.min() as double) : 0d
         this.durMax = duration ? Math.log(duration.max() as double) : 0d
+    }
+
+    /** cached tasks carry the times of an earlier run, so move them to the start of this one */
+    static List<TaskTile> replayCached(List<TaskTile> tiles) {
+        final fresh = tiles.findAll { TaskTile it -> it.status() != 'CACHED' }
+        if( !fresh || fresh.size() == tiles.size() )
+            return tiles
+        final t0 = fresh*.start().min() as long
+        return tiles.collect { TaskTile it ->
+            it.status() == 'CACHED' ? new TaskTile(it.process(), t0, it.duration(), it.memory(), it.status()) : it
+        }
     }
 
     String color(TaskTile tile, Palette palette) {

@@ -1,6 +1,10 @@
 package nfarts
 
+import java.nio.file.Files
+import java.nio.file.Path
+
 import groovy.transform.CompileStatic
+import nextflow.file.FileHelper
 
 /**
  * Paints a run with the configured style, palette and size.
@@ -25,6 +29,20 @@ class Artist {
         final props = new Properties()
         Artist.getResourceAsStream('/nf-arts.properties')?.withCloseable { InputStream it -> props.load(it) }
         return props.getProperty('version')
+    }
+
+    /** paint the run to `arts.file`, or `art-<runName>.svg` */
+    static Path save(PaintedRun run, ArtsConfig config) {
+        final path = outputPath(run, config)
+        final bytes = paint(run.tiles(), config, ArtsConfig.format(path.toString()), run.seed(), run.title())
+        if( path.parent )
+            Files.createDirectories(path.parent)
+        Files.write(path, bytes)
+        return path
+    }
+
+    static Path outputPath(PaintedRun run, ArtsConfig config) {
+        FileHelper.asPath(config.file ?: "art-${run.title().runName() ?: 'run'}.svg".toString())
     }
 
     static byte[] paint(List<TaskTile> tiles, ArtsConfig config, String format, long seed, Title title = null) {

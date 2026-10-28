@@ -52,7 +52,7 @@ class ArtsObserverTest extends Specification {
         then:
         observer.tiles*.process() == ['FOO', 'BAR', 'FOO']
         observer.tiles*.status() == ['COMPLETED', 'FAILED', 'CACHED']
-        observer.tiles[2].start() > 1L
+        observer.tiles[2].start() == 1L
         Files.size(file) > 0
         Files.newInputStream(file).withCloseable { it.readNBytes(4) } == [0x89, 0x50, 0x4e, 0x47] as byte[]
 
@@ -61,12 +61,10 @@ class ArtsObserverTest extends Specification {
     }
 
     def 'should name the file after the run' () {
-        given:
-        def observer = new ArtsObserver(new ArtsConfig([:]))
-        observer.onFlowCreate(Mock(Session) { getRunName() >> 'happy_turing' })
-
         expect:
-        observer.outputPath().toString() == 'art-happy_turing.svg'
+        Artist.outputPath(new PaintedRun([], new Title(null, null, 'happy_turing'), null), new ArtsConfig([:])).toString() == 'art-happy_turing.svg'
+        Artist.outputPath(new PaintedRun([], new Title(null, null, null), null), new ArtsConfig([:])).toString() == 'art-run.svg'
+        Artist.outputPath(new PaintedRun([], new Title(null, null, 'x'), null), new ArtsConfig(file: 'out/a.png')).toString() == 'out/a.png'
     }
 
     def 'should not write anything without tasks' () {

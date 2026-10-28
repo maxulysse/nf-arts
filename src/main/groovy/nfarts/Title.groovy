@@ -12,6 +12,11 @@ record Title(String pipeline, String revision, String runName) {
         [pipeline, revision, runName].findAll { String it -> it }.join(' · ')
     }
 
+    /** this title, with the parts that `other` has */
+    Title overriddenBy(Title other) {
+        new Title(other.pipeline ?: pipeline, other.revision ?: revision, other.runName ?: runName)
+    }
+
     /** from a history command line, e.g. `nextflow run nf-core/rnavar -r 1.3.0 -profile test` */
     static Title fromCommand(String command, String runName) {
         final args = command?.tokenize(' ') ?: []

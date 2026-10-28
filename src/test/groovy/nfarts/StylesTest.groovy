@@ -72,6 +72,21 @@ class StylesTest extends Specification {
         style << ArtsConfig.STYLES
     }
 
+    def 'cached tasks should move to the start of the run' () {
+        given:
+        def run = new Run([
+            new TaskTile('A', 1000, 10, 1, 'COMPLETED'),
+            new TaskTile('A', 1, 10, 1, 'CACHED'),
+            new TaskTile('B', 1500, 10, 1, 'FAILED'),
+        ])
+
+        expect:
+        run.t0 == 1000
+        run.tiles*.start() == [1000, 1000, 1500]
+        // a run that is all cached keeps its times
+        new Run([new TaskTile('A', 5, 1, 1, 'CACHED')]).t0 == 5
+    }
+
     def 'memory should be on a log scale between the smallest and largest task' () {
         given:
         def run = new Run([

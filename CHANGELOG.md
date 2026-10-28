@@ -12,4 +12,9 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 - `nextflow plugin nf-arts:render` paints a finished run from the local history and cache, or from a trace file on a local or cloud path.
 - Caption under the artwork: pipeline, version, run name and nf-arts version. It comes from the workflow metadata, the history, or the execution report next to a trace file.
 - Line widths follow peak memory on a log scale, so one large task does not flatten the rest.
+- `render --file` accepts cloud paths, like `arts.file` ([#4](https://github.com/maxulysse/nf-arts/pull/4)).
 - CI: unit tests, a validation run and a `render` of it, on Java 17 and 21 with Nextflow 25.10 and 26.04. It runs on pushes to `main` and on pull requests ([#2](https://github.com/maxulysse/nf-arts/pull/2)).
+
+### Changed
+
+- Live, history and trace runs share one path to the image file and one rule for cached tasks ([#4](https://github.com/maxulysse/nf-arts/pull/4)).
