@@ -31,6 +31,10 @@ release:
 # Local plugin repository, so `nextflow plugin nf-arts:render` resolves this build.
 # Then: export NXF_PLUGINS_TEST_REPOSITORY="file://$(CURDIR)/build/plugin-repo/plugins.json"
 VERSION = $(shell sed -n "s/^version = '\(.*\)'/\1/p" build.gradle)
+
+# Print the plugin version, e.g. for `-plugins nf-arts@$(make -s version)`
+version:
+	@echo $(VERSION)
 dev-repo: assemble
 	mkdir -p build/plugin-repo
 	ZIP="$(CURDIR)/build/distributions/nf-arts-$(VERSION).zip"; \

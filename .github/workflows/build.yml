@@ -17,7 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         java_version: [17, 21]
-        nextflow_version: ['25.10', '26.04']
+        nextflow_version: ['25.10', '26.04', '26.10']
 
     steps:
       - name: Environment
@@ -49,11 +49,24 @@ jobs:
       - name: Install
         run: make install
 
-      - name: Test
-        run: nextflow run validation/ -plugins nf-arts@0.1.0 && test -s results/art.png
+      - name: Live run
+        run: |
+          nextflow run validation/ -plugins nf-arts@$(make -s version)
+          file results/art.png | grep -q 'PNG image data, 1200 x 1200'
 
-      - name: Render the finished run
+      - name: Render
+        env:
+          NXF_PLUGINS_TEST_REPOSITORY: file://${{ github.workspace }}/build/plugin-repo/plugins.json
         run: |
           make dev-repo
-          export NXF_PLUGINS_TEST_REPOSITORY="file://$PWD/build/plugin-repo/plugins.json"
-          nextflow plugin nf-arts:render --file results/rendered.png && test -s results/rendered.png
+          # the finished validation run, from the history and cache
+          nextflow plugin nf-arts:render --file results/rendered.svg
+          grep -q 'nf-arts/validation · ' results/rendered.svg
+          # a trace file with its execution report
+          nextflow plugin nf-arts:render --trace src/test/resources/execution_trace.txt --file results/trace.svg
+          grep -q 'nf-core/rnavar · 1.2.2 · exotic_kimura' results/trace.svg
+          # an nf-core megatest on S3, one arc per task
+          nextflow plugin nf-arts:render --trace s3://nf-core-awsmegatests/rnavar/results-ea2c7b6286f5ae18f5b51dc0af6b5330ecd6a13a/pipeline_info/execution_trace_2025-12-05_11-13-40.txt --file results/megatest.svg
+          test "$(grep -c '<path ' results/megatest.svg)" -eq 553
+          # a failed render exits non-zero
+          if nextflow plugin nf-arts:render no_such_run; then exit 1; fi
