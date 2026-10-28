@@ -15,6 +15,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 - `render` exits with code 1 on errors, so scripts and CI can detect a failed render ([#8](https://github.com/maxulysse/nf-arts/pull/8)).
 - `render --file` accepts cloud paths, like `arts.file` ([#4](https://github.com/maxulysse/nf-arts/pull/4)).
 - Logo: a brush with flowfield strokes for bristles, with light and dark wordmarks in `docs/images/` ([#11](https://github.com/maxulysse/nf-arts/pull/11)).
+- `docs/data.md`: what data goes into the art and what can be read back from it ([#12](https://github.com/maxulysse/nf-arts/pull/12)).
 - CI: unit tests, a validation run and a `render` of it, on Java 17 and 21 with Nextflow 25.10 and 26.04. It runs on pushes to `main` and on pull requests ([#2](https://github.com/maxulysse/nf-arts/pull/2)).
 
 ### Changed
