@@ -14,6 +14,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 - Line widths follow peak memory on a log scale, so one large task does not flatten the rest.
 - `render` exits with code 1 on errors, so scripts and CI can detect a failed render ([#8](https://github.com/maxulysse/nf-arts/pull/8)).
 - `render --file` accepts cloud paths, like `arts.file` ([#4](https://github.com/maxulysse/nf-arts/pull/4)).
+- Logo: a brush with flowfield strokes for bristles, with light and dark wordmarks in `docs/images/` ([#11](https://github.com/maxulysse/nf-arts/pull/11)).
 - CI: unit tests, a validation run and a `render` of it, on Java 17 and 21 with Nextflow 25.10 and 26.04. It runs on pushes to `main` and on pull requests ([#2](https://github.com/maxulysse/nf-arts/pull/2)).
 
 ### Changed
@@ -24,4 +25,3 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 - `Canvas.size` gives styles the shorter side, including the inset above the caption ([#7](https://github.com/maxulysse/nf-arts/pull/7)).
 - CI also runs Nextflow 26.10, checks the image size and caption of a live run, renders a trace file and an S3 megatest, and checks that a failed render exits non-zero ([#9](https://github.com/maxulysse/nf-arts/pull/9)).
 - `CONTRIBUTING.md` and `AGENTS.md` ([#10](https://github.com/maxulysse/nf-arts/pull/10)).
-- Logo: a brush with flowfield strokes for bristles, with light and dark wordmarks in `docs/images/` ([#11](https://github.com/maxulysse/nf-arts/pull/11)).
