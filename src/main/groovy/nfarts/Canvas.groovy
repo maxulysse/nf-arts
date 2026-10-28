@@ -3,6 +3,7 @@ package nfarts
 import java.awt.AlphaComposite
 import java.awt.BasicStroke
 import java.awt.Color
+import java.awt.Font
 import java.awt.Graphics2D
 import java.awt.RenderingHints
 import java.awt.geom.Arc2D
@@ -27,7 +28,25 @@ interface Canvas {
     /** filled, no outline; points are interleaved x,y pairs */
     void polygon(double[] points, String color, double opacity)
     void circle(double cx, double cy, double r, String color, double opacity)
+    /** one line of text centered on x, with its baseline at y */
+    void text(double x, double y, String text, double size, String color, double opacity)
     byte[] bytes()
+}
+
+/**
+ * The top part of a canvas, so styles leave the bottom band free.
+ */
+@CompileStatic
+class InsetCanvas implements Canvas {
+
+    @Delegate(excludes = ['getHeight'])
+    private final Canvas canvas
+    final int height
+
+    InsetCanvas(Canvas canvas, int height) {
+        this.canvas = canvas
+        this.height = height
+    }
 }
 
 @CompileStatic
@@ -79,6 +98,14 @@ class SvgCanvas implements Canvas {
     void circle(double cx, double cy, double r, String color, double opacity) {
         body.append(String.format(Locale.ROOT,
             '<circle cx="%.2f" cy="%.2f" r="%.2f" fill="%s" fill-opacity="%.2f"/>\n', cx, cy, r, color, opacity))
+    }
+
+    @Override
+    void text(double x, double y, String text, double size, String color, double opacity) {
+        final escaped = text.replace('&', '&amp;').replace('<', '&lt;').replace('>', '&gt;')
+        body.append(String.format(Locale.ROOT,
+            '<text x="%.2f" y="%.2f" font-family="Helvetica, Arial, sans-serif" font-size="%.2f" text-anchor="middle" fill="%s" fill-opacity="%.2f" stroke="none">%s</text>\n',
+            x, y, size, color, opacity, escaped))
     }
 
     @Override
@@ -151,6 +178,13 @@ class PngCanvas implements Canvas {
     void circle(double cx, double cy, double r, String color, double opacity) {
         pen(1, color, opacity)
         g.fill(new Ellipse2D.Double(cx - r, cy - r, 2 * r, 2 * r))
+    }
+
+    @Override
+    void text(double x, double y, String text, double size, String color, double opacity) {
+        pen(1, color, opacity)
+        g.font = new Font(Font.SANS_SERIF, Font.PLAIN, 1).deriveFont((float) size)
+        g.drawString(text, (float) (x - g.fontMetrics.stringWidth(text) / 2d), (float) y)
     }
 
     @Override

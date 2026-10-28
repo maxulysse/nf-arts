@@ -89,6 +89,26 @@ class RunReader {
         return replayCached(tiles)
     }
 
+    /**
+     * Title and session id from the execution report published next to a trace file,
+     * e.g. `execution_report_<date>.html` for `execution_trace_<date>.txt`; null when there is none.
+     */
+    static Report report(Path trace) {
+        final name = trace.fileName.toString().replace('execution_trace', 'execution_report').replaceFirst(/\.[^.]+$/, '.html')
+        if( name == trace.fileName.toString() )
+            return null
+        // optional: a missing or unreadable report only loses the caption details
+        try {
+            // the run details sit after ~150 KB of inline CSS, the report can be megabytes long
+            final head = Files.newInputStream(trace.resolveSibling(name)).withCloseable { InputStream it -> it.readNBytes(512 * 1024) }
+            return Report.parse(new String(head, 'UTF-8'))
+        }
+        catch( Exception e ) {
+            System.err.println "nf-arts: no execution report next to the trace (${e.message?.take(80)}), use --pipeline, --revision and --run-name for the caption"
+            return null
+        }
+    }
+
     private static String value(Map<String, String> row, String key) {
         final v = row[key]
         return v && v != '-' ? v : null

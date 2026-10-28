@@ -60,6 +60,12 @@ class Palette {
         }
     }
 
+    /** text color that reads on the background */
+    String ink() {
+        final bg = decode(background)
+        (0.299d * bg.red + 0.587d * bg.green + 0.114d * bg.blue) / 255 > 0.5d ? '#222222' : '#eeeeee'
+    }
+
     /**
      * Color of item i out of n, e.g. a process: spread along the gradient,
      * or cycling through the colors of a discrete palette.

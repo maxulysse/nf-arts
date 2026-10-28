@@ -51,11 +51,16 @@ class ArtsConfig implements ConfigScope {
     @Description('Height in pixels (default: `1200`).')
     final int height
 
+    @ConfigOption
+    @Description('Caption at the bottom: pipeline, version and run name (default: `true`).')
+    final boolean title
+
     /* required by extension point -- do not remove */
     ArtsConfig() {}
 
     ArtsConfig(Map opts) {
         enabled = opts.enabled != null ? opts.enabled as boolean : true
+        title = opts.title != null ? opts.title as boolean : true
         file = opts.file as String
         style = (opts.style ?: 'radial') as String
         palette = (opts.palette ?: (style == 'mondrian' ? 'mondrian' : 'viridis')) as String

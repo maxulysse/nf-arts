@@ -47,6 +47,8 @@ nextflow plugin nf-arts:render \
 
 It takes the same options as the `arts` scope (`--style`, `--palette`, `--colors a,b,c`, `--background`, `--width`, `--height`, `--file`), plus `--dir` for another project directory. For a local run it uses the same seed as the live plugin, so it gives the same image.
 
+The caption comes from the history for a local run, or from the `execution_report_*.html` next to the trace file, which nf-core pipelines publish in `pipeline_info/`. Set it yourself with `--pipeline`, `--revision` and `--run-name`, or turn it off with `--title false`.
+
 ## Examples
 
 ```groovy
@@ -81,6 +83,7 @@ arts {
 | `colors` | | List of hex colors. Overrides `palette`. |
 | `background` | from palette | Hex background color. |
 | `width`, `height` | `1200` | Size in pixels (16 to 10000). |
+| `title` | `true` | Caption at the bottom: pipeline (`manifest.name`), version and run name, plus the nf-arts version. |
 
 ### Styles
 
@@ -107,7 +110,7 @@ nf-core megatests, painted with `render` from the trace files on `s3://nf-core-a
 | Pipeline | Radial | Hilbert |
 | --- | :---: | :---: |
 | rnavar, 553 tasks, `nfcore` | ![](docs/images/megatest-rnavar-radial.png) | ![](docs/images/megatest-rnavar-hilbert.png) |
-| sarek, 4645 tasks (3273 cached), `magma` | ![](docs/images/megatest-sarek-radial.png) | ![](docs/images/megatest-sarek-hilbert.png) |
+| sarek, 2314 tasks, `magma` | ![](docs/images/megatest-sarek-radial.png) | ![](docs/images/megatest-sarek-hilbert.png) |
 | rnaseq, 332 tasks, `viridis` | ![](docs/images/megatest-rnaseq-radial.png) | ![](docs/images/megatest-rnaseq-hilbert.png) |
 | mag, 3207 tasks, `ocean` | ![](docs/images/megatest-mag-radial.png) | ![](docs/images/megatest-mag-hilbert.png) |
 | raredisease, 990 tasks, `sunset` | ![](docs/images/megatest-raredisease-radial.png) | ![](docs/images/megatest-raredisease-hilbert.png) |
@@ -115,7 +118,7 @@ nf-core megatests, painted with `render` from the trace files on `s3://nf-core-a
 
 The other styles on the rnavar test profile, the rnavar megatest and the sarek megatest:
 
-| Style | rnavar test, 43 tasks | rnavar megatest, 553 tasks | sarek megatest, 4645 tasks |
+| Style | rnavar test, 43 tasks | rnavar megatest, 553 tasks | sarek megatest, 2314 tasks |
 | --- | :---: | :---: | :---: |
 | ridgeline | ![](docs/images/test-rnavar-ridgeline.png) | ![](docs/images/megatest-rnavar-ridgeline.png) | ![](docs/images/megatest-sarek-ridgeline.png) |
 | phyllotaxis | ![](docs/images/test-rnavar-phyllotaxis.png) | ![](docs/images/megatest-rnavar-phyllotaxis.png) | ![](docs/images/megatest-sarek-phyllotaxis.png) |

@@ -61,7 +61,9 @@ class ArtsObserver implements TraceObserverV2 {
         try {
             final path = outputPath()
             final seed = session?.uniqueId?.mostSignificantBits ?: 0L
-            final bytes = Artist.paint(getTiles(), config, ArtsConfig.format(path.toString()), seed)
+            final meta = session?.workflowMetadata
+            final title = new Title(meta?.manifest?.name ?: meta?.projectName, meta?.manifest?.version ?: meta?.revision, session?.runName)
+            final bytes = Artist.paint(getTiles(), config, ArtsConfig.format(path.toString()), seed, title)
             if( path.parent )
                 Files.createDirectories(path.parent)
             Files.write(path, bytes)
