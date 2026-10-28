@@ -110,6 +110,10 @@ arts {
 
 In every style, color is the process, cached tasks are faded and failed tasks are thin or empty.
 
+### What goes into the art
+
+Per task, only the process, start time, duration, peak memory and status. No task names, sample IDs, inputs, outputs or paths. The caption shows the pipeline, version and run name, and `title = false` turns it off. See [`docs/data.md`](docs/data.md) for the full list and what can be read back from an image.
+
 ### Gallery
 
 nf-core megatests, rendered from their trace files on `s3://nf-core-awsmegatests`:
