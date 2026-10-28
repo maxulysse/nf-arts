@@ -1,13 +1,12 @@
 name: nf-arts CI
 on:
+  # branches run through their pull request, so push only covers main
   push:
     branches:
-      - '*'
+      - main
     tags-ignore:
       - '*'
   pull_request:
-    branches:
-      - '*'
 jobs:
   build:
     name: Build nf-arts
