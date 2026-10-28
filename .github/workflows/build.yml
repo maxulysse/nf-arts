@@ -61,7 +61,7 @@ jobs:
           make dev-repo
           # the finished validation run, from the history and cache
           nextflow plugin nf-arts:render --file results/rendered.svg
-          grep -q 'nf-arts/validation · ' results/rendered.svg
+          grep -q "$(tail -1 .nextflow/history | cut -f3)</text>" results/rendered.svg
           # a trace file with its execution report
           nextflow plugin nf-arts:render --trace src/test/resources/execution_trace.txt --file results/trace.svg
           grep -q 'nf-core/rnavar · 1.2.2 · exotic_kimura' results/trace.svg
