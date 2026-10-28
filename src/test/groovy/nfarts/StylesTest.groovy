@@ -113,6 +113,9 @@ class StylesTest extends Specification {
         svg('mondrian').count('<polygon ') + svg('mondrian').count('<polyline ') == tiles.size()
         svg('mondrian').count('<polyline ') == failed
         svg('tree').count('<circle ') == tiles.size() - failed
+        // a vein and its two forks per task, plus the outline and the stem
+        svg('ginkgo').count('<polyline ') == tiles.size() * 3 + 2
+        svg('ginkgo').count('<polygon ') == 1
     }
 
     def 'mondrian partition should split area by weight' () {

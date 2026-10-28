@@ -16,6 +16,7 @@ class Artist {
         flowfield  : new FlowFieldStyle(),
         mondrian   : new MondrianStyle(),
         tree       : new TreeStyle(),
+        ginkgo     : new GinkgoStyle(),
     ] as Map<String, Style>
 
     static final String VERSION = version()
