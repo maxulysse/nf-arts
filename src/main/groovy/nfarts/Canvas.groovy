@@ -22,6 +22,11 @@ import groovy.transform.CompileStatic
 interface Canvas {
     int getWidth()
     int getHeight()
+
+    /** the shorter side, which styles scale their shapes by */
+    default int getSize() {
+        Math.min(width, height)
+    }
     void arc(double cx, double cy, double r, double startDeg, double sweepDeg, double stroke, String color, double opacity)
     /** points are interleaved x,y pairs */
     void polyline(double[] points, double stroke, String color, double opacity)
@@ -39,7 +44,8 @@ interface Canvas {
 @CompileStatic
 class InsetCanvas implements Canvas {
 
-    @Delegate(excludes = ['getHeight'])
+    // size comes from the inset height, not the full canvas
+    @Delegate(excludes = ['getHeight', 'getSize'])
     private final Canvas canvas
     final int height
 

@@ -11,7 +11,7 @@ class RadialStyle implements Style {
 
     @Override
     void draw(Run run, Canvas canvas, Palette palette, Random random) {
-        final size = Math.min(canvas.width, canvas.height)
+        final size = canvas.size
         final cx = canvas.width / 2d, cy = canvas.height / 2d
         final inner = size * 0.10d, outer = size * 0.46d
         final band = (outer - inner) / run.processes.size()
