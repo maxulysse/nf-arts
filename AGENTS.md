@@ -29,6 +29,7 @@ make -s version              # the version from build.gradle
 - Every PR adds a `CHANGELOG.md` line.
 - A refactor must not change images. Render every style from fixed sources before and after, then compare the files byte for byte.
 - Images in `docs/` come from real runs only.
+- README links and images are absolute GitHub URLs: the Nextflow Registry shows the README outside the repository.
 - The art only uses the task fields listed in `docs/data.md`. Anything new that reaches the image, including caption text, must be added there first.
 - The required checks in branch protection list the CI jobs by name. If you change the matrix, the protection must change too, after the PR merges.
 

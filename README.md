@@ -1,7 +1,7 @@
 <h1>
   <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="docs/images/logo-wordmark-dark.svg">
-    <img alt="nf-arts" src="docs/images/logo-wordmark.svg" width="360">
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/maxulysse/nf-arts/main/docs/images/logo-wordmark-dark.svg">
+    <img alt="nf-arts" src="https://raw.githubusercontent.com/maxulysse/nf-arts/main/docs/images/logo-wordmark.svg" width="360">
   </picture>
 </h1>
 
@@ -10,9 +10,9 @@
 `nf-arts` is a Nextflow plugin that turns each run into generative art. When the run ends, it draws its tasks as an SVG or PNG, from their timing, memory and status only.
 
 <p>
-  <img src="docs/images/test-rnavar-radial.png" width="32%" alt="radial">
-  <img src="docs/images/test-rnavar-ginkgo.png" width="32%" alt="ginkgo">
-  <img src="docs/images/test-rnavar-mondrian.png" width="32%" alt="mondrian">
+  <img src="https://raw.githubusercontent.com/maxulysse/nf-arts/main/docs/images/test-rnavar-radial.png" width="32%" alt="radial">
+  <img src="https://raw.githubusercontent.com/maxulysse/nf-arts/main/docs/images/test-rnavar-ginkgo.png" width="32%" alt="ginkgo">
+  <img src="https://raw.githubusercontent.com/maxulysse/nf-arts/main/docs/images/test-rnavar-mondrian.png" width="32%" alt="mondrian">
 </p>
 
 ## Get Started
@@ -21,11 +21,11 @@ Add the plugin to `nextflow.config`:
 
 ```groovy
 plugins {
-    id 'nf-arts@0.1.0'
+    id 'nf-arts@1.0.0'
 }
 ```
 
-The run writes `art-<runName>.svg` to the launch directory. To add nf-arts to a pipeline you don't edit, see [configuration](docs/configuration.md#in-a-pipeline-you-dont-edit).
+The run writes `art-<runName>.svg` to the launch directory. To add nf-arts to a pipeline you don't edit, see [configuration](https://github.com/maxulysse/nf-arts/blob/main/docs/configuration.md#in-a-pipeline-you-dont-edit).
 
 ## Examples
 
@@ -44,13 +44,13 @@ nextflow plugin nf-arts:render --style mondrian --file art.png
 
 ## Documentation
 
-- [Configuration](docs/configuration.md)
-- [Styles](docs/styles.md)
-- [Paint a finished run](docs/render.md)
-- [What goes into the art](docs/data.md)
-- [Gallery](docs/gallery.md)
-- [Contributing](CONTRIBUTING.md)
+- [Configuration](https://github.com/maxulysse/nf-arts/blob/main/docs/configuration.md)
+- [Styles](https://github.com/maxulysse/nf-arts/blob/main/docs/styles.md)
+- [Paint a finished run](https://github.com/maxulysse/nf-arts/blob/main/docs/render.md)
+- [What goes into the art](https://github.com/maxulysse/nf-arts/blob/main/docs/data.md)
+- [Gallery](https://github.com/maxulysse/nf-arts/blob/main/docs/gallery.md)
+- [Contributing](https://github.com/maxulysse/nf-arts/blob/main/CONTRIBUTING.md)
 
 ## License
 
-MIT, see [`LICENSE`](LICENSE).
+MIT, see [`LICENSE`](https://github.com/maxulysse/nf-arts/blob/main/LICENSE).
