@@ -16,7 +16,7 @@ class PhyllotaxisStyle implements Style {
         final n = run.tiles.size()
         final cx = canvas.width / 2d, cy = canvas.height / 2d
         // spacing so the outermost seed lands on the radius
-        final c = Math.min(canvas.width, canvas.height) * 0.45d / Math.sqrt(n + 0.5d)
+        final c = canvas.size * 0.45d / Math.sqrt(n + 0.5d)
         final offset = random.nextDouble() * 2 * Math.PI
 
         run.tiles.eachWithIndex { TaskTile tile, int i ->

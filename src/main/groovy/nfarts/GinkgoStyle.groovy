@@ -16,7 +16,7 @@ class GinkgoStyle implements Style {
 
     @Override
     void draw(Run run, Canvas canvas, Palette palette, Random random) {
-        final size = Math.min(canvas.width, canvas.height)
+        final size = canvas.size
         final cx = canvas.width / 2d
         final by = canvas.height * 0.82d
         final radius = size * 0.6d

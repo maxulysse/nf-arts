@@ -15,7 +15,7 @@ class RidgelineStyle implements Style {
     @Override
     void draw(Run run, Canvas canvas, Palette palette, Random random) {
         final processes = run.processes.size()
-        final size = Math.min(canvas.width, canvas.height)
+        final size = canvas.size
         final left = canvas.width * 0.08d, right = canvas.width * 0.92d
         final top = canvas.height * 0.15d, bottom = canvas.height * 0.9d
         final row = (bottom - top) / processes

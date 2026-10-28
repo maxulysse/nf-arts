@@ -16,7 +16,7 @@ class HilbertStyle implements Style {
         final order = order(run.tiles.size())
         final n = 1 << order
         final cells = n * n
-        final size = Math.min(canvas.width, canvas.height) * 0.9d
+        final size = canvas.size * 0.9d
         final cell = size / n
         final ox = (canvas.width - size) / 2d + cell / 2, oy = (canvas.height - size) / 2d + cell / 2
         // the seed picks one of the 8 symmetries of the square

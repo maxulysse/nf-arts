@@ -12,7 +12,7 @@ class TreeStyle implements Style {
 
     @Override
     void draw(Run run, Canvas canvas, Palette palette, Random random) {
-        final size = Math.min(canvas.width, canvas.height)
+        final size = canvas.size
         final cx = canvas.width / 2d
         final base = canvas.height * 0.95d, crown = canvas.height * 0.12d
         final trunk = size * 0.02d

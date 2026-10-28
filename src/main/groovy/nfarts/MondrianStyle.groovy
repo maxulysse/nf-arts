@@ -17,7 +17,7 @@ class MondrianStyle implements Style {
 
     @Override
     void draw(Run run, Canvas canvas, Palette palette, Random random) {
-        final size = Math.min(canvas.width, canvas.height)
+        final size = canvas.size
         final gap = Math.max(1.5d, size * 0.008d)
         final groups = run.processes.collect { String p -> run.tasksOf(p) }
         final weights = groups.collect { List<TaskTile> g -> (double) g.sum { TaskTile t -> weight(t) } }

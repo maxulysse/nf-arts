@@ -16,7 +16,7 @@ class FlowFieldStyle implements Style {
 
     @Override
     void draw(Run run, Canvas canvas, Palette palette, Random random) {
-        final size = Math.min(canvas.width, canvas.height)
+        final size = canvas.size
         final fx = new double[WAVES], fy = new double[WAVES], phase = new double[WAVES]
         for( int k = 0; k < WAVES; k++ ) {
             fx[k] = (2 + random.nextDouble() * 6) / size

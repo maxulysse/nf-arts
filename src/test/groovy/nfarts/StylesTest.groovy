@@ -153,4 +153,14 @@ class StylesTest extends Specification {
         Status.COMPLETED.thin(9) == 9
         Status.CACHED.opacity < Status.COMPLETED.opacity
     }
+
+    def 'inset canvas should scale by its own shorter side' () {
+        given:
+        def canvas = new SvgCanvas(400, 300, '#000000')
+
+        expect:
+        canvas.size == 300
+        new InsetCanvas(canvas, 200).size == 200
+        new InsetCanvas(new SvgCanvas(100, 300, '#000000'), 250).size == 100
+    }
 }
