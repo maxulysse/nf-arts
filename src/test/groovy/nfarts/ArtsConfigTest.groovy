@@ -38,7 +38,7 @@ class ArtsConfigTest extends Specification {
             [width: 0],
             [height: 20000],
             [file: 'art.jpg'],
-            [palette: 'rainbow'],
+            [palette: 'plaid'],
             [colors: ['red']],
         ]
     }

@@ -17,6 +17,7 @@ class Palette {
         nfcore : ['#1b1d1e', '#24b064', '#9fd36a', '#ecdc86', '#f9a440', '#e35a2c'],
         ocean  : ['#03111f', '#155e8b', '#2a8fc4', '#4fb9e0', '#93dcec', '#e0f7fa'],
         sunset : ['#1a0b1e', '#5c2a9d', '#b5179e', '#f72585', '#ff8c42', '#ffd166'],
+        rainbow: ['#0b0b12', '#e8343a', '#f7862b', '#f9d423', '#3fb950', '#2f80ed', '#8e44ad'],
         mono   : ['#f6f4ef', '#111111', '#3a3a3a', '#6b6b6b', '#9c9c9c'],
         // mostly white, the background shows as the black lines between blocks
         mondrian: ['#111111', '#f2efe6', '#d62e24', '#f2efe6', '#1d4f9c', '#f2efe6', '#f2efe6', '#f2c81f', '#f2efe6'],

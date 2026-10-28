@@ -39,7 +39,7 @@ nextflow plugin nf-arts:render --style ginkgo --file art.png
 
 ## Releasing
 
-Set the date on the version in `CHANGELOG.md`, copy `.env.example` to `.env`, set `NPR_API_KEY`, then run `make release`.
+Drop `-dev` from the version in `build.gradle` and `CHANGELOG.md`, add the codename to its `CHANGELOG.md` heading, copy `.env.example` to `.env`, set `NPR_API_KEY`, then run `make release`.
 
 ## Style
 

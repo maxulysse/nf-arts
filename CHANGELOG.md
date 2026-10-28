@@ -2,7 +2,13 @@
 
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Semantic Versioning](https://semver.org/).
 
-## v1.0.0 - 2026-10-28
+## v1.1.0-dev
+
+### Added
+
+- A `rainbow` palette.
+
+## v1.0.0 - Tournesols
 
 First release.
 
