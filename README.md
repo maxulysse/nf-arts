@@ -131,6 +131,8 @@ The other styles, on the rnavar test profile and the rnavar and sarek megatests:
 
 ## Plugin development
 
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for the workflow and how to add a style.
+
 ```bash
 make test       # unit tests
 make install    # install into ~/.nextflow/plugins

@@ -23,3 +23,4 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 - A trace without an execution report gets a new, stable seed ([#5](https://github.com/maxulysse/nf-arts/pull/5)).
 - `Canvas.size` gives styles the shorter side, including the inset above the caption ([#7](https://github.com/maxulysse/nf-arts/pull/7)).
 - CI also runs Nextflow 26.10, checks the image size and caption of a live run, renders a trace file and an S3 megatest, and checks that a failed render exits non-zero ([#9](https://github.com/maxulysse/nf-arts/pull/9)).
+- `CONTRIBUTING.md` and `AGENTS.md` ([#10](https://github.com/maxulysse/nf-arts/pull/10)).
