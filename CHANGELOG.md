@@ -6,7 +6,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 
 ### Added
 
-- A `rainbow` palette.
+- A `rainbow` palette ([#17](https://github.com/maxulysse/nf-arts/pull/17)).
 
 ## v1.0.0 - Tournesols
 
