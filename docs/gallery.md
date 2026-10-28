@@ -14,6 +14,7 @@ Every image here comes from a real run, rendered with `render`: the nf-core/rnav
 | mondrian | ![](images/test-rnavar-mondrian.png) | ![](images/megatest-rnavar-mondrian.png) | ![](images/megatest-sarek-mondrian.png) |
 | tree | ![](images/test-rnavar-tree.png) | ![](images/megatest-rnavar-tree.png) | ![](images/megatest-sarek-tree.png) |
 | ginkgo | ![](images/test-rnavar-ginkgo.png) | ![](images/megatest-rnavar-ginkgo.png) | ![](images/megatest-sarek-ginkgo.png) |
+| iris | ![](images/test-rnavar-iris.png) | ![](images/megatest-rnavar-iris.png) | ![](images/megatest-sarek-iris.png) |
 
 The rnavar images use the `nfcore` palette, sarek `magma`, and mondrian its own `mondrian` palette.
 
