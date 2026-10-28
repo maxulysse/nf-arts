@@ -8,7 +8,7 @@ nf-arts draws from a few numbers per task. Nothing about your data, samples, inp
 | --- | --- | --- |
 | Process name | the process, without the task tag | Grouping tasks and picking colors, in order of first start. Never written into the image. |
 | Start time | `start`, else `submit` | Position in time, relative to the first task of the run. |
-| Duration | `realtime`, else `duration` | Length of the shape. |
+| Duration | `realtime`, else `duration` | Length of the shape. In `iris`, also the ring's shape and the highlight's position. |
 | Peak memory | `peak_rss` | Width or size of the shape, on a log scale. |
 | Status | `status`, or cached | Opacity; failed tasks are thinner, smaller, hollow or leafless. |
 
