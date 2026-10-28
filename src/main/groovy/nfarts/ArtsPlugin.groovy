@@ -23,6 +23,17 @@ class ArtsPlugin extends BasePlugin implements PluginExecAware {
 
     // Nextflow 26.x signature, not in the 25.x interface
     int exec(String pluginId, String cmd, List<String> args) {
+        final code = run(cmd, args)
+        // `nextflow plugin` ignores the returned code, so exit with it for scripts and CI
+        if( code != 0 ) {
+            System.out.flush()
+            System.err.flush()
+            System.exit(code)
+        }
+        return code
+    }
+
+    static int run(String cmd, List<String> args) {
         if( cmd != 'render' ) {
             System.err.println "nf-arts: unknown command '${cmd}', use 'render'"
             return 1
