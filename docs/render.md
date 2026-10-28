@@ -1,6 +1,6 @@
 # Paint a finished run
 
-`nextflow plugin nf-arts:render` paints a run that already finished, from the local history and cache, like [nf-diff](https://github.com/mribeirodantas/nf-diff), or from a trace file.
+`nextflow plugin nf-arts:render` paints a run that already finished, from the local history and cache, or from a trace file.
 
 ```bash
 # the last run in this directory, or pass a run name or session ID
