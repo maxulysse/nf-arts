@@ -131,6 +131,9 @@ class StylesTest extends Specification {
         // a vein and its two forks per task, plus the outline and the stem
         svg('ginkgo').count('<polyline ') == tiles.size() * 3 + 2
         svg('ginkgo').count('<polygon ') == 1
+        // a fibre per task plus the collarette, then the pupil and its catchlight
+        svg('iris').count('<polyline ') == tiles.size() + 1
+        svg('iris').count('<circle ') == 2
     }
 
     def 'mondrian partition should split area by weight' () {
