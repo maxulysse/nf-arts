@@ -61,6 +61,8 @@ class IrisStyle implements Style {
         }
 
         canvas.circle(cx, cy, pupil, palette.background, 1d)
-        canvas.circle(cx + pupil * 0.35d, cy - pupil * 0.35d, pupil * 0.18d, palette.ink(), 0.8d)
+        // the catchlight sits on the side of the longest task
+        final longest = n ? angles[(0..<n).max { int k -> ends[k] } as int] : -Math.PI / 4
+        canvas.circle(cx + pupil * 0.5d * Math.cos(longest), cy + pupil * 0.5d * Math.sin(longest), pupil * 0.18d, palette.ink(), 0.8d)
     }
 }
