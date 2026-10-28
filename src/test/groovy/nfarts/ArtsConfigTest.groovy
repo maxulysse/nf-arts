@@ -42,4 +42,11 @@ class ArtsConfigTest extends Specification {
             [colors: ['red']],
         ]
     }
+
+    def 'mondrian style should default to the mondrian palette' () {
+        expect:
+        new ArtsConfig(style: 'mondrian').palette == 'mondrian'
+        new ArtsConfig(style: 'mondrian', palette: 'magma').palette == 'magma'
+        new ArtsConfig(style: 'tree').palette == 'viridis'
+    }
 }

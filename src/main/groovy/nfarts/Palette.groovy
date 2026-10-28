@@ -5,7 +5,8 @@ import java.awt.Color
 import groovy.transform.CompileStatic
 
 /**
- * A background color plus a gradient of colors.
+ * A background color plus a gradient of colors, or a set of colors used
+ * as they are (discrete).
  */
 @CompileStatic
 class Palette {
@@ -18,14 +19,21 @@ class Palette {
         ocean  : ['#03111f', '#155e8b', '#2a8fc4', '#4fb9e0', '#93dcec', '#e0f7fa'],
         sunset : ['#1a0b1e', '#5c2a9d', '#b5179e', '#f72585', '#ff8c42', '#ffd166'],
         mono   : ['#f6f4ef', '#111111', '#3a3a3a', '#6b6b6b', '#9c9c9c'],
+        // mostly white, the background shows as the black lines between blocks
+        mondrian: ['#111111', '#f2efe6', '#d62e24', '#f2efe6', '#1d4f9c', '#f2efe6', '#f2efe6', '#f2c81f', '#f2efe6'],
     ]
+
+    // colors cycle by process instead of blending
+    static final Set<String> DISCRETE = ['mondrian'] as Set<String>
 
     final String background
     final List<Color> colors
+    final boolean discrete
 
-    Palette(String background, List<Color> colors) {
+    Palette(String background, List<Color> colors, boolean discrete = false) {
         this.background = background
         this.colors = colors
+        this.discrete = discrete
     }
 
     static Palette of(String name, List<String> custom = null, String background = null) {
@@ -40,7 +48,7 @@ class Palette {
         }
         final bg = background ?: hex[0]
         decode(bg)
-        return new Palette(bg, hex.drop(1).collect { decode(it) })
+        return new Palette(bg, hex.drop(1).collect { decode(it) }, !custom && name in DISCRETE)
     }
 
     private static Color decode(String hex) {
@@ -50,6 +58,16 @@ class Palette {
         catch( NumberFormatException e ) {
             throw new IllegalArgumentException("Invalid arts color '${hex}'. Use #rrggbb")
         }
+    }
+
+    /**
+     * Color of item i out of n, e.g. a process: spread along the gradient,
+     * or cycling through the colors of a discrete palette.
+     */
+    String color(int i, int n) {
+        if( discrete )
+            return hex(colors[i % colors.size()])
+        return at(n > 1 ? i / (double) (n - 1) : 0.5d)
     }
 
     /**

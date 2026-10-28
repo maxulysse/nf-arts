@@ -77,7 +77,7 @@ arts {
 | `enabled` | `true` | Create the artwork at the end of the run. |
 | `file` | `art-<runName>.svg` | Output file. The `.svg` or `.png` extension sets the format. Cloud paths work too. An existing file is overwritten. |
 | `style` | `radial` | `radial`, `hilbert`, `ridgeline`, `phyllotaxis`, `flowfield`, `mondrian` or `tree`. |
-| `palette` | `viridis` | `viridis`, `magma`, `nfcore`, `ocean`, `sunset` or `mono`. |
+| `palette` | `viridis` | `viridis`, `magma`, `nfcore`, `ocean`, `sunset`, `mono` or `mondrian`. `mondrian` is the default for the mondrian style. |
 | `colors` | | List of hex colors. Overrides `palette`. |
 | `background` | from palette | Hex background color. |
 | `width`, `height` | `1200` | Size in pixels (16 to 10000). |
@@ -94,7 +94,7 @@ arts {
 
 **flowfield**: each task is a brush stroke drifting through a flow field seeded by the run. A stroke starts at the task's place in start order (x), in its process's row (y). Stroke length is duration and width is peak memory.
 
-**mondrian**: the canvas is split into one block per process, then one block per task, with area proportional to duration. Opacity is peak memory and failed tasks are hollow.
+**mondrian**: the canvas is split into one block per process, then one block per task, with area proportional to duration. Opacity is peak memory and failed tasks are hollow. Its default `mondrian` palette does not blend: processes cycle through off-white, red, blue and yellow, on black lines.
 
 **tree**: the run is the trunk, and each process is a branch, in start order from the bottom up. Branch length is how long the process was active. Each task is a twig with a leaf: twig length is duration and leaf size is peak memory. Failed tasks have no leaf.
 

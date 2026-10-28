@@ -32,7 +32,7 @@ class ArtsConfig implements ConfigScope {
     final String style
 
     @ConfigOption
-    @Description('Named color palette (default: `viridis`).')
+    @Description('Named color palette (default: `viridis`, or `mondrian` for the mondrian style).')
     final String palette
 
     @ConfigOption
@@ -58,7 +58,7 @@ class ArtsConfig implements ConfigScope {
         enabled = opts.enabled != null ? opts.enabled as boolean : true
         file = opts.file as String
         style = (opts.style ?: 'radial') as String
-        palette = (opts.palette ?: 'viridis') as String
+        palette = (opts.palette ?: (style == 'mondrian' ? 'mondrian' : 'viridis')) as String
         colors = opts.colors as List<String>
         background = opts.background as String
         width = (opts.width != null ? opts.width : 1200) as int

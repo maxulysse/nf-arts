@@ -36,4 +36,20 @@ class PaletteTest extends Specification {
         then:
         thrown(IllegalArgumentException)
     }
+
+    def 'mondrian palette should cycle colors without blending' () {
+        given:
+        def palette = Palette.of('mondrian')
+        def n = palette.colors.size()
+
+        expect:
+        palette.discrete
+        palette.background == '#111111'
+        palette.color(1, 20) == '#d62e24'
+        palette.color(n + 1, 20) == '#d62e24'
+        (0..<20).collect { palette.color(it, 20) }.toSet() == ['#f2efe6', '#d62e24', '#1d4f9c', '#f2c81f'] as Set
+        !Palette.of('viridis').discrete
+        !Palette.of('mondrian', ['#000000', '#ffffff']).discrete
+        Palette.of('viridis').color(0, 3) == Palette.of('viridis').at(0)
+    }
 }

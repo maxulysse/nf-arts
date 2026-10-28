@@ -5,7 +5,7 @@ import groovy.transform.CompileStatic
 /**
  * The canvas split into one block per process, then one block per task,
  * with area proportional to duration. Opacity is memory; failed tasks
- * are hollow.
+ * are hollow. Pairs with the `mondrian` palette.
  */
 @CompileStatic
 class MondrianStyle implements Style {
@@ -14,7 +14,7 @@ class MondrianStyle implements Style {
     void draw(List<TaskTile> tiles, Canvas canvas, Palette palette, Random random) {
         final run = new Run(tiles)
         final size = Math.min(canvas.width, canvas.height)
-        final gap = Math.max(1d, size * 0.004d)
+        final gap = Math.max(1.5d, size * 0.008d)
         final groups = run.processes.collect { String p -> run.tasksOf(p) }
         final weights = groups.collect { List<TaskTile> g -> (double) g.sum { TaskTile t -> weight(t) } }
         final blocks = partition(weights, size * 0.05d + (canvas.width - size) / 2d, size * 0.05d + (canvas.height - size) / 2d, size * 0.9d, size * 0.9d, random)
@@ -32,7 +32,7 @@ class MondrianStyle implements Style {
                 if( tile.status() == 'FAILED' )
                     canvas.polyline([x0, y0, x1, y0, x1, y1, x0, y1, x0, y0] as double[], Math.max(1d, gap / 2), color, 1d)
                 else
-                    canvas.polygon(rect, color, tile.status() == 'CACHED' ? 0.25d : 0.45d + 0.55d * run.memory(tile))
+                    canvas.polygon(rect, color, tile.status() == 'CACHED' ? 0.25d : 0.75d + 0.25d * run.memory(tile))
             }
         }
     }

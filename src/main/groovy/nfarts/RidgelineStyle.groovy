@@ -49,7 +49,7 @@ class RidgelineStyle implements Style {
             fill[line.length + 2] = left
             fill[line.length + 3] = base + stroke
             canvas.polygon(fill, palette.background, 1d)
-            canvas.polyline(line, stroke, palette.at(processes > 1 ? p / (double) (processes - 1) : 0.5d), 1d)
+            canvas.polyline(line, stroke, palette.color(p, processes), 1d)
         }
     }
 }

@@ -40,8 +40,7 @@ class Run {
     }
 
     String color(TaskTile tile, Palette palette) {
-        final i = processes.indexOf(tile.process())
-        palette.at(processes.size() > 1 ? i / (double) (processes.size() - 1) : 0.5d)
+        palette.color(processes.indexOf(tile.process()), processes.size())
     }
 
     /** memory in [0,1] on a log scale between the smallest and largest task, so one big task does not flatten the rest */
