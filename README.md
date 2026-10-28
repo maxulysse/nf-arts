@@ -2,19 +2,19 @@
 
 ## Summary
 
-`nf-arts` is a Nextflow plugin that turns each pipeline run into a piece of generative art.
+`nf-arts` is a Nextflow plugin that turns a run into generative art.
 
-The plugin records every task of the run: process, start time, duration, peak memory and status. When the run ends, it draws those tasks as an SVG or PNG image. The run's session ID is the random seed, so the same run always gives the same image.
+It records each task's process, start time, duration, peak memory and status, and draws them as an SVG or PNG when the run ends. The session ID seeds the randomness, so a run always gives the same image.
 
 | Radial | Hilbert |
 | :---: | :---: |
 | ![radial](docs/images/test-rnavar-radial.png) | ![hilbert](docs/images/test-rnavar-hilbert.png) |
 
-Both images come from a real run of `nf-core/rnavar -profile test,docker` (43 tasks).
+Both from `nf-core/rnavar -profile test,docker` (43 tasks).
 
 ## Get Started
 
-Enable the plugin in your pipeline's `nextflow.config`:
+Add the plugin to `nextflow.config`:
 
 ```groovy
 plugins {
@@ -22,9 +22,9 @@ plugins {
 }
 ```
 
-When the run ends, the plugin writes `art-<runName>.svg` to the launch directory.
+At the end of the run it writes `art-<runName>.svg` to the launch directory.
 
-To add it to a pipeline you don't edit, such as an nf-core pipeline, repeat the pipeline's own plugins. Both `-plugins` and a `plugins {}` block in a `-c` config replace the pipeline's plugins instead of adding to them:
+`-plugins` and a `plugins {}` block in a `-c` config both replace a pipeline's plugins. To add nf-arts to a pipeline you don't edit, list the pipeline's plugins too:
 
 ```bash
 nextflow run nf-core/rnavar -profile test,docker --outdir results \
@@ -33,21 +33,21 @@ nextflow run nf-core/rnavar -profile test,docker --outdir results \
 
 ### Paint a finished run
 
-`render` paints a run that already finished, from the local history and cache (like [nf-diff](https://github.com/mribeirodantas/nf-diff)) or from an execution trace file:
+`render` paints a finished run from the local history and cache, like [nf-diff](https://github.com/mribeirodantas/nf-diff), or from a trace file:
 
 ```bash
-# last run in this directory, or pass a run name or session id
+# last run here, or pass a run name or session ID
 nextflow plugin nf-arts:render --style hilbert --file art.png
 
-# any trace file, e.g. an nf-core megatest on S3 (no AWS credentials needed for public buckets)
+# a trace file, e.g. an nf-core megatest on S3 (public buckets need no AWS credentials)
 nextflow plugin nf-arts:render \
     --trace s3://nf-core-awsmegatests/rnavar/results-ea2c7b6286f5ae18f5b51dc0af6b5330ecd6a13a/pipeline_info/execution_trace_2025-12-05_11-13-40.txt \
     --file rnavar.png --palette nfcore
 ```
 
-It takes the same options as the `arts` scope (`--style`, `--palette`, `--colors a,b,c`, `--background`, `--width`, `--height`, `--file`), plus `--dir` for another project directory. For a local run it uses the same seed as the live plugin, so it gives the same image.
+It takes the `arts` options as flags (`--style`, `--palette`, `--colors a,b,c`, `--background`, `--width`, `--height`, `--file`), plus `--dir` for another project directory. A local run gets the same seed as the live plugin, so the same image.
 
-The caption comes from the history for a local run, or from the `execution_report_*.html` next to the trace file, which nf-core pipelines publish in `pipeline_info/`. Set it yourself with `--pipeline`, `--revision` and `--run-name`, or turn it off with `--title false`.
+The caption comes from the history, or from the `execution_report_*.html` next to the trace, which nf-core pipelines publish in `pipeline_info/`. Override it with `--pipeline`, `--revision` and `--run-name`, or drop it with `--title false`.
 
 ## Examples
 
@@ -76,36 +76,36 @@ arts {
 
 | Option | Default | Description |
 | --- | --- | --- |
-| `enabled` | `true` | Create the artwork at the end of the run. |
-| `file` | `art-<runName>.svg` | Output file. The `.svg` or `.png` extension sets the format. Cloud paths work too. An existing file is overwritten. |
+| `enabled` | `true` | Draw the artwork when the run ends. |
+| `file` | `art-<runName>.svg` | Output file. `.svg` or `.png` sets the format. Cloud paths work. Overwrites an existing file. |
 | `style` | `radial` | `radial`, `hilbert`, `ridgeline`, `phyllotaxis`, `flowfield`, `mondrian` or `tree`. |
-| `palette` | `viridis` | `viridis`, `magma`, `nfcore`, `ocean`, `sunset`, `mono` or `mondrian`. `mondrian` is the default for the mondrian style. |
+| `palette` | `viridis` | `viridis`, `magma`, `nfcore`, `ocean`, `sunset`, `mono` or `mondrian` (default for the mondrian style). |
 | `colors` | | List of hex colors. Overrides `palette`. |
 | `background` | from palette | Hex background color. |
 | `width`, `height` | `1200` | Size in pixels (16 to 10000). |
-| `title` | `true` | Caption at the bottom: pipeline (`manifest.name`), version and run name, plus the nf-arts version. |
+| `title` | `true` | Caption: pipeline (`manifest.name`), version, run name and nf-arts version. |
 
 ### Styles
 
-**radial**: each process is a ring and each task is an arc on its ring. The angle is time: 12 o'clock is the start of the run, and the run goes clockwise. Arc thickness is peak memory.
+**radial**: each process is a ring, each task an arc on it. Angle is time, clockwise from 12 o'clock. Thickness is peak memory.
 
-**hilbert**: tasks are laid end to end, in start order, along a [Hilbert curve](https://en.wikipedia.org/wiki/Hilbert_curve). Each task gets a share of the curve proportional to its duration. Line thickness is peak memory. The curve's resolution grows with the number of tasks. The seed picks one of the 8 orientations of the square.
+**hilbert**: tasks run end to end along a [Hilbert curve](https://en.wikipedia.org/wiki/Hilbert_curve) in start order, each taking a share proportional to its duration. Thickness is peak memory. More tasks make a finer curve. The seed picks one of its 8 orientations.
 
-**ridgeline**: one ridge per process, stacked top to bottom, with time running left to right. The height of a ridge is how many tasks of that process were running, relative to that process's busiest moment.
+**ridgeline**: one ridge per process, top to bottom, time left to right. Ridge height is how many of the process's tasks were running, relative to its busiest moment.
 
-**phyllotaxis**: tasks are seeds of a sunflower, placed on a golden-angle spiral in start order. Dot size is peak memory.
+**phyllotaxis**: tasks are sunflower seeds on a golden-angle spiral, in start order. Dot size is peak memory.
 
-**flowfield**: each task is a brush stroke drifting through a flow field seeded by the run. A stroke starts at the task's place in start order (x), in its process's row (y). Stroke length is duration and width is peak memory.
+**flowfield**: each task is a brush stroke drifting through a seeded flow field. It starts at the task's start order (x) in its process's row (y). Length is duration, width is peak memory.
 
-**mondrian**: the canvas is split into one block per process, then one block per task, with area proportional to duration. Opacity is peak memory and failed tasks are hollow. Its default `mondrian` palette does not blend: processes cycle through off-white, red, blue and yellow, on black lines.
+**mondrian**: one block per process, split into one block per task, area proportional to duration. Opacity is peak memory; failed tasks are hollow. The default `mondrian` palette cycles off-white, red, blue and yellow on black lines, without blending.
 
-**tree**: the run is the trunk, and each process is a branch, in start order from the bottom up. Branch length is how long the process was active. Each task is a twig with a leaf: twig length is duration and leaf size is peak memory. Failed tasks have no leaf.
+**tree**: the run is the trunk, each process a branch, in start order from the bottom. Branch length is how long the process was active. Each task is a twig with a leaf: twig length is duration, leaf size is peak memory. Failed tasks have no leaf.
 
-In all styles, color is the process, cached tasks are faded and failed tasks are thin or empty.
+In every style, color is the process, cached tasks are faded and failed tasks are thin or empty.
 
 ### Gallery
 
-nf-core megatests, painted with `render` from the trace files on `s3://nf-core-awsmegatests`:
+nf-core megatests, rendered from their trace files on `s3://nf-core-awsmegatests`:
 
 | Pipeline | Radial | Hilbert |
 | --- | :---: | :---: |
@@ -116,7 +116,7 @@ nf-core megatests, painted with `render` from the trace files on `s3://nf-core-a
 | raredisease, 990 tasks, `sunset` | ![](docs/images/megatest-raredisease-radial.png) | ![](docs/images/megatest-raredisease-hilbert.png) |
 | viralrecon, 3239 tasks, `mono` | ![](docs/images/megatest-viralrecon-radial.png) | ![](docs/images/megatest-viralrecon-hilbert.png) |
 
-The other styles on the rnavar test profile, the rnavar megatest and the sarek megatest:
+The other styles, on the rnavar test profile and the rnavar and sarek megatests:
 
 | Style | rnavar test, 43 tasks | rnavar megatest, 553 tasks | sarek megatest, 2314 tasks |
 | --- | :---: | :---: | :---: |
@@ -134,7 +134,7 @@ make install    # install into ~/.nextflow/plugins
 nextflow run validation/ -plugins nf-arts@0.1.0
 ```
 
-`nextflow plugin` only finds a plugin by its bare id, and resolves it from the registry. To try `render` on an unpublished build:
+`nextflow plugin` finds plugins by bare ID, in the registry. To try `render` on an unpublished build:
 
 ```bash
 make dev-repo
@@ -142,8 +142,8 @@ export NXF_PLUGINS_TEST_REPOSITORY="file://$PWD/build/plugin-repo/plugins.json"
 nextflow plugin nf-arts:render
 ```
 
-To publish to the Nextflow Registry, copy `.env.example` to `.env`, set `NPR_API_KEY`, then run `make release`.
+To publish to the Nextflow Registry: copy `.env.example` to `.env`, set `NPR_API_KEY`, run `make release`.
 
 ## License
 
-MIT. See the [`LICENSE`](LICENSE) file for details.
+MIT, see [`LICENSE`](LICENSE).

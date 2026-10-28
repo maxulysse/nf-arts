@@ -43,7 +43,7 @@ class Run {
         palette.color(processes.indexOf(tile.process()), processes.size())
     }
 
-    /** memory in [0,1] on a log scale between the smallest and largest task, so one big task does not flatten the rest */
+    /** memory in [0,1], log-scaled between the smallest and largest task so one big task does not flatten the rest */
     double memory(TaskTile tile) {
         scale(tile.memory(), memMin, memMax)
     }
@@ -75,8 +75,8 @@ class Run {
 }
 
 /**
- * Each process is a ring, each task an arc on its ring: angle is time
- * (12 o'clock is the start of the run), thickness is memory.
+ * Each process is a ring, each task an arc on it: angle is time,
+ * clockwise from 12 o'clock, thickness is memory.
  */
 @CompileStatic
 class RadialStyle implements Style {
@@ -104,8 +104,8 @@ class RadialStyle implements Style {
 }
 
 /**
- * Tasks laid end to end along a Hilbert curve in start order, each
- * taking a share of the curve proportional to its duration.
+ * Tasks end to end along a Hilbert curve in start order, each taking a
+ * share proportional to its duration.
  */
 @CompileStatic
 class HilbertStyle implements Style {

@@ -8,7 +8,7 @@ import nextflow.file.FileHelper
 import nextflow.util.HistoryFile
 
 /**
- * `nextflow plugin nf-arts:render`: paints a run that already finished.
+ * `nextflow plugin nf-arts:render`: paints a finished run.
  */
 @CompileStatic
 class RenderCommand {
@@ -24,7 +24,7 @@ Options:
   --dir DIR           project directory with the .nextflow history (default: .)
   --file FILE         output .svg or .png (default: art-<run>.svg)
   --style NAME        radial, hilbert, ridgeline, phyllotaxis, flowfield, mondrian or tree
-  --palette NAME      viridis, magma, nfcore, ocean, sunset or mono
+  --palette NAME      viridis, magma, nfcore, ocean, sunset, mono or mondrian
   --colors A,B,...    custom hex colors
   --background HEX    background color
   --width N           width in pixels

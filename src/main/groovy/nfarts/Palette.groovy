@@ -5,8 +5,7 @@ import java.awt.Color
 import groovy.transform.CompileStatic
 
 /**
- * A background color plus a gradient of colors, or a set of colors used
- * as they are (discrete).
+ * A background color plus a gradient, or discrete colors used as they are.
  */
 @CompileStatic
 class Palette {

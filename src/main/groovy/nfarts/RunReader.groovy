@@ -90,8 +90,8 @@ class RunReader {
     }
 
     /**
-     * Title and session id from the execution report published next to a trace file,
-     * e.g. `execution_report_<date>.html` for `execution_trace_<date>.txt`; null when there is none.
+     * Caption and session ID from the execution report next to a trace file
+     * (`execution_report_<date>.html` for `execution_trace_<date>.txt`), or null.
      */
     static Report report(Path trace) {
         final name = trace.fileName.toString().replace('execution_trace', 'execution_report').replaceFirst(/\.[^.]+$/, '.html')
@@ -99,7 +99,7 @@ class RunReader {
             return null
         // optional: a missing or unreadable report only loses the caption details
         try {
-            // the run details sit after ~150 KB of inline CSS, the report can be megabytes long
+            // the run details sit after ~150 KB of inline CSS; the whole report can be megabytes
             final head = Files.newInputStream(trace.resolveSibling(name)).withCloseable { InputStream it -> it.readNBytes(512 * 1024) }
             return Report.parse(new String(head, 'UTF-8'))
         }

@@ -3,9 +3,9 @@ package nfarts
 import groovy.transform.CompileStatic
 
 /**
- * The canvas split into one block per process, then one block per task,
- * with area proportional to duration. Opacity is memory; failed tasks
- * are hollow. Pairs with the `mondrian` palette.
+ * One block per process, split into one block per task, area proportional
+ * to duration. Opacity is memory; failed tasks are hollow. Pairs with the
+ * `mondrian` palette.
  */
 @CompileStatic
 class MondrianStyle implements Style {

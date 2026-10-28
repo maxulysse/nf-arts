@@ -20,11 +20,11 @@ class ArtsConfig implements ConfigScope {
     static final List<String> FORMATS = ['svg', 'png']
 
     @ConfigOption
-    @Description('Create the artwork at the end of the run (default: `true`).')
+    @Description('Draw the artwork when the run ends (default: `true`).')
     final boolean enabled
 
     @ConfigOption
-    @Description('Artwork file. The extension (`.svg` or `.png`) sets the format (default: `art-<runName>.svg`).')
+    @Description('Output file; `.svg` or `.png` sets the format (default: `art-<runName>.svg`).')
     final String file
 
     @ConfigOption
@@ -36,7 +36,7 @@ class ArtsConfig implements ConfigScope {
     final String palette
 
     @ConfigOption
-    @Description('Custom list of hex colors. Overrides `palette`.')
+    @Description('Hex colors, overrides `palette`.')
     final List<String> colors
 
     @ConfigOption
@@ -52,7 +52,7 @@ class ArtsConfig implements ConfigScope {
     final int height
 
     @ConfigOption
-    @Description('Caption at the bottom: pipeline, version and run name (default: `true`).')
+    @Description('Caption: pipeline, version, run name and nf-arts version (default: `true`).')
     final boolean title
 
     /* required by extension point -- do not remove */
