@@ -63,14 +63,14 @@ class ArtsConfig implements ConfigScope {
         title = opts.title != null ? opts.title as boolean : true
         file = opts.file as String
         style = (opts.style ?: 'radial') as String
-        palette = (opts.palette ?: (style == 'mondrian' ? 'mondrian' : 'viridis')) as String
+        if( style !in STYLES )
+            throw new IllegalArgumentException("Unknown arts.style '${style}'. Use one of: ${STYLES.join(', ')}")
+        palette = (opts.palette ?: Artist.STYLES[style].defaultPalette) as String
         colors = opts.colors as List<String>
         background = opts.background as String
         width = (opts.width != null ? opts.width : 1200) as int
         height = (opts.height != null ? opts.height : 1200) as int
 
-        if( style !in STYLES )
-            throw new IllegalArgumentException("Unknown arts.style '${style}'. Use one of: ${STYLES.join(', ')}")
         if( width < 16 || width > 10000 || height < 16 || height > 10000 )
             throw new IllegalArgumentException("arts.width and arts.height must be between 16 and 10000, got ${width}x${height}")
         if( file && format(file) !in FORMATS )

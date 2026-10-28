@@ -15,8 +15,7 @@ class FlowFieldStyle implements Style {
     static final int MAX_POINTS = 200_000
 
     @Override
-    void draw(List<TaskTile> tiles, Canvas canvas, Palette palette, Random random) {
-        final run = new Run(tiles)
+    void draw(Run run, Canvas canvas, Palette palette, Random random) {
         final size = Math.min(canvas.width, canvas.height)
         final fx = new double[WAVES], fy = new double[WAVES], phase = new double[WAVES]
         for( int k = 0; k < WAVES; k++ ) {
@@ -49,10 +48,8 @@ class FlowFieldStyle implements Style {
             }
             if( points.size() == 2 )
                 points << x + 0.01d << y
-            double stroke = Math.max(0.6d, size * (0.0015d + 0.006d * run.memory(tile)))
-            if( tile.status() == 'FAILED' )
-                stroke = Math.max(0.6d, stroke / 3)
-            canvas.polyline(points as double[], stroke, run.color(tile, palette), Run.opacity(tile) * 0.7d)
+            final stroke = Math.max(0.6d, tile.status().thin(Math.max(0.6d, size * (0.0015d + 0.006d * run.memory(tile)))))
+            canvas.polyline(points as double[], stroke, run.color(tile, palette), tile.status().opacity * 0.7d)
         }
     }
 }

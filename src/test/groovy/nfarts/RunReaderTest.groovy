@@ -24,7 +24,7 @@ class RunReaderTest extends Specification {
         tiles[1].process() == 'NFCORE_RNAVAR:PREPARE_GENOME:SAMTOOLS_FAIDX'
         tiles[1].duration() == 23_000
         tiles[1].memory() == 5 * 1024 * 1024
-        tiles*.status() == ['COMPLETED', 'COMPLETED', 'COMPLETED', 'CACHED', 'FAILED']
+        tiles*.status() == [Status.COMPLETED, Status.COMPLETED, Status.COMPLETED, Status.CACHED, Status.FAILED]
         // '-' values
         tiles[4].duration() == 0
         tiles[4].memory() == 0
@@ -52,8 +52,8 @@ class RunReaderTest extends Specification {
         trace.putAll(process: 'FOO', start: 100L, realtime: 50L, peak_rss: 7L, status: 'COMPLETED')
 
         expect:
-        RunReader.tile(trace, false, 1) == new TaskTile('FOO', 100, 50, 7, 'COMPLETED')
-        RunReader.tile(trace, true, 1) == new TaskTile('FOO', 100, 50, 7, 'CACHED')
+        RunReader.tile(trace, false, 1) == new TaskTile('FOO', 100, 50, 7, Status.COMPLETED)
+        RunReader.tile(trace, true, 1) == new TaskTile('FOO', 100, 50, 7, Status.CACHED)
         RunReader.tile(new TraceRecord(), false, 1).start() == 1
     }
 
@@ -103,4 +103,22 @@ class RunReaderTest extends Specification {
         cleanup:
         dir.toFile().deleteDir()
     }
+
+    def 'render help should list every style and palette' () {
+        expect:
+        Artist.STYLES.keySet().every { RenderCommand.USAGE.contains(it) }
+        Palette.NAMED.keySet().every { RenderCommand.USAGE.contains(it) }
+    }
+
+    def 'seed should come from the session, else from the tasks, the same in every JVM' () {
+        given:
+        def tiles = [new TaskTile('A', 1, 2, 3, Status.COMPLETED), new TaskTile('B', 4, 5, 6, Status.FAILED)]
+
+        expect:
+        new PaintedRun(tiles, new Title(null, null, null), new UUID(42, 7)).seed() == 42
+        // a fixed value: an identity hash would differ from run to run
+        new PaintedRun(tiles, new Title(null, null, null), null).seed() == SEED
+    }
+
+    static final long SEED = [['A', 1L, 2L, 3L, 'COMPLETED'], ['B', 4L, 5L, 6L, 'FAILED']].hashCode()
 }

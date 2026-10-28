@@ -15,8 +15,7 @@ class GinkgoStyle implements Style {
     static final int STEPS = 12
 
     @Override
-    void draw(List<TaskTile> tiles, Canvas canvas, Palette palette, Random random) {
-        final run = new Run(tiles)
+    void draw(Run run, Canvas canvas, Palette palette, Random random) {
         final size = Math.min(canvas.width, canvas.height)
         final cx = canvas.width / 2d
         final by = canvas.height * 0.82d
@@ -42,11 +41,9 @@ class GinkgoStyle implements Style {
         for( TaskTile tile : run.tiles ) {
             final target = -SPREAD + 2 * SPREAD * (tile.start() - run.t0) / run.span + (random.nextDouble() - 0.5d) * 0.02d
             final length = rim(target, radius, wave) * (0.55d + 0.42d * run.duration(tile))
-            double width = Math.max(0.5d, size * (0.0008d + 0.003d * run.memory(tile)))
-            if( tile.status() == 'FAILED' )
-                width = width / 3
+            final width = tile.status().thin(Math.max(0.5d, size * (0.0008d + 0.003d * run.memory(tile))))
             final color = run.color(tile, palette)
-            final opacity = Run.opacity(tile) * 0.85d
+            final opacity = tile.status().opacity * 0.85d
             // veins leave the stem together and spread out, like ginkgo venation, then fork
             final fork = 0.55d + 0.2d * random.nextDouble()
             final trunk = vein(cx, by, target, length, 0, fork, 0)

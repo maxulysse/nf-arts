@@ -11,8 +11,12 @@ import groovy.transform.CompileStatic
 class MondrianStyle implements Style {
 
     @Override
-    void draw(List<TaskTile> tiles, Canvas canvas, Palette palette, Random random) {
-        final run = new Run(tiles)
+    String getDefaultPalette() {
+        'mondrian'
+    }
+
+    @Override
+    void draw(Run run, Canvas canvas, Palette palette, Random random) {
         final size = Math.min(canvas.width, canvas.height)
         final gap = Math.max(1.5d, size * 0.008d)
         final groups = run.processes.collect { String p -> run.tasksOf(p) }
@@ -29,10 +33,10 @@ class MondrianStyle implements Style {
                     return
                 final rect = [x0, y0, x1, y0, x1, y1, x0, y1] as double[]
                 final color = run.color(tile, palette)
-                if( tile.status() == 'FAILED' )
+                if( tile.status() == Status.FAILED )
                     canvas.polyline([x0, y0, x1, y0, x1, y1, x0, y1, x0, y0] as double[], Math.max(1d, gap / 2), color, 1d)
                 else
-                    canvas.polygon(rect, color, tile.status() == 'CACHED' ? 0.25d : 0.75d + 0.25d * run.memory(tile))
+                    canvas.polygon(rect, color, tile.status() == Status.CACHED ? 0.25d : 0.75d + 0.25d * run.memory(tile))
             }
         }
     }

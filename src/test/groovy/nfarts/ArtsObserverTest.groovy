@@ -51,7 +51,7 @@ class ArtsObserverTest extends Specification {
 
         then:
         observer.tiles*.process() == ['FOO', 'BAR', 'FOO']
-        observer.tiles*.status() == ['COMPLETED', 'FAILED', 'CACHED']
+        observer.tiles*.status() == [Status.COMPLETED, Status.FAILED, Status.CACHED]
         observer.tiles[2].start() == 1L
         Files.size(file) > 0
         Files.newInputStream(file).withCloseable { it.readNBytes(4) } == [0x89, 0x50, 0x4e, 0x47] as byte[]
