@@ -121,4 +121,53 @@ class RunReaderTest extends Specification {
     }
 
     static final long SEED = [['A', 1L, 2L, 3L, 'COMPLETED'], ['B', 4L, 5L, 6L, 'FAILED']].hashCode()
+
+    def 'render should reject unknown options and a second run' () {
+        when:
+        new RenderCommand().run(args)
+        then:
+        def e = thrown(IllegalArgumentException)
+        e.message.contains(message)
+        where:
+        args                          | message
+        ['--stlye', 'tree']           | 'Unknown option --stlye'
+        ['--enabled', 'false']        | 'Unknown option --enabled'
+        ['happy_turing', 'sad_curie'] | 'One run at a time'
+    }
+
+    def 'should explain an empty history and a cleaned cache' () {
+        given:
+        def dir = Files.createTempDirectory('nf-arts')
+        Files.createDirectories(dir.resolve('.nextflow'))
+        def file = dir.resolve('.nextflow/history')
+        Files.createFile(file)
+
+        when:
+        RunReader.fromHistory(dir, null)
+        then:
+        def e = thrown(IllegalArgumentException)
+        e.message.startsWith('No run in')
+
+        when:
+        new HistoryFile(file).write('happy_turing', UUID.randomUUID(), 'abc', ['nextflow', 'run'])
+        RunReader.fromHistory(dir, null)
+        then:
+        e = thrown(IllegalArgumentException)
+        e.message.contains("No cache for run 'happy_turing'")
+
+        cleanup:
+        dir.toFile().deleteDir()
+    }
+
+    def 'should skip a partial last row' () {
+        given:
+        def file = Files.createTempFile('trace', '.txt')
+        file.text = TRACE.text.readLines().take(3).join('\n') + '\n7\tab/cdef12\t-\tNFCORE_X (s1)\n'
+
+        expect:
+        RunReader.tasks(file).size() == 2
+
+        cleanup:
+        Files.delete(file)
+    }
 }

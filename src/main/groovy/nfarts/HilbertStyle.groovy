@@ -40,10 +40,12 @@ class HilbertStyle implements Style {
         }
     }
 
-    /** smallest order with about 16 cells per task, between 3 and MAX_ORDER */
+    /** smallest order with about 16 cells per task, between 3 and MAX_ORDER, and past it while a task has under 2 cells */
     static int order(int tasks) {
         int k = 3
         while( k < MAX_ORDER && (1L << (2 * k)) < tasks * 16L )
+            k++
+        while( (1L << (2 * k)) < tasks * 2L )
             k++
         return k
     }

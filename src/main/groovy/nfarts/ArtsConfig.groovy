@@ -17,6 +17,8 @@ import nextflow.script.dsl.Description
 class ArtsConfig implements ConfigScope {
 
     static final List<String> STYLES = Artist.STYLES.keySet().toList()
+    /** names of the `arts` options */
+    static final List<String> OPTIONS = ArtsConfig.declaredFields.findAll { it.isAnnotationPresent(ConfigOption) }*.name
     static final List<String> FORMATS = ['svg', 'png']
 
     @ConfigOption
@@ -58,18 +60,19 @@ class ArtsConfig implements ConfigScope {
     /* required by extension point -- do not remove */
     ArtsConfig() {}
 
+    /** values may be typed, from a config file, or text, from the command line */
     ArtsConfig(Map opts) {
-        enabled = opts.enabled != null ? opts.enabled as boolean : true
-        title = opts.title != null ? opts.title as boolean : true
+        enabled = flag(opts, 'enabled', true)
+        title = flag(opts, 'title', true)
         file = opts.file as String
         style = (opts.style ?: 'radial') as String
         if( style !in STYLES )
             throw new IllegalArgumentException("Unknown arts.style '${style}'. Use one of: ${STYLES.join(', ')}")
         palette = (opts.palette ?: Artist.STYLES[style].defaultPalette) as String
-        colors = opts.colors as List<String>
+        colors = opts.colors instanceof CharSequence ? opts.colors.toString().tokenize(',') : opts.colors as List<String>
         background = opts.background as String
-        width = (opts.width != null ? opts.width : 1200) as int
-        height = (opts.height != null ? opts.height : 1200) as int
+        width = number(opts, 'width', 1200)
+        height = number(opts, 'height', 1200)
 
         if( width < 16 || width > 10000 || height < 16 || height > 10000 )
             throw new IllegalArgumentException("arts.width and arts.height must be between 16 and 10000, got ${width}x${height}")
@@ -77,6 +80,32 @@ class ArtsConfig implements ConfigScope {
             throw new IllegalArgumentException("Unsupported arts.file extension '${file}'. Use .svg or .png")
         // fail fast on a bad palette or color, not at the end of the run
         Palette.of(palette, colors, background)
+    }
+
+    private static boolean flag(Map opts, String key, boolean fallback) {
+        final value = opts[key]
+        if( value == null )
+            return fallback
+        if( value instanceof Boolean )
+            return value
+        // 'false' as boolean is true in Groovy
+        if( value.toString() in ['true', 'false'] )
+            return value.toString() == 'true'
+        throw new IllegalArgumentException("arts.${key} must be true or false, got '${value}'")
+    }
+
+    private static int number(Map opts, String key, int fallback) {
+        final value = opts[key]
+        if( value == null )
+            return fallback
+        if( value instanceof Integer )
+            return value
+        try {
+            return Integer.parseInt(value.toString())
+        }
+        catch( NumberFormatException e ) {
+            throw new IllegalArgumentException("arts.${key} must be a whole number, got '${value}'")
+        }
     }
 
     static String format(String file) {

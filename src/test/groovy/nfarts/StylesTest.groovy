@@ -24,7 +24,7 @@ class StylesTest extends Specification {
         expect:
         HilbertStyle.order(1) == 3
         HilbertStyle.order(100) == 6
-        HilbertStyle.order(100_000) == HilbertStyle.MAX_ORDER
+        HilbertStyle.order(100_000) == 9
     }
 
     def 'radial should draw one arc per task' () {
@@ -162,5 +162,13 @@ class StylesTest extends Specification {
         canvas.size == 300
         new InsetCanvas(canvas, 200).size == 200
         new InsetCanvas(new SvgCanvas(100, 300, '#000000'), 250).size == 100
+    }
+
+    def 'hilbert should keep two cells per task past the largest order' () {
+        expect:
+        HilbertStyle.order(8_192) == HilbertStyle.MAX_ORDER
+        HilbertStyle.order(8_193) == HilbertStyle.MAX_ORDER + 1
+        HilbertStyle.order(40_000) == 9
+        (1L << (2 * HilbertStyle.order(40_000))) >= 80_000
     }
 }
