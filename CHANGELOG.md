@@ -26,3 +26,4 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 - `Canvas.size` gives styles the shorter side, including the inset above the caption ([#7](https://github.com/maxulysse/nf-arts/pull/7)).
 - CI also runs Nextflow 26.10, checks the image size and caption of a live run, renders a trace file and an S3 megatest, and checks that a failed render exits non-zero ([#9](https://github.com/maxulysse/nf-arts/pull/9)).
 - `CONTRIBUTING.md` and `AGENTS.md` ([#10](https://github.com/maxulysse/nf-arts/pull/10)).
+- Stricter input: `render` rejects unknown options, `arts` options accept text values, colors must be `#rrggbb`, and empty histories, cleaned caches and partial trace rows give clear errors or are skipped ([#13](https://github.com/maxulysse/nf-arts/pull/13)).

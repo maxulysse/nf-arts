@@ -51,12 +51,10 @@ class Palette {
     }
 
     private static Color decode(String hex) {
-        try {
-            return Color.decode(hex)
-        }
-        catch( NumberFormatException e ) {
+        // Color.decode also takes '#fff' or '123', and reads them as other colors
+        if( !(hex ==~ /#[0-9a-fA-F]{6}/) )
             throw new IllegalArgumentException("Invalid arts color '${hex}'. Use #rrggbb")
-        }
+        return Color.decode(hex)
     }
 
     /** text color that reads on the background */

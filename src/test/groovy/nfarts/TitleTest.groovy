@@ -65,4 +65,19 @@ class TitleTest extends Specification {
         !new String(Artist.paint(tiles, new ArtsConfig(title: false), 'svg', 1, title)).contains('<text')
         new String(Artist.paint(tiles, new ArtsConfig([:]), 'svg', 1, null)).count('<text') == 1
     }
+
+    def 'should find the pipeline among run options' () {
+        expect:
+        Title.fromCommand(command, null).pipeline() == pipeline
+        where:
+        command                                                                    | pipeline
+        'nextflow run -resume nf-core/rnavar'                                      | 'nf-core/rnavar'
+        'nextflow run -resume last nf-core/rnavar'                                 | 'nf-core/rnavar'
+        'nextflow run -resume 1ba77276-0c91-46e0-862d-e017d222de42 nf-core/rnavar' | 'nf-core/rnavar'
+        'nextflow run --input samples.csv nf-core/rnavar'                          | 'nf-core/rnavar'
+        'nextflow run --input=samples.csv nf-core/rnavar'                          | 'nf-core/rnavar'
+        'nextflow run -bg -latest -with-report -c x.config nf-core/sarek'          | 'nf-core/sarek'
+        'nextflow run -revision dev -profile test nf-core/sarek'                   | 'nf-core/sarek'
+        'nextflow run main.nf -resume --outdir results'                            | 'main.nf'
+    }
 }

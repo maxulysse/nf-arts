@@ -32,6 +32,9 @@ class RunReader {
      */
     static PaintedRun fromHistory(Path dir, String idOrName) {
         final record = record(new HistoryFile(dir.resolve('.nextflow/history')), idOrName)
+        final cache = dir.resolve(".nextflow/cache/${record.sessionId}")
+        if( !Files.isDirectory(cache) )
+            throw new IllegalArgumentException("No cache for run '${record.runName}' in ${cache.parent}, it may have been cleaned")
         final db = new CacheDB(new DefaultCacheStore(record.sessionId, record.runName, dir.resolve('.nextflow'))).openForRead()
         final tiles = new ArrayList<TaskTile>()
         try {
@@ -46,8 +49,12 @@ class RunReader {
     static HistoryFile.Record record(HistoryFile history, String idOrName) {
         if( !history.exists() )
             throw new IllegalArgumentException("No run history found: ${history}")
-        if( !idOrName )
-            return history.getLast()
+        if( !idOrName ) {
+            final last = history.getLast()
+            if( !last )
+                throw new IllegalArgumentException("No run in ${history}")
+            return last
+        }
         final matches = history.findByIdOrName(idOrName)
         if( !matches )
             throw new IllegalArgumentException("No run named or with session id '${idOrName}' in ${history}")
@@ -79,6 +86,9 @@ class RunReader {
             if( !line.trim() )
                 continue
             final values = line.split('\t', -1)
+            // a trace cut off mid-run can end with a partial row
+            if( values.length < header.size() )
+                continue
             final row = [header, values.toList()].transpose().collectEntries() as Map<String, String>
             final when = value(row, 'start') ?: value(row, 'submit')
             final time = value(row, 'realtime') ?: value(row, 'duration')

@@ -34,8 +34,8 @@ Options:
                       (default: from the history, or from the execution
                       report next to the trace file)""".toString()
 
-    static final List<String> INTS = ['width', 'height']
-    static final List<String> BOOLEANS = ['title', 'enabled']
+    /** the `arts` options, except `enabled`, plus where to read the run from and the caption */
+    static final List<String> OPTIONS = (ArtsConfig.OPTIONS - 'enabled') + ['trace', 'dir', 'pipeline', 'revision', 'run-name']
 
     int run(List<String> args) {
         String run = null
@@ -47,17 +47,17 @@ Options:
                 return 0
             }
             if( !arg.startsWith('--') ) {
+                if( run != null )
+                    throw new IllegalArgumentException("One run at a time, got '${run}' and '${arg}'")
                 run = arg
                 continue
             }
+            final key = arg.substring(2)
+            if( key !in OPTIONS )
+                throw new IllegalArgumentException("Unknown option ${arg}. See --help")
             if( i + 1 >= args.size() )
                 throw new IllegalArgumentException("Missing value for ${arg}")
-            final key = arg.substring(2)
-            final value = args[++i]
-            opts[key] = key in INTS ? Integer.parseInt(value)
-                : key in BOOLEANS ? Boolean.parseBoolean(value)
-                : key == 'colors' ? value.tokenize(',')
-                : value
+            opts[key] = args[++i]
         }
 
         final trace = opts.remove('trace') as String
