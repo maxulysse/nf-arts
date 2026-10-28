@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Notes for AI coding agents working on nf-arts. Read `CONTRIBUTING.md` for the workflow, which applies to agents too.
+Notes for AI coding agents working on nf-arts. Read `CONTRIBUTING.md` for the workflow, which applies to agents too. User docs live in `docs/`; the README keeps only the sections the Nextflow Registry requires.
 
 ## Map
 
@@ -28,7 +28,7 @@ make -s version              # the version from build.gradle
 - Never push to `main`. Branch, open a PR against `main`, and let a maintainer merge. Stacked PRs also target `main`.
 - Every PR adds a `CHANGELOG.md` line.
 - A refactor must not change images. Render every style from fixed sources before and after, then compare the files byte for byte.
-- README images come from real runs only.
+- Images in `docs/` come from real runs only.
 - The art only uses the task fields listed in `docs/data.md`. Anything new that reaches the image, including caption text, must be added there first.
 - The required checks in branch protection list the CI jobs by name. If you change the matrix, the protection must change too, after the PR merges.
 
@@ -40,5 +40,7 @@ make -s version              # the version from build.gradle
 - The cache cannot be read inside Gradle tests: its serializer needs `--add-opens`, which the `nextflow` launcher passes. Test history renders through the CLI.
 - `-plugins` and a `plugins {}` block in a `-c` config replace a pipeline's plugins. Repeat the pipeline's own plugins when adding nf-arts.
 - Enums hash by identity, which changes between JVM runs. Never seed from a hash that includes one.
+- In Groovy, `'false' as boolean` is `true`. Text values go through `ArtsConfig`, which parses them.
+- Nextflow's `CmdRun` cannot parse a history command line on its own: the launcher rewrites the arguments first. `Title.fromCommand` keeps its own small parser.
 - nf-amazon refuses to read a whole large S3 object anonymously. `RunReader.report` streams only the start of the execution report.
 - In shell loops, give `nextflow` `</dev/null`, or it reads the loop's input. In zsh, do not name a variable `path`: it is tied to `PATH`.

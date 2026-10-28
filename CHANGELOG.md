@@ -4,26 +4,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 
 ## v0.1.0 - unreleased
 
+First release.
+
 ### Added
 
-- Draw each run as an SVG or PNG when it ends, configured in the `arts` scope: `enabled`, `file`, `style`, `palette`, `colors`, `background`, `width`, `height`, `title`.
-- Styles: `radial`, `hilbert`, `ridgeline`, `phyllotaxis`, `flowfield`, `mondrian`, `tree` and `ginkgo` ([#1](https://github.com/maxulysse/nf-arts/pull/1)).
-- Palettes: `viridis`, `magma`, `nfcore`, `ocean`, `sunset`, `mono`, and the non-blending `mondrian`, default for the mondrian style.
-- `nextflow plugin nf-arts:render` paints a finished run from the local history and cache, or from a trace file on a local or cloud path.
-- Caption under the artwork: pipeline, version, run name and nf-arts version. It comes from the workflow metadata, the history, or the execution report next to a trace file.
+- Draws each run as an SVG or PNG when it ends, configured in the `arts` scope: `enabled`, `file`, `style`, `palette`, `colors`, `background`, `width`, `height`, `title`.
+- Eight styles: `radial`, `hilbert`, `ridgeline`, `phyllotaxis`, `flowfield`, `mondrian`, `tree` and `ginkgo` ([#1](https://github.com/maxulysse/nf-arts/pull/1)).
+- Seven palettes: `viridis`, `magma`, `nfcore`, `ocean`, `sunset`, `mono`, and the non-blending `mondrian`, default for the mondrian style.
 - Line widths follow peak memory on a log scale, so one large task does not flatten the rest.
-- `render` exits with code 1 on errors, so scripts and CI can detect a failed render ([#8](https://github.com/maxulysse/nf-arts/pull/8)).
-- `render --file` accepts cloud paths, like `arts.file` ([#4](https://github.com/maxulysse/nf-arts/pull/4)).
-- Logo: a brush with flowfield strokes for bristles, with light and dark wordmarks in `docs/images/` ([#11](https://github.com/maxulysse/nf-arts/pull/11)).
-- `docs/data.md`: what data goes into the art and what can be read back from it ([#12](https://github.com/maxulysse/nf-arts/pull/12)).
-- CI: unit tests, a validation run and a `render` of it, on Java 17 and 21 with Nextflow 25.10 and 26.04. It runs on pushes to `main` and on pull requests ([#2](https://github.com/maxulysse/nf-arts/pull/2)).
-
-### Changed
-
-- Live, history and trace runs share one path to the image file and one rule for cached tasks ([#4](https://github.com/maxulysse/nf-arts/pull/4)).
-- Task status is a `Status` enum that sets opacity and thinning; styles get one `Run` built by `Artist`, and choose their own default palette. `render --help` lists styles and palettes from the code ([#5](https://github.com/maxulysse/nf-arts/pull/5)).
-- A trace without an execution report gets a new, stable seed ([#5](https://github.com/maxulysse/nf-arts/pull/5)).
-- `Canvas.size` gives styles the shorter side, including the inset above the caption ([#7](https://github.com/maxulysse/nf-arts/pull/7)).
-- CI also runs Nextflow 26.10, checks the image size and caption of a live run, renders a trace file and an S3 megatest, and checks that a failed render exits non-zero ([#9](https://github.com/maxulysse/nf-arts/pull/9)).
-- `CONTRIBUTING.md` and `AGENTS.md` ([#10](https://github.com/maxulysse/nf-arts/pull/10)).
-- Stricter input: `render` rejects unknown options, `arts` options accept text values, colors must be `#rrggbb`, and empty histories, cleaned caches and partial trace rows give clear errors or are skipped ([#13](https://github.com/maxulysse/nf-arts/pull/13)).
+- A caption under the artwork: pipeline, version, run name and nf-arts version. `title = false` turns it off.
+- `nextflow plugin nf-arts:render` paints a finished run from the local history and cache, or from a trace file on a local or cloud path, with the caption from the execution report next to it. It writes to cloud paths, rejects unknown options and exits with code 1 on errors ([#4](https://github.com/maxulysse/nf-arts/pull/4), [#8](https://github.com/maxulysse/nf-arts/pull/8), [#13](https://github.com/maxulysse/nf-arts/pull/13)).
+- Clear errors for bad `arts` values at the start of a run, empty histories and cleaned caches; partial trace rows are skipped ([#13](https://github.com/maxulysse/nf-arts/pull/13)).
+- Logo ([#11](https://github.com/maxulysse/nf-arts/pull/11)).
+- Docs in `docs/`, including what data goes into the art ([#12](https://github.com/maxulysse/nf-arts/pull/12), [#14](https://github.com/maxulysse/nf-arts/pull/14)), `CONTRIBUTING.md` and `AGENTS.md` ([#10](https://github.com/maxulysse/nf-arts/pull/10)).
+- CI on Java 17 and 21 with Nextflow 25.10, 26.04 and 26.10: unit tests, a live validation run, and `render` from the history, a trace file and an S3 megatest ([#2](https://github.com/maxulysse/nf-arts/pull/2), [#9](https://github.com/maxulysse/nf-arts/pull/9)).
