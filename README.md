@@ -78,7 +78,7 @@ arts {
 | --- | --- | --- |
 | `enabled` | `true` | Draw the artwork when the run ends. |
 | `file` | `art-<runName>.svg` | Output file. `.svg` or `.png` sets the format. Cloud paths work. Overwrites an existing file. |
-| `style` | `radial` | `radial`, `hilbert`, `ridgeline`, `phyllotaxis`, `flowfield`, `mondrian` or `tree`. |
+| `style` | `radial` | `radial`, `hilbert`, `ridgeline`, `phyllotaxis`, `flowfield`, `mondrian`, `tree` or `ginkgo`. |
 | `palette` | `viridis` | `viridis`, `magma`, `nfcore`, `ocean`, `sunset`, `mono` or `mondrian` (default for the mondrian style). |
 | `colors` | | List of hex colors. Overrides `palette`. |
 | `background` | from palette | Hex background color. |
@@ -100,6 +100,8 @@ arts {
 **mondrian**: one block per process, split into one block per task, area proportional to duration. Opacity is peak memory; failed tasks are hollow. The default `mondrian` palette cycles off-white, red, blue and yellow on black lines, without blending.
 
 **tree**: the run is the trunk, each process a branch, in start order from the bottom. Branch length is how long the process was active. Each task is a twig with a leaf: twig length is duration, leaf size is peak memory. Failed tasks have no leaf.
+
+**ginkgo**: the run is one ginkgo leaf. Each task is a vein fanning out from the stem and forking near its tip. Angle is start time, left to right across the fan, length is duration, width is peak memory.
 
 In every style, color is the process, cached tasks are faded and failed tasks are thin or empty.
 
@@ -125,6 +127,7 @@ The other styles, on the rnavar test profile and the rnavar and sarek megatests:
 | flowfield | ![](docs/images/test-rnavar-flowfield.png) | ![](docs/images/megatest-rnavar-flowfield.png) | ![](docs/images/megatest-sarek-flowfield.png) |
 | mondrian | ![](docs/images/test-rnavar-mondrian.png) | ![](docs/images/megatest-rnavar-mondrian.png) | ![](docs/images/megatest-sarek-mondrian.png) |
 | tree | ![](docs/images/test-rnavar-tree.png) | ![](docs/images/megatest-rnavar-tree.png) | ![](docs/images/megatest-sarek-tree.png) |
+| ginkgo | ![](docs/images/test-rnavar-ginkgo.png) | ![](docs/images/megatest-rnavar-ginkgo.png) | ![](docs/images/megatest-sarek-ginkgo.png) |
 
 ## Plugin development
 
