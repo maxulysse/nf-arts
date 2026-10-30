@@ -1,0 +1,18 @@
+/* Smaller hero logo than Starlight's default (20rem, 25rem on wide screens). */
+:root .hero > img {
+  width: min(40%, 8rem);
+}
+@media (min-width: 50rem) {
+  :root .hero > img {
+    width: min(100%, 12rem);
+  }
+}
+
+/* Tables in docs/ size their images with width="220"; keep that width instead of letting the table squeeze them. */
+.sl-markdown-content td img[width] {
+  width: 220px;
+  max-width: none;
+}
+.sl-markdown-content tr:has(img[width]) td {
+  vertical-align: middle;
+}
