@@ -1,0 +1,161 @@
+---
+// Same look as maxulysse.github.io: Bootstrap, Font Awesome, its style.css and theme toggle.
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description = 'A Nextflow plugin that turns each run into generative art.' } = Astro.props;
+const base = import.meta.env.BASE_URL;
+const pageTitle = title ? `${title} · nf-arts` : 'nf-arts';
+const currentPath = Astro.url.pathname;
+
+const nav = [
+  { slug: 'configuration', label: 'configuration', icon: 'fa-solid fa-sliders' },
+  { slug: 'styles', label: 'styles', icon: 'fa-solid fa-palette' },
+  { slug: 'render', label: 'render', icon: 'fa-solid fa-paintbrush' },
+  { slug: 'data', label: 'data', icon: 'fa-solid fa-database' },
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(`${base}images/megatest-rnavar-radial.png`, Astro.site).href} />
+    <meta name="theme-color" content="#f8f9fa" />
+    <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site).href} />
+    <link rel="icon" type="image/svg+xml" href={`${base}images/logo.svg`} />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"
+      integrity="sha384-rWj9FmWWt3OMqd9vBkWRhFavvVUYalYqGPoMdL1brs/qvvqz88gvLShYa4hKNyqb"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href={`${base}assets/css/style.css`} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+    <script is:inline src={`${base}js/theme-init.js`}></script>
+    <div class="container">
+      <nav class="navbar navbar-expand-lg bg-light rounded">
+        <a class="navbar-brand" href={base}>
+          <img class="brand-image logo brandicon" src={`${base}images/logo.svg`} alt="Logo" />
+          <strong>nf-arts</strong>
+        </a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarCollapse"
+          aria-controls="navbarCollapse"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+          <ul class="navbar-nav ms-auto">
+            {
+              nav.map((item) => (
+                <li class="nav-item">
+                  <a class={`nav-link ${currentPath.startsWith(`${base}${item.slug}`) ? 'active' : ''}`} href={`${base}${item.slug}/`}>
+                    <i class={`${item.icon} me-2`} />
+                    {item.label}
+                  </a>
+                </li>
+              ))
+            }
+            <li class="nav-item">
+              <a class="nav-link" href={`${base}#gallery`}><i class="fa-solid fa-images me-2"></i>gallery</a>
+            </li>
+          </ul>
+          <div class="d-flex my-2 my-lg-0">
+            <div class="theme-dropdown ms-2">
+              <button id="theme-toggle" class="btn btn-outline-secondary my-2 my-sm-0" type="button" title="Select theme" aria-label="Select theme">
+                <i class="fa-solid fa-moon" aria-hidden="true"></i>
+              </button>
+              <div class="theme-dropdown-menu">
+                <button class="theme-option" type="button" data-theme="light"><i class="fa-solid fa-sun"></i> Light</button>
+                <button class="theme-option" type="button" data-theme="dark"><i class="fa-solid fa-moon"></i> Dark</button>
+                <button class="theme-option" type="button" data-theme="auto"><i class="fa-solid fa-adjust"></i> System</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <main id="main-content" class="page-content" aria-label="Content">
+        <slot />
+      </main>
+
+      <footer class="blog-footer">
+        <nav class="nav nav-footer justify-content-center">
+          <a class="nav-link" href="https://github.com/maxulysse/nf-arts" target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+            <i class="fa-brands fa-github footericon fa-2x" aria-hidden="true"></i>
+          </a>
+        </nav>
+        <small>MIT license · every image comes from a real run</small>
+      </footer>
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+      defer></script>
+    <script is:inline src={`${base}js/theme.js`}></script>
+    <script>
+      // A copy button on every code block.
+      for (const pre of document.querySelectorAll<HTMLElement>('.page-content pre')) {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = 'btn btn-sm btn-outline-secondary copy-code';
+        button.setAttribute('aria-label', 'Copy code');
+        button.innerHTML = '<i class="fa-regular fa-copy"></i>';
+        button.addEventListener('click', async () => {
+          await navigator.clipboard.writeText((pre.querySelector('code') ?? pre).innerText);
+          button.innerHTML = '<i class="fa-solid fa-check"></i>';
+          setTimeout(() => (button.innerHTML = '<i class="fa-regular fa-copy"></i>'), 1500);
+        });
+        pre.append(button);
+      }
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  /* Tables in docs/ size their images with width="220"; keep that width. */
+  .page-content td img[width] {
+    width: 220px;
+    max-width: none;
+  }
+  .page-content tr:has(img[width]) td {
+    vertical-align: middle;
+  }
+  .page-content pre {
+    position: relative;
+  }
+  .copy-code {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    opacity: 0.6;
+  }
+  .page-content pre:hover .copy-code,
+  .copy-code:focus-visible {
+    opacity: 1;
+  }
+</style>

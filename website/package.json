@@ -10,7 +10,6 @@
     "test": "node --test scripts/sync-docs.test.mjs"
   },
   "dependencies": {
-    "@astrojs/starlight": "^0.42.8",
     "astro": "^7.4.4"
   }
 }

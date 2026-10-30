@@ -1,0 +1,609 @@
+/* Main custom styles */
+
+:root {
+  --primary-color: #007bff;
+  --secondary-color: #6c757d;
+  --light-bg: #f8f9fa;
+  --list-divider-color: #e5e5e5;
+  --text-primary: #333;
+  --text-muted: #999;
+  --text-secondary: #999;
+  --text-inverse: #ffffff;
+  --icon-ink: #000000;
+  --icon-img-hover-filter: brightness(0);
+  --surface-base: #fff;
+  --surface-raised: #f8f9fa;
+  --surface-sunken: #f4f4f4;
+  --surface-header: #f8f9fa;
+  --border: #dee2e6;
+  --border-strong: #ced4da;
+  --accent: #0062cc;
+  --accent-link: #007bff;
+  --accent-link-hover: #0056b3;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background-color: var(--surface-base);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+/* Accessibility */
+.skip-link {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translateY(-100%);
+  z-index: 10000;
+  padding: 0.5rem 1rem;
+  background-color: #212529;
+  color: #fff;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+body[data-theme="dark"] .skip-link {
+  background-color: #e0e0e0;
+  color: #1a1a1a;
+}
+
+/* Navigation */
+.navbar {
+  margin-bottom: 2rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+  padding: 1.5rem 1rem;
+}
+
+.navbar-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+.navbar-brand img {
+  height: 48px;
+  width: auto;
+}
+
+.navbar-nav .nav-link {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
+  font-size: 1.1rem;
+  padding: 0.75rem 1.2rem !important;
+}
+
+.navbar-nav .nav-link.active {
+  color: #212529 !important;
+  font-weight: 600;
+}
+
+/* Cards */
+.card {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid transparent;
+  margin-bottom: 0;
+}
+
+/* Grid-based card layout - fill columns first */
+.post-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, auto);
+  grid-auto-flow: column;
+  gap: 1.5rem;
+  padding: 0;
+  margin-right: 0;
+  margin-left: 0;
+}
+
+.post-grid > .col-md-4 {
+  width: 100%;
+  margin-bottom: 0;
+  padding: 0;
+  flex: unset;
+  max-width: unset;
+}
+
+@media (max-width: 992px) {
+  .post-grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, auto);
+    grid-auto-flow: column;
+  }
+}
+
+@media (max-width: 767px) {
+  .post-grid {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+    grid-auto-flow: row;
+  }
+}
+
+.card-header {
+  background-color: var(--surface-header);
+  border-bottom: 1px solid var(--border);
+  padding: 1rem;
+}
+
+.card-header h2 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+.card-title {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.card-subtitle {
+  font-size: 0.875rem;
+}
+
+.card-body {
+  padding: 1.5rem;
+}
+
+.ai-2x {
+  font-size: 2em;
+}
+
+.ai-orcid:before {
+  content: "\e9d9";
+}
+
+.ai-hal:before {
+  content: "\e92c";
+}
+
+.ai-google-scholar:before {
+  content: "\e9d4";
+}
+
+/* List separators (archive/tags) */
+.archive-grid .card-body ul li {
+  margin: 0;
+  padding: 0.75rem 0;
+}
+
+.archive-grid .card-body ul li + li {
+  border-top: 1px solid var(--list-divider-color);
+}
+
+/* Tag styling */
+.badge {
+  padding: 0.35rem 0.6rem;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  border-radius: 0.25rem;
+}
+
+.tag-badge {
+  background-color: transparent;
+  color: var(--accent);
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: inline-block;
+}
+
+.tags-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+}
+
+.tags-container .tag-separator {
+  color: var(--text-muted);
+  margin: 0 0.25rem;
+  font-size: 1.2em;
+}
+
+.project-github {
+  color: var(--accent-link);
+  font-size: 0.9em;
+}
+
+.project-github:hover {
+  color: var(--accent-link-hover);
+}
+
+.card-footer {
+  padding: 0.75rem 1.25rem;
+  background-color: var(--surface-header) !important;
+  border-top: 1px solid var(--border);
+}
+
+
+.tag-cloud {
+  margin-bottom: 2rem;
+}
+
+.tag-cloud .badge {
+  background-color: #8a9199;
+  border: none;
+  color: #ffffff;
+}
+
+/* Code highlighting */
+pre {
+  background-color: var(--surface-sunken);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 12px;
+  overflow-x: auto;
+}
+
+pre code {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 0.9rem;
+}
+
+code {
+  background-color: var(--surface-sunken);
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+pre code {
+  background-color: transparent;
+  padding: 0;
+  border-radius: 0;
+}
+
+/* Footer */
+footer {
+  margin-top: 3rem;
+  padding-top: 2rem;
+  border-top: 1px solid #eee;
+  text-align: center;
+  font-size: 0.875rem;
+}
+
+.blog-footer {
+  padding: 2.5rem 0;
+  color: var(--text-secondary);
+  text-align: center;
+  background-color: var(--surface-raised);
+  border-top: 0.05rem solid var(--list-divider-color);
+}
+
+.nav-footer {
+  display: flex;
+  flex-flow: row wrap;
+}
+
+.nav-footer .nav-link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footericon {
+  color: var(--text-muted);
+  transition: transform 0.3s ease;
+}
+
+.footericon-img {
+  height: 2em;
+  width: 2em;
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.footericon:hover {
+  transform: scale(1.5);
+}
+
+.nav-footer a:hover .footericon-img {
+  transform: scale(1.5);
+  filter: var(--icon-img-hover-filter);
+}
+
+.nav-footer a[href*="seqera.io"]:hover .footericon-img {
+  filter: brightness(0) saturate(100%) invert(63%) sepia(62%) saturate(1738%) hue-rotate(127deg) brightness(94%) contrast(90%);
+}
+
+.nav-footer a:hover {
+  text-decoration: none !important;
+}
+
+.nav-footer .ai-google-scholar:hover { color: #4885ed; }
+.nav-footer .ai-orcid:hover { color: #a6ce39; }
+.nav-footer .ai-hal:hover { color: var(--icon-ink); }
+.nav-footer .fa-bluesky:hover { color: #1185fe; }
+.nav-footer .fa-github:hover { color: var(--icon-ink); }
+.nav-footer .fa-instagram:hover { color: var(--icon-ink); }
+.nav-footer .fa-keybase:hover { color: #3763eaff; }
+.nav-footer .fa-linkedin-in:hover { color: #007bb6; }
+.nav-footer .fa-mastodon:hover { color: #3088d4; }
+.nav-footer .fa-reddit-alien:hover { color: #ff4500; }
+.nav-footer .fa-researchgate:hover { color: #00d0b0; }
+.nav-footer .fa-square-rss:hover { color: #ff6600; }
+.nav-footer .fa-stack-overflow:hover { color: #F47F24; }
+.nav-footer .fa-x-twitter:hover { color: var(--icon-ink); }
+.nav-footer .fa-youtube:hover { color: #ff0000; }
+
+footer a {
+  color: var(--accent-link);
+  text-decoration: none;
+}
+
+footer a:hover {
+  text-decoration: underline;
+}
+
+/* Card layouts */
+.card-deck {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.card-deck .card {
+  flex: 1 1 calc(50% - 0.75rem);
+  min-width: 300px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card-deck {
+    flex-direction: column;
+  }
+
+  .card-deck .card {
+    flex: 1 1 100%;
+  }
+
+  .navbar-brand {
+    font-size: 1rem;
+  }
+
+  .card-header h2 {
+    font-size: 1.25rem;
+  }
+}
+
+/* Links */
+a {
+  color: var(--accent-link);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent-link-hover);
+  text-decoration: underline;
+}
+
+/* Custom utility classes */
+.only-one-column {
+  column-count: 1;
+}
+
+.card-columns {
+  display: contents;
+}
+
+@supports (display: grid) {
+  /* Modern browser support for better card layouts */
+  .card-columns {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+
+  .card-columns.only-one-column {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+}
+
+/* Theme dropdown */
+.theme-dropdown {
+  position: relative;
+  display: flex;
+}
+
+.theme-dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 0.5rem;
+  background: var(--surface-base);
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 0.5rem 0;
+  min-width: 150px;
+  z-index: 200;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.theme-dropdown.open .theme-dropdown-menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 0.5rem 1rem;
+  text-align: left;
+  width: 100%;
+  transition: background 0.2s, color 0.2s;
+}
+
+.theme-option:hover {
+  background: #f0f0f0;
+}
+
+.theme-option.active {
+  font-weight: 600;
+}
+
+/* Dark mode — leverage Bootstrap 5.3 native data-bs-theme support.
+   Bootstrap handles all component-level dark mode automatically.
+   Only custom properties and non-Bootstrap elements need overrides. */
+[data-bs-theme="dark"] {
+  --text-primary: #e0e0e0;
+  --text-muted: #a3a3a3;
+  --text-secondary: #b0b0b0;
+  --text-inverse: #ffffff;
+  --icon-ink: #ffffff;
+  --icon-img-hover-filter: brightness(0) invert(1);
+  --surface-base: #1a1a1a;
+  --surface-raised: #2d2d2d;
+  --surface-sunken: #2a2a2a;
+  --surface-header: #333;
+  --border: #444;
+  --border-strong: #555;
+  --accent-link: #4da3ff;
+  --accent-link-hover: #6db3ff;
+  --list-divider-color: var(--border);
+  background-color: var(--surface-base);
+  color: var(--text-primary);
+}
+
+[data-bs-theme="dark"] .container {
+  background-color: var(--surface-base);
+}
+
+[data-bs-theme="dark"] .publications-list li + li {
+  border-top-color: var(--list-divider-color);
+}
+
+[data-bs-theme="dark"] .cv-date {
+  color: var(--text-primary);
+}
+
+[data-bs-theme="dark"] .cv-page .card-body,
+[data-bs-theme="dark"] .cv-page .card-body h6,
+[data-bs-theme="dark"] .cv-page .card-body p,
+[data-bs-theme="dark"] .cv-page .text-muted {
+  color: var(--text-primary);
+}
+
+[data-bs-theme="dark"] .tag-badge {
+  color: var(--accent-link);
+}
+
+[data-bs-theme="dark"] .tag-separator {
+  color: #777;
+}
+
+[data-bs-theme="dark"] .blog-footer {
+  background-color: #1f1f1f;
+  border-top: 1px solid var(--border);
+}
+
+[data-bs-theme="dark"] .footericon {
+  color: var(--text-muted);
+}
+
+[data-bs-theme="dark"] .theme-dropdown-menu {
+  background: var(--surface-raised);
+  border-color: var(--border);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+[data-bs-theme="dark"] .theme-option {
+  color: var(--text-primary);
+}
+
+[data-bs-theme="dark"] .theme-option:hover {
+  background: var(--surface-header);
+}
+
+[data-bs-theme="dark"] .tag-cloud .badge {
+  background-color: #6c757d !important;
+  border: none;
+  color: var(--text-inverse);
+}
+
+/* Bootstrap utility classes set hardcoded light colors that don't
+   respond to data-bs-theme. Override them explicitly for dark mode. */
+[data-bs-theme="dark"] .navbar.bg-light {
+  background-color: var(--surface-raised) !important;
+}
+
+[data-bs-theme="dark"] .navbar-nav .nav-link.active {
+  color: var(--text-inverse) !important;
+}
+
+[data-bs-theme="dark"] .card.bg-light,
+[data-bs-theme="dark"] .card.bg-light .card-text,
+[data-bs-theme="dark"] .card.bg-light .card-text.text-muted,
+[data-bs-theme="dark"] .card.bg-light h6,
+[data-bs-theme="dark"] .card.bg-light a,
+[data-bs-theme="dark"] .card.bg-light a:hover {
+  background-color: var(--surface-header) !important;
+  color: var(--text-primary) !important;
+}
+
+[data-bs-theme="dark"] .card.bg-light a {
+  color: var(--accent-link) !important;
+}
+
+[data-bs-theme="dark"] .card.bg-light a:hover {
+  color: var(--accent-link-hover) !important;
+}
+
+[data-bs-theme="dark"] .alert {
+  background-color: var(--surface-header) !important;
+  border-color: var(--border) !important;
+  color: var(--text-primary) !important;
+}
+
+[data-bs-theme="dark"] .alert-primary {
+  background-color: #2c3e50 !important;
+  border-color: #34495e !important;
+}
+
+[data-bs-theme="dark"] .alert a {
+  color: var(--accent-link) !important;
+}
+
+[data-bs-theme="dark"] .badge.text-bg-light {
+  background-color: var(--border) !important;
+  color: var(--text-primary) !important;
+}
+
+[data-bs-theme="dark"] code {
+  background-color: var(--surface-sunken);
+  color: var(--text-primary);
+}
+
+[data-bs-theme="dark"] pre {
+  background-color: var(--surface-sunken);
+  color: var(--text-primary);
+  border: 1px solid var(--border);
+}

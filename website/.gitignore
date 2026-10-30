@@ -3,5 +3,4 @@ dist
 .astro
 # Generated from ../docs by scripts/sync-docs.mjs
 src/content/docs/*.md
-src/assets
 public/images

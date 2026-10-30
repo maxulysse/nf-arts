@@ -26,6 +26,7 @@ export function convert(text) {
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  mkdirSync(pages, { recursive: true });
   for (const file of readdirSync(pages)) {
     if (file.endsWith('.md')) rmSync(join(pages, file));
   }
@@ -34,8 +35,4 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     writeFileSync(join(pages, file), convert(readFileSync(join(docs, file), 'utf-8')));
   }
   cpSync(join(docs, 'images'), join(site, 'public', 'images'), { recursive: true });
-  mkdirSync(join(site, 'src', 'assets'), { recursive: true });
-  for (const logo of ['logo.svg', 'logo-wordmark.svg', 'logo-wordmark-dark.svg']) {
-    cpSync(join(docs, 'images', logo), join(site, 'src', 'assets', logo));
-  }
 }

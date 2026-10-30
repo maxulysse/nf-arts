@@ -8,7 +8,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 
 - A `rainbow` palette ([#17](https://github.com/maxulysse/nf-arts/pull/17)).
 - An `iris` style: each task is a fibre of an eye's iris ([#18](https://github.com/maxulysse/nf-arts/pull/18)).
-- A Starlight website with a gallery, built from `docs/` and deployed to GitHub Pages ([#19](https://github.com/maxulysse/nf-arts/pull/19)).
+- A website with a gallery, built from `docs/` and deployed to GitHub Pages ([#19](https://github.com/maxulysse/nf-arts/pull/19)).
 
 ## v1.0.0 - Tournesols
 
