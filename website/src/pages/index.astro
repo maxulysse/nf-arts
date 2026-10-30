@@ -3,6 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Gallery from '../components/Gallery.astro';
 
 const base = import.meta.env.BASE_URL;
+// The dev docs pin the latest release, since dev is not published.
+const version = import.meta.env.PUBLIC_VERSION ?? 'dev';
+const pin = version === 'dev' ? (import.meta.env.PUBLIC_LATEST ?? '1.0.0') : version;
 ---
 
 <BaseLayout>
@@ -21,7 +24,7 @@ const base = import.meta.env.BASE_URL;
   <section class="mx-auto" style="max-width: 50rem;">
     <p class="mb-2">Add the plugin to <code>nextflow.config</code>:</p>
     <pre><code class="language-groovy">plugins &#123;
-    id 'nf-arts@1.0.0'
+    id 'nf-arts@{pin}'
 &#125;</code></pre>
 
     <h2 id="gallery" class="mt-5">Gallery</h2>

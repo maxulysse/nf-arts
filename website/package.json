@@ -5,7 +5,8 @@
   "scripts": {
     "sync": "node scripts/sync-docs.mjs",
     "dev": "npm run sync && astro dev",
-    "build": "npm run sync && astro build",
+    "build": "node scripts/build-versions.mjs",
+    "build:one": "npm run sync && astro build",
     "preview": "astro preview",
     "test": "node --test scripts/sync-docs.test.mjs"
   },

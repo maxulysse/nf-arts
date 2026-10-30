@@ -10,6 +10,14 @@ const base = import.meta.env.BASE_URL;
 const pageTitle = title ? `${title} · nf-arts` : 'nf-arts';
 const currentPath = Astro.url.pathname;
 
+// Set per version by scripts/build-versions.mjs; a plain build is "dev" only.
+const root = '/nf-arts/';
+const version = import.meta.env.PUBLIC_VERSION ?? 'dev';
+const versions = (import.meta.env.PUBLIC_VERSIONS ?? 'dev').split(',');
+const latest = import.meta.env.PUBLIC_LATEST;
+const pagePath = currentPath.startsWith(base) ? currentPath.slice(base.length) : '';
+const versionLabel = (v: string) => (v === latest ? `${v} (latest)` : v);
+
 const nav = [
   { slug: 'configuration', label: 'configuration', icon: 'fa-solid fa-sliders' },
   { slug: 'styles', label: 'styles', icon: 'fa-solid fa-palette' },
@@ -83,6 +91,22 @@ const nav = [
             </li>
           </ul>
           <div class="d-flex my-2 my-lg-0">
+            <div class="dropdown ms-2">
+              <button class="btn btn-outline-secondary dropdown-toggle my-2 my-sm-0" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Docs version">
+                <i class="fa-solid fa-code-branch me-1" aria-hidden="true"></i>{version}
+              </button>
+              <ul class="dropdown-menu dropdown-menu-end">
+                {
+                  versions.map((v) => (
+                    <li>
+                      <a class={`dropdown-item ${v === version ? 'active' : ''}`} href={`${root}${v}/${pagePath}`}>
+                        {versionLabel(v)}
+                      </a>
+                    </li>
+                  ))
+                }
+              </ul>
+            </div>
             <div class="theme-dropdown ms-2">
               <button id="theme-toggle" class="btn btn-outline-secondary my-2 my-sm-0" type="button" title="Select theme" aria-label="Select theme">
                 <i class="fa-solid fa-moon" aria-hidden="true"></i>
@@ -98,6 +122,13 @@ const nav = [
       </nav>
 
       <main id="main-content" class="page-content" aria-label="Content">
+        {
+          version === 'dev' && latest && latest !== 'dev' && (
+            <div class="alert alert-warning mt-3" role="note">
+              These docs describe the development version. See the <a href={`${root}${latest}/${pagePath}`}>{latest} docs</a> for the latest release.
+            </div>
+          )
+        }
         <slot />
       </main>
 

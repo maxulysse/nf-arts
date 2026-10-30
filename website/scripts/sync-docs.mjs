@@ -1,16 +1,17 @@
-// Copies ../docs into the Starlight site, so docs/ stays the only source.
+// Copies ../docs into the site, so docs/ stays the only source.
 // Each page's first "# Title" becomes front matter; .md links and image paths are rewritten for the site.
 import { cpSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const site = join(dirname(fileURLToPath(import.meta.url)), '..');
-const docs = join(site, '..', 'docs');
+// DOCS_DIR and SITE_BASE are set by scripts/build-versions.mjs for each documented version.
+const docs = process.env.DOCS_DIR ?? join(site, '..', 'docs');
 const pages = join(site, 'src', 'content', 'docs');
-const base = '/nf-arts/';
+const base = process.env.SITE_BASE ?? '/nf-arts/';
 const repo = 'https://github.com/maxulysse/nf-arts/blob/main/';
 
-// docs/README.md is the GitHub index and docs/gallery.md the GitHub gallery; the site's home page (index.mdx) has both.
+// docs/README.md is the GitHub index and docs/gallery.md the GitHub gallery; the site's home page (src/pages/index.astro) has both.
 const skip = new Set(['README.md', 'gallery.md']);
 
 export function convert(text) {
@@ -34,5 +35,6 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
     if (!file.endsWith('.md') || skip.has(file)) continue;
     writeFileSync(join(pages, file), convert(readFileSync(join(docs, file), 'utf-8')));
   }
+  rmSync(join(site, 'public', 'images'), { recursive: true, force: true });
   cpSync(join(docs, 'images'), join(site, 'public', 'images'), { recursive: true });
 }

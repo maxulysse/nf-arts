@@ -2,6 +2,9 @@ name: Website
 
 on:
   workflow_dispatch:
+  # a new release adds its docs version
+  release:
+    types: [published]
   push:
     branches:
       - main
@@ -23,6 +26,10 @@ jobs:
     steps:
       - name: Checkout your repository using git
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # main is the dev docs, even for a release event; the tags give one docs version each
+          ref: main
+          fetch-depth: 0
 
       - name: Read Node version
         id: node
