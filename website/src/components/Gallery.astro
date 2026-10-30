@@ -1,0 +1,206 @@
+---
+// One swipeable gallery of every render in docs/images (copied to public/images by scripts/sync-docs.mjs).
+import { readdirSync } from 'node:fs';
+import { join } from 'node:path';
+
+const styles = ['radial', 'hilbert', 'ridgeline', 'phyllotaxis', 'flowfield', 'mondrian', 'tree', 'ginkgo', 'iris', 'custom'];
+
+// Run details from docs/gallery.md: label, task count, palette.
+const runs = {
+  'megatest-rnavar': ['nf-core/rnavar megatest', 553, 'nfcore'],
+  'test-rnavar': ['nf-core/rnavar test profile', 43, 'nfcore'],
+  'megatest-sarek': ['nf-core/sarek megatest', 2314, 'magma'],
+  'megatest-rnaseq': ['nf-core/rnaseq megatest', 332, 'viridis'],
+  'megatest-mag': ['nf-core/mag megatest', 3207, 'ocean'],
+  'megatest-raredisease': ['nf-core/raredisease megatest', 990, 'sunset'],
+  'megatest-viralrecon': ['nf-core/viralrecon megatest', 3239, 'mono'],
+  'megatest-taxprofiler': ['nf-core/taxprofiler megatest', 239, 'rainbow'],
+};
+const runOrder = Object.keys(runs);
+
+const slides = readdirSync(join(process.cwd(), 'public', 'images'))
+  .map((file) => file.match(/^((?:megatest|test)-[a-z]+)-([a-z]+)\.(png|svg)$/))
+  .filter(Boolean)
+  .map(([file, run, style]) => {
+    const [label, tasks, palette] = runs[run] ?? [run, null, null];
+    const detail = style === 'custom' ? 'radial, custom colors' : `${style}, ${style === 'mondrian' ? 'mondrian' : palette} palette`;
+    return { file, run, style, label, tasks, detail };
+  })
+  .sort(
+    (a, b) =>
+      (runOrder.indexOf(a.run) + 1 || 99) - (runOrder.indexOf(b.run) + 1 || 99) ||
+      styles.indexOf(a.style) - styles.indexOf(b.style),
+  );
+
+const base = import.meta.env.BASE_URL;
+---
+
+<div class="swipe not-content" data-swipe>
+  <div class="swipe-frame">
+  <button type="button" class="swipe-side swipe-prev" data-prev aria-label="Previous image"><span>‹</span></button>
+  <button type="button" class="swipe-side swipe-next" data-next aria-label="Next image"><span>›</span></button>
+  <div class="swipe-track" tabindex="0" aria-label="Gallery, use the arrow keys or swipe">
+    {
+      slides.map((s, i) => (
+        <figure class="swipe-slide" aria-label={`${i + 1} of ${slides.length}`}>
+          <img src={`${base}images/${s.file}`} alt={`${s.label}, ${s.style} style`} loading={i < 2 ? 'eager' : 'lazy'} />
+          <figcaption>
+            <strong>{s.label}</strong>
+            {s.tasks && <span> · {s.tasks} tasks</span>}
+            <span> · {s.detail}</span>
+          </figcaption>
+        </figure>
+      ))
+    }
+  </div>
+  </div>
+  <div class="swipe-controls">
+    <span data-count>1 / {slides.length}</span>
+    <button type="button" data-play aria-pressed="false">Pause</button>
+  </div>
+</div>
+
+<script>
+  for (const root of document.querySelectorAll<HTMLElement>('[data-swipe]')) {
+    const track = root.querySelector<HTMLElement>('.swipe-track')!;
+    const count = root.querySelector<HTMLElement>('[data-count]')!;
+    const total = track.children.length;
+    const play = root.querySelector<HTMLButtonElement>('[data-play]')!;
+    const current = () => Math.round(track.scrollLeft / track.clientWidth);
+    // Wraps around, so the side panels and autoplay loop through the gallery.
+    const go = (i: number) => track.scrollTo({ left: ((i + total) % total) * track.clientWidth, behavior: 'smooth' });
+
+    // Autoplay every 5 s; paused by the button, hover, focus, a hidden tab or reduced motion.
+    let playing = !matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let held = false;
+    const setPlaying = (on: boolean) => {
+      playing = on;
+      play.textContent = on ? 'Pause' : 'Play';
+      play.setAttribute('aria-pressed', String(!on));
+    };
+    setPlaying(playing);
+    setInterval(() => {
+      if (playing && !held && !document.hidden) go(current() + 1);
+    }, 5000);
+    play.addEventListener('click', () => setPlaying(!playing));
+    root.addEventListener('pointerenter', () => (held = true));
+    root.addEventListener('pointerleave', () => (held = false));
+    root.addEventListener('focusin', () => (held = true));
+    root.addEventListener('focusout', () => (held = false));
+    track.addEventListener('touchstart', () => setPlaying(false), { passive: true });
+
+    root.querySelector('[data-prev]')!.addEventListener('click', () => go(current() - 1));
+    root.querySelector('[data-next]')!.addEventListener('click', () => go(current() + 1));
+    track.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowLeft') go(current() - 1);
+      if (e.key === 'ArrowRight') go(current() + 1);
+    });
+    track.addEventListener('scroll', () => (count.textContent = `${current() + 1} / ${total}`), { passive: true });
+  }
+</script>
+
+<style>
+  .swipe {
+    margin-block: 1rem 2rem;
+  }
+  .swipe-frame {
+    position: relative;
+  }
+  .swipe-side {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 1;
+    width: 15%;
+    border: 0;
+    background: transparent;
+    color: #fff;
+    font-size: 3rem;
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.2s, background 0.2s;
+  }
+  .swipe-prev {
+    left: 0;
+    border-radius: 0.75rem 0 0 0.75rem;
+  }
+  .swipe-next {
+    right: 0;
+    border-radius: 0 0.75rem 0.75rem 0;
+  }
+  .swipe-frame:hover .swipe-side,
+  .swipe-side:focus-visible {
+    opacity: 0.8;
+  }
+  .swipe-side:hover {
+    opacity: 1;
+    background: linear-gradient(to var(--to), transparent, rgb(0 0 0 / 0.45));
+  }
+  .swipe-prev {
+    --to: left;
+  }
+  .swipe-next {
+    --to: right;
+  }
+  @media (hover: none) {
+    .swipe-side {
+      opacity: 0.6;
+      font-size: 2rem;
+    }
+  }
+  .swipe-track {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+    background: #111;
+    border-radius: 0.75rem;
+  }
+  .swipe-track::-webkit-scrollbar {
+    display: none;
+  }
+  .swipe-slide {
+    flex: 0 0 100%;
+    margin: 0;
+    scroll-snap-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .swipe-slide img {
+    width: min(100%, 640px);
+    height: auto;
+    aspect-ratio: 1;
+    object-fit: contain;
+  }
+  .swipe-slide figcaption {
+    padding: 0.75rem 1rem 1rem;
+    color: #e6e6e6;
+    font-size: 0.875rem;
+    text-align: center;
+  }
+  .swipe-slide figcaption span {
+    color: #a0a0a0;
+  }
+  .swipe-controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 0.75rem;
+  }
+  .swipe-controls button {
+    font-size: 0.875rem;
+    line-height: 1;
+    padding: 0.4rem 0.9rem;
+    border-radius: 999px;
+    border: 1px solid var(--bs-border-color);
+    background: var(--bs-body-bg);
+    color: var(--bs-body-color);
+    cursor: pointer;
+  }
+  .swipe-controls span {
+    font-variant-numeric: tabular-nums;
+    color: var(--bs-secondary-color);
+  }
+</style>

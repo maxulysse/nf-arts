@@ -1,0 +1,34 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Gallery from '../components/Gallery.astro';
+
+const base = import.meta.env.BASE_URL;
+// The dev docs pin the latest release, since dev is not published.
+const version = import.meta.env.PUBLIC_VERSION ?? 'dev';
+const pin = version === 'dev' ? (import.meta.env.PUBLIC_LATEST ?? '1.0.0') : version;
+---
+
+<BaseLayout>
+  <section class="text-center py-4">
+    <picture>
+      <source media="(prefers-color-scheme: dark)" srcset={`${base}images/logo-wordmark-dark.svg`} />
+      <img src={`${base}images/logo-wordmark.svg`} alt="nf-arts" style="width: min(360px, 80%); height: auto;" />
+    </picture>
+    <p class="lead mt-3 mx-auto" style="max-width: 40rem;">
+      A Nextflow plugin that turns each run into generative art. When the run ends, it draws its tasks as an SVG or PNG, from their timing, memory and status only.
+    </p>
+    <a class="btn btn-primary me-2" href={`${base}configuration/`}><i class="fa-solid fa-arrow-right me-2"></i>Get started</a>
+    <a class="btn btn-outline-secondary" href="https://github.com/maxulysse/nf-arts"><i class="fa-brands fa-github me-2"></i>GitHub</a>
+  </section>
+
+  <section class="mx-auto" style="max-width: 50rem;">
+    <p class="mb-2">Add the plugin to <code>nextflow.config</code>:</p>
+    <pre><code class="language-groovy">plugins &#123;
+    id 'nf-arts@{pin}'
+&#125;</code></pre>
+
+    <h2 id="gallery" class="mt-5">Gallery</h2>
+    <p>Every image comes from a real run: the nf-core/rnavar test profile and nf-core megatests. Swipe, or use the arrows.</p>
+    <Gallery />
+  </section>
+</BaseLayout>

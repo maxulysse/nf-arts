@@ -1,0 +1,16 @@
+{
+  "name": "nf-arts-website",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "sync": "node scripts/sync-docs.mjs",
+    "dev": "npm run sync && astro dev",
+    "build": "node scripts/build-versions.mjs",
+    "build:one": "npm run sync && astro build",
+    "preview": "astro preview",
+    "test": "node --test scripts/sync-docs.test.mjs"
+  },
+  "dependencies": {
+    "astro": "^7.4.4"
+  }
+}

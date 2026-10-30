@@ -8,8 +8,40 @@ on:
       - '*'
   pull_request:
 jobs:
+  changes:
+    name: Detect plugin changes
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      plugin: ${{ steps.filter.outputs.plugin }}
+    steps:
+      - name: List changed files
+        id: filter
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+          BEFORE: ${{ github.event.before }}
+          SHA: ${{ github.sha }}
+        run: |
+          if [ -n "$PR" ]; then
+            files=$(gh api "repos/$REPO/pulls/$PR/files" --paginate --jq '.[].filename')
+          else
+            files=$(gh api "repos/$REPO/compare/$BEFORE...$SHA" --jq '.files[].filename') || files=unknown
+          fi
+          echo "$files"
+          # The website, docs and Markdown files do not affect the plugin. Anything else, or an unknown list, runs the build.
+          if echo "$files" | grep -qvE '^(website/|docs/|\.github/workflows/website[^/]*\.yml$|[^/]+\.md$)'; then
+            echo "plugin=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "plugin=false" >> "$GITHUB_OUTPUT"
+          fi
+
   build:
     name: Build nf-arts
+    needs: changes
     if: "!contains(github.event.head_commit.message, '[ci skip]')"
     runs-on: ubuntu-latest
     timeout-minutes: 10
@@ -19,17 +51,21 @@ jobs:
         java_version: [17, 21]
         nextflow_version: ['25.10', '26.04', '26.10']
 
+    # Required checks need every matrix job to report, so docs-only changes skip the steps, not the job.
     steps:
       - name: Environment
+        if: needs.changes.outputs.plugin == 'true'
         run: env | sort
 
       - name: Checkout
+        if: needs.changes.outputs.plugin == 'true'
         uses: actions/checkout@v3
         with:
           fetch-depth: 1
           submodules: true
 
       - name: Setup Java ${{ matrix.java_version }}
+        if: needs.changes.outputs.plugin == 'true'
         uses: actions/setup-java@v3
         with:
           java-version: ${{matrix.java_version}}
@@ -37,24 +73,29 @@ jobs:
           distribution: 'temurin'
 
       - name: Tests
+        if: needs.changes.outputs.plugin == 'true'
         run: make test
         env:
           GRADLE_OPTS: '-Dorg.gradle.daemon=false'
 
       - name: Setup Nextflow ${{ matrix.nextflow_version }}
+        if: needs.changes.outputs.plugin == 'true'
         uses: nf-core/setup-nextflow@b9f764e8ba5c76b712ace14ecbfcef0e40ae2dd8 # v1
         with:
           version: "${{ matrix.nextflow_version }}"
 
       - name: Install
+        if: needs.changes.outputs.plugin == 'true'
         run: make install
 
       - name: Live run
+        if: needs.changes.outputs.plugin == 'true'
         run: |
           nextflow run validation/ -plugins nf-arts@$(make -s version)
           file results/art.png | grep -q 'PNG image data, 1200 x 1200'
 
       - name: Render
+        if: needs.changes.outputs.plugin == 'true'
         env:
           NXF_PLUGINS_TEST_REPOSITORY: file://${{ github.workspace }}/build/plugin-repo/plugins.json
         run: |

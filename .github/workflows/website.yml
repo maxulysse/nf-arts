@@ -1,0 +1,57 @@
+name: Website
+
+on:
+  workflow_dispatch:
+  # a new release adds its docs version
+  release:
+    types: [published]
+  push:
+    branches:
+      - main
+    paths:
+      - "docs/**"
+      - "website/**"
+      - ".github/workflows/website.yml"
+
+concurrency:
+  group: "pages"
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout your repository using git
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # main is the dev docs, even for a release event; the tags give one docs version each
+          ref: main
+          fetch-depth: 0
+
+      - name: Read Node version
+        id: node
+        run: echo "version=$(cat website/.nvmrc)" >> "$GITHUB_OUTPUT"
+
+      - name: Install, build, and upload your site output
+        uses: withastro/action@a8b97df764791eb61fbf3338ef713b0e61ae05c5 # v6.1.4
+        with:
+          path: website
+          node-version: ${{ steps.node.outputs.version }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@368f82528645a54fb793d4d04e342629a3f51346 # v5

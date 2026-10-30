@@ -1,0 +1,29 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  const pages = await getCollection('docs');
+  return pages.map((page) => ({ params: { slug: page.id }, props: { page } }));
+}
+
+const { page } = Astro.props;
+const { Content } = await render(page);
+---
+
+<BaseLayout title={page.data.title}>
+  <article class="post">
+    <h1>{page.data.title}</h1>
+    <Content />
+    {
+      // Released docs are frozen at their tag; edits go to main.
+      (import.meta.env.PUBLIC_VERSION ?? 'dev') === 'dev' && (
+        <p class="mt-5">
+          <a href={`https://github.com/maxulysse/nf-arts/edit/main/docs/${page.id}.md`}>
+            <i class="fa-solid fa-pen-to-square me-2"></i>Edit page
+          </a>
+        </p>
+      )
+    }
+  </article>
+</BaseLayout>
