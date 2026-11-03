@@ -12,7 +12,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 
 ### Fixed
 
-- The website landing page uses the same width and code highlighting as the docs pages.
+- The website landing page uses the same width and code highlighting as the docs pages ([#20](https://github.com/maxulysse/nf-arts/pull/20)).
 
 ## v1.0.0 - Tournesols
 
