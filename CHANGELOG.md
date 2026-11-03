@@ -10,6 +10,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 - An `iris` style: each task is a fibre of an eye's iris ([#18](https://github.com/maxulysse/nf-arts/pull/18)).
 - A website with a gallery, built from `docs/` and deployed to GitHub Pages ([#19](https://github.com/maxulysse/nf-arts/pull/19)).
 
+### Fixed
+
+- The website landing page uses the same width and code highlighting as the docs pages ([#20](https://github.com/maxulysse/nf-arts/pull/20)).
+
 ## v1.0.0 - Tournesols
 
 First release.
