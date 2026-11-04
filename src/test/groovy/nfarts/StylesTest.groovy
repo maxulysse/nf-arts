@@ -136,6 +136,40 @@ class StylesTest extends Specification {
         svg('iris').count('<circle ') == 2
     }
 
+    def 'butterfly should draw every task on both sides and stay on the canvas' () {
+        given:
+        def config = new ArtsConfig(style: 'butterfly', width: width, height: height, title: false)
+        def svg = new String(Artist.paint(tiles, config, 'svg', 1))
+        def processes = tiles*.process().unique().size()
+        // a lone process fills both wings
+        def wings = processes == 1 ? 2 : 1
+        def xs = (svg =~ /(-?[\d.]+),(-?[\d.]+)/).collect { it[1] as double }
+        def ys = (svg =~ /(-?[\d.]+),(-?[\d.]+)/).collect { it[2] as double }
+
+        expect:
+        // a stroke per task and a line per cell, on both sides, plus the antennae
+        svg.count('<polyline ') == 2 * wings * (tiles.size() + processes) + 4
+        svg.count('fill-opacity="0.30"') == 2 * wings * processes
+        xs.min() >= 0 && xs.max() <= width
+        ys.min() >= 0 && ys.max() <= height
+
+        where:
+        tiles                                                       | width | height
+        SyntheticRun.create(1, 4)                                   | 600   | 600
+        SyntheticRun.create(1, 4)                                   | 900   | 300
+        SyntheticRun.create(1, 4).findAll { it.process() == 'BQSR' } | 600   | 600
+    }
+
+    def 'butterfly should bite the wing for failed tasks' () {
+        given:
+        def tiles = SyntheticRun.create(1, 4)
+        def failed = tiles.withIndex().collect { t, i -> i ? t : new TaskTile(t.process(), t.start(), t.duration(), t.memory(), Status.FAILED) }
+        def circles = { list -> new String(Artist.paint(list, new ArtsConfig(style: 'butterfly'), 'svg', 1)).count('<circle ') }
+
+        expect:
+        circles(failed) == circles(tiles) + 1
+    }
+
     def 'mondrian partition should split area by weight' () {
         when:
         def blocks = MondrianStyle.partition([1d, 1d, 2d], 0, 0, 400, 100, new Random(1))
