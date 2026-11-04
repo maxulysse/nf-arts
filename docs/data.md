@@ -6,7 +6,7 @@ nf-arts draws from a few numbers per task. Nothing about your data, samples, inp
 
 | Field | Read from | Used for |
 | --- | --- | --- |
-| Process name | the process, without the task tag | Grouping tasks and picking colors, in order of first start. Never written into the image. |
+| Process name | the process, without the task tag | Grouping tasks and picking colors, in order of first start. In `butterfly`, a process's task count also sets its cell's width and its margin spot. Never written into the image. |
 | Start time | `start`, else `submit` | Position in time, relative to the first task of the run. |
 | Duration | `realtime`, else `duration` | Length of the shape. In `iris`, also the ring's shape and the highlight's position. In `butterfly`, also wing size, outline and tails. |
 | Peak memory | `peak_rss` | Width or size of the shape, on a log scale. In `butterfly`, also where the eyespots sit. |
@@ -16,7 +16,7 @@ Everything else is ignored, in live runs, history renders and trace files alike:
 
 ## What someone can read from an image
 
-- How many tasks ran (one shape per task, mirrored in `butterfly`) and how many processes (one ring, row, branch or color each).
+- How many tasks ran (one shape per task; `butterfly` mirrors each, and a run with a single process fills both wings with it, so four shapes per task) and how many processes (one ring, row, branch or color each).
 - The order processes started in, relative timing, durations and peak memory, roughly. The SVG keeps coordinates to 0.01 px, so these are more precise in an SVG than in a PNG.
 - Which tasks failed or were cached.
 

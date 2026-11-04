@@ -143,13 +143,15 @@ class StylesTest extends Specification {
         def processes = tiles*.process().unique().size()
         // a lone process fills both wings
         def wings = processes == 1 ? 2 : 1
-        def xs = (svg =~ /(-?[\d.]+),(-?[\d.]+)/).collect { it[1] as double }
-        def ys = (svg =~ /(-?[\d.]+),(-?[\d.]+)/).collect { it[2] as double }
+        def points = (svg =~ /(-?[\d.]+),(-?[\d.]+)/).collect { [it[1] as double, it[2] as double] }
+        def circles = (svg =~ /cx="(-?[\d.]+)" cy="(-?[\d.]+)" r="([\d.]+)"/).collect { it[1..3].collect { v -> v as double } }
+        def xs = points*.getAt(0) + circles.collectMany { [it[0] - it[2], it[0] + it[2]] }
+        def ys = points*.getAt(1) + circles.collectMany { [it[1] - it[2], it[1] + it[2]] }
 
         expect:
         // a stroke per task and a line per cell, on both sides, plus the antennae
         svg.count('<polyline ') == 2 * wings * (tiles.size() + processes) + 4
-        svg.count('fill-opacity="0.30"') == 2 * wings * processes
+        svg.count(String.format(Locale.ROOT, 'fill-opacity="%.2f"', ButterflyStyle.WASH)) == 2 * wings * processes
         xs.min() >= 0 && xs.max() <= width
         ys.min() >= 0 && ys.max() <= height
 
@@ -158,6 +160,16 @@ class StylesTest extends Specification {
         SyntheticRun.create(1, 4)                                   | 600   | 600
         SyntheticRun.create(1, 4)                                   | 900   | 300
         SyntheticRun.create(1, 4).findAll { it.process() == 'BQSR' } | 600   | 600
+    }
+
+    def 'butterfly should have no eyespots without memory' () {
+        given:
+        def tiles = SyntheticRun.create(1, 4).collect { new TaskTile(it.process(), it.start(), it.duration(), 0, it.status()) }
+        def svg = new String(Artist.paint(tiles, new ArtsConfig(style: 'butterfly'), 'svg', 1))
+
+        expect:
+        // a wash per cell on both sides, then the abdomen's underlay and 8 bands, the thorax and the head
+        svg.count('<polygon ') == 2 * tiles*.process().unique().size() + 11
     }
 
     def 'butterfly should bite the wing for failed tasks' () {
