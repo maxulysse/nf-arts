@@ -31,7 +31,7 @@ class FlowFieldStyle implements Style {
 
         run.tiles.eachWithIndex { TaskTile tile, int i ->
             double x = left + width * ((i + 0.5d) / run.tiles.size() + (random.nextDouble() - 0.5d) * 0.06d)
-            double y = top + row * (run.processes.indexOf(tile.process()) + 0.5d + (random.nextDouble() - 0.5d) * 0.8d)
+            double y = top + row * (run.rank(tile) + 0.5d + (random.nextDouble() - 0.5d) * 0.8d)
             final steps = 2 + (int) (maxSteps * run.duration(tile))
             final points = new ArrayList<Double>()
             points << x << y

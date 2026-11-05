@@ -19,7 +19,7 @@ class MondrianStyle implements Style {
     void draw(Run run, Canvas canvas, Palette palette, Random random) {
         final size = canvas.size
         final gap = Math.max(1.5d, size * 0.008d)
-        final groups = run.processes.collect { String p -> run.tasksOf(p) }
+        final groups = run.groups
         final weights = groups.collect { List<TaskTile> g -> (double) g.sum { TaskTile t -> weight(t) } }
         final blocks = partition(weights, size * 0.05d + (canvas.width - size) / 2d, size * 0.05d + (canvas.height - size) / 2d, size * 0.9d, size * 0.9d, random)
 

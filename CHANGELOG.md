@@ -11,6 +11,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 - A website with a gallery, built from `docs/` and deployed to GitHub Pages ([#19](https://github.com/maxulysse/nf-arts/pull/19)).
 - A `butterfly` style: each process is a wing cell and each task a stroke across it, with wing size, tails and eyespots grown from the run ([#21](https://github.com/maxulysse/nf-arts/pull/21)).
 
+### Changed
+
+- Internal restructuring of `Run`, `Artist.paint` and the `butterfly` style. Images are unchanged ([#22](https://github.com/maxulysse/nf-arts/pull/22)).
+
 ### Fixed
 
 - The website landing page uses the same width and code highlighting as the docs pages ([#20](https://github.com/maxulysse/nf-arts/pull/20)).
