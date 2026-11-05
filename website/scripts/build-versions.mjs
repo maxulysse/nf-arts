@@ -19,28 +19,31 @@ const versions = ['dev', ...releases];
 rmSync(join(site, 'dist'), { recursive: true, force: true });
 const scratch = mkdtempSync(join(tmpdir(), 'nf-arts-docs-'));
 
-for (const version of versions) {
-  let docs = join(repo, 'docs');
-  if (version !== 'dev') {
-    // Tags match the semver pattern above, so they are safe in the shell command.
-    execSync(`git archive ${version} docs | tar -x -C ${scratch} && mv ${scratch}/docs ${scratch}/${version}`, { cwd: repo });
-    docs = join(scratch, version);
+try {
+  for (const version of versions) {
+    let docs = join(repo, 'docs');
+    if (version !== 'dev') {
+      // Tags match the semver pattern above, so they are safe in the shell command.
+      execSync(`git archive --prefix=${version}/ ${version} docs | tar -x -C ${scratch}`, { cwd: repo });
+      docs = join(scratch, version, 'docs');
+    }
+    const env = {
+      ...process.env,
+      DOCS_DIR: docs,
+      SITE_BASE: `${root}${version}/`,
+      SITE_OUT: join(site, 'dist', version),
+      PUBLIC_VERSION: version,
+      PUBLIC_VERSIONS: versions.join(','),
+      PUBLIC_LATEST: latest,
+    };
+    console.log(`\nBuilding ${version} from ${docs}`);
+    execFileSync('node', ['scripts/sync-docs.mjs'], { cwd: site, env, stdio: 'inherit' });
+    execFileSync('npx', ['astro', 'build'], { cwd: site, env, stdio: 'inherit' });
   }
-  const env = {
-    ...process.env,
-    DOCS_DIR: docs,
-    SITE_BASE: `${root}${version}/`,
-    SITE_OUT: join(site, 'dist', version),
-    PUBLIC_VERSION: version,
-    PUBLIC_VERSIONS: versions.join(','),
-    PUBLIC_LATEST: latest,
-  };
-  console.log(`\nBuilding ${version} from ${docs}`);
-  execFileSync('node', ['scripts/sync-docs.mjs'], { cwd: site, env, stdio: 'inherit' });
-  execFileSync('npx', ['astro', 'build'], { cwd: site, env, stdio: 'inherit' });
+} finally {
+  rmSync(scratch, { recursive: true, force: true });
 }
 
-rmSync(scratch, { recursive: true, force: true });
 writeFileSync(
   join(site, 'dist', 'index.html'),
   `<!doctype html>\n<meta http-equiv="refresh" content="0; url=${root}${latest}/">\n<link rel="canonical" href="${root}${latest}/">\n<p><a href="${root}${latest}/">nf-arts docs</a></p>\n`,
