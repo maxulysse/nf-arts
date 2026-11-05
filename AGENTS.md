@@ -27,7 +27,7 @@ make -s version              # the version from build.gradle
 
 - Never push to `main`. Branch, open a PR against `main`, and let a maintainer merge. Stacked PRs also target `main`.
 - Every PR adds a `CHANGELOG.md` line, starting with its PR number, in number order.
-- A refactor must not visibly change images. Render every style from fixed sources before and after; if the files differ, compare the images by eye.
+- A refactor must not visibly change images. `StylesTest.SVG_HASHES` pins each style's SVG; if a hash changes, render that style before and after, compare the images by eye, and update the hash only for an intended change.
 - Images in `docs/` come from real runs only.
 - Images rendered with a `-dev` build show `-dev` in their caption. At release, regenerate them with the release build.
 - README links and images are absolute GitHub URLs: the Nextflow Registry shows the README outside the repository.

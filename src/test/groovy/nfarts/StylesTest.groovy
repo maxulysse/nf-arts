@@ -6,6 +6,20 @@ import spock.lang.Specification
 
 class StylesTest extends Specification {
 
+    // MD5 of each style's SVG. A change here is a visible change: compare the images, then update it
+    static final Map<String, String> SVG_HASHES = [
+        radial:      '9343dca8c3de9aad83235cc1e877804d',
+        hilbert:     'c59360e2e3e88f8c96c6437e303a9aba',
+        ridgeline:   'e3914331ece14c44ad3148f1d3c037b3',
+        phyllotaxis: '180d8552edca82e8c0dae995ad33b4f7',
+        flowfield:   'dad1317b5ca85dcfaa7fd90c9c6e701a',
+        mondrian:    '7ff75d32b21744d94de05af637349a43',
+        tree:        '8b9a5472157e9a9f17e5e9fc8cfd479f',
+        ginkgo:      'ad8d16ec806c5e44763c78adb4611f55',
+        iris:        '64ecc7869dada35c6b3a75e68787dd84',
+        butterfly:   '6a705ebb91b5a61ad77eadacb1e0a14d',
+    ]
+
     def 'hilbert curve should visit every cell once with unit steps' () {
         given:
         def n = 16
@@ -68,6 +82,16 @@ class StylesTest extends Specification {
         SyntheticRun.svg(tiles, config, 7) == SyntheticRun.svg(tiles, config, 7)
         // hilbert only has the 8 symmetries of the square
         (1..8).collect { SyntheticRun.svg(tiles, config, it) }.unique().size() > 1
+        where:
+        style << ArtsConfig.STYLES
+    }
+
+    def 'the same tasks should give the same svg' () {
+        given:
+        def tiles = SyntheticRun.create(1, 8, true)
+
+        expect:
+        SyntheticRun.svg(tiles, new ArtsConfig(style: style, title: false)).md5() == SVG_HASHES[style]
         where:
         style << ArtsConfig.STYLES
     }

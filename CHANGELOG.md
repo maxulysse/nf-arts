@@ -18,6 +18,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 - [#28](https://github.com/maxulysse/nf-arts/pull/28): The docs build leaves no scratch files behind when it fails, and the CI actions are pinned to commits.
 - [#30](https://github.com/maxulysse/nf-arts/pull/30): `CHANGELOG.md` entries start with their PR number and are ordered by it.
 - [#32](https://github.com/maxulysse/nf-arts/pull/32): The docs promise the same SVG for the same tasks and nf-arts version, instead of the same image for a run.
+- [#34](https://github.com/maxulysse/nf-arts/pull/34): Tests pin the SVG of every style, so a change to an image cannot pass unnoticed.
 
 ### Fixed
 
