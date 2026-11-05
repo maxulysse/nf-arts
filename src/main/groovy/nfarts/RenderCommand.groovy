@@ -20,7 +20,7 @@ history (default: the last run), or use --trace.
 Options:
   --trace FILE        read an execution trace file (local, s3://, gs://, az://, http(s)://)
   --dir DIR           project directory with the .nextflow history (default: .)
-  --file FILE         output .svg or .png (default: art-<run>.svg)
+  --file FILE         output .svg or .png (default: art-<run>.svg and .png)
   --style NAME        ${Artist.STYLES.keySet().join(', ')}
   --palette NAME      ${Palette.NAMED.keySet().join(', ')}
   --colors A,B,...    custom hex colors
@@ -72,8 +72,9 @@ Options:
         if( config.title && !painted.title().text() )
             System.err.println 'nf-arts: no execution report next to the trace, use --pipeline, --revision and --run-name for the caption'
 
-        final out = Artist.save(painted, config)
-        println "nf-arts: painted ${painted.tiles().size()} tasks to ${out}"
+        // `nextflow plugin` does not show log messages
+        final out = Artist.save(painted, config) { System.err.println it }
+        println "nf-arts: painted ${painted.tiles().size()} tasks to ${out.join(', ')}"
         return 0
     }
 }

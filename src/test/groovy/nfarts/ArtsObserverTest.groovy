@@ -77,9 +77,47 @@ class ArtsObserverTest extends Specification {
 
     def 'should name the file after the run' () {
         expect:
-        Artist.outputPath(new PaintedRun([], new Title(null, null, 'happy_turing'), null), new ArtsConfig([:])).toString() == 'art-happy_turing.svg'
-        Artist.outputPath(new PaintedRun([], new Title(null, null, null), null), new ArtsConfig([:])).toString() == 'art-run.svg'
-        Artist.outputPath(new PaintedRun([], new Title(null, null, 'x'), null), new ArtsConfig(file: 'out/a.png')).toString() == 'out/a.png'
+        Artist.outputPaths(new PaintedRun([], new Title(null, null, 'happy_turing'), null), new ArtsConfig([:]))*.toString() == ['art-happy_turing.svg', 'art-happy_turing.png']
+        Artist.outputPaths(new PaintedRun([], new Title(null, null, null), null), new ArtsConfig([:]))*.toString() == ['art-run.svg', 'art-run.png']
+        Artist.outputPaths(new PaintedRun([], new Title(null, null, 'x'), null), new ArtsConfig(file: 'out/a.png'))*.toString() == ['out/a.png']
+    }
+
+    def 'should keep the other file when one fails' () {
+        given:
+        def dir = Files.createTempDirectory('nf-arts')
+        def run = new PaintedRun(SyntheticRun.create(1, 1), new Title(null, null, 'x'), null)
+        def config = new ArtsConfig(width: 100, height: 100)
+        def svg = dir.resolve('a.svg')
+        def png = dir.resolve('a.png')
+        def warnings = []
+
+        when:
+        Files.createDirectory(failing ? png : dir.resolve('other'))
+        def written = Artist.write(run, config, [svg, png]) { warnings << it }
+        then:
+        written == (failing ? [svg] : [svg, png])
+        warnings.size() == (failing ? 1 : 0)
+        Files.size(svg) > 0
+
+        cleanup:
+        dir.toFile().deleteDir()
+
+        where:
+        failing << [true, false]
+    }
+
+    def 'should fail when no file is written' () {
+        given:
+        def dir = Files.createTempDirectory('nf-arts')
+        def run = new PaintedRun(SyntheticRun.create(1, 1), new Title(null, null, 'x'), null)
+
+        when:
+        Artist.write(run, new ArtsConfig(width: 100, height: 100), [Files.createDirectory(dir.resolve('a.svg'))]) { }
+        then:
+        thrown(IOException)
+
+        cleanup:
+        dir.toFile().deleteDir()
     }
 
     def 'should not write anything without tasks' () {

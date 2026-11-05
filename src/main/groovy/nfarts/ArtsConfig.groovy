@@ -26,7 +26,7 @@ class ArtsConfig implements ConfigScope {
     final boolean enabled
 
     @ConfigOption
-    @Description('Output file; `.svg` or `.png` sets the format (default: `art-<runName>.svg`).')
+    @Description('Output file; `.svg` or `.png` sets the format (default: `art-<runName>.svg` and `.png`).')
     final String file
 
     @ConfigOption
