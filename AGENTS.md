@@ -26,7 +26,7 @@ make -s version              # the version from build.gradle
 ## Rules
 
 - Never push to `main`. Branch, open a PR against `main`, and let a maintainer merge. Stacked PRs also target `main`.
-- Every PR adds a `CHANGELOG.md` line.
+- Every PR adds a `CHANGELOG.md` line, starting with its PR number, in number order.
 - A refactor must not visibly change images. Render every style from fixed sources before and after; if the files differ, compare the images by eye.
 - Images in `docs/` come from real runs only.
 - Images rendered with a `-dev` build show `-dev` in their caption. At release, regenerate them with the release build.
