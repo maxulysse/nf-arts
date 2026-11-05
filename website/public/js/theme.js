@@ -1,11 +1,3 @@
-function resolveTheme(saved) {
-    if (saved === "dark") return "dark";
-    if (saved === "light") return "light";
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
-        ? "dark"
-        : "light";
-}
-
 function applyTheme(theme) {
     document.documentElement.setAttribute("data-bs-theme", theme);
     const icon = document.querySelector("#theme-toggle i");
