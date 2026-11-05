@@ -12,7 +12,8 @@ import nextflow.trace.event.TaskEvent
 /**
  * Collects every task of the run and paints them when the run completes.
  */
-@Slf4j
+// Nextflow's console only shows loggers under `nextflow`
+@Slf4j(category = 'nextflow.arts')
 @CompileStatic
 class ArtsObserver implements TraceObserverV2 {
 

@@ -31,6 +31,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 - [#26](https://github.com/maxulysse/nf-arts/pull/26): Tasks with no start or submit time sit at the start of the run in every source, and a task name without a process loses its tag.
 - [#31](https://github.com/maxulysse/nf-arts/pull/31): A value given to `nextflow run` options such as `-with-trace` or `-output-dir` before the pipeline no longer ends up in the caption of images rendered from the history.
 - [#33](https://github.com/maxulysse/nf-arts/pull/33): A render that runs out of memory logs the usual warning instead of failing silently.
+- [#37](https://github.com/maxulysse/nf-arts/pull/37): Warnings and the saved artwork path show on the console during a live run, not only in `.nextflow.log`.
 
 ## v1.0.0 - Tournesols
 

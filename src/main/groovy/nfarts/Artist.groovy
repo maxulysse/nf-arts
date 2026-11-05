@@ -10,7 +10,8 @@ import nextflow.file.FileHelper
 /**
  * Paints a run with the configured style, palette and size.
  */
-@Slf4j
+// Nextflow's console only shows loggers under `nextflow`
+@Slf4j(category = 'nextflow.arts')
 @CompileStatic
 class Artist {
 
