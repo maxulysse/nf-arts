@@ -15,6 +15,7 @@ Every image here comes from a real run, rendered with `render`: the nf-core/rnav
 | tree | ![](images/test-rnavar-tree.png) | ![](images/megatest-rnavar-tree.png) | ![](images/megatest-sarek-tree.png) |
 | ginkgo | ![](images/test-rnavar-ginkgo.png) | ![](images/megatest-rnavar-ginkgo.png) | ![](images/megatest-sarek-ginkgo.png) |
 | iris | ![](images/test-rnavar-iris.png) | ![](images/megatest-rnavar-iris.png) | ![](images/megatest-sarek-iris.png) |
+| butterfly | ![](images/test-rnavar-butterfly.png) | ![](images/megatest-rnavar-butterfly.png) | ![](images/megatest-sarek-butterfly.png) |
 
 The rnavar images use the `nfcore` palette, sarek `magma`, and mondrian its own `mondrian` palette.
 
@@ -27,6 +28,16 @@ The rnavar images use the `nfcore` palette, sarek `magma`, and mondrian its own 
 | raredisease, 990 tasks, `sunset` | ![](images/megatest-raredisease-radial.png) | ![](images/megatest-raredisease-hilbert.png) |
 | viralrecon, 3239 tasks, `mono` | ![](images/megatest-viralrecon-radial.png) | ![](images/megatest-viralrecon-hilbert.png) |
 | taxprofiler, 239 tasks, `rainbow` | ![](images/megatest-taxprofiler-radial.png) | ![](images/megatest-taxprofiler-hilbert.png) |
+
+## Butterflies
+
+Each run grows its own wings.
+
+| ampliseq, 167 tasks, `nfcore` | atacseq, 269 tasks, `rainbow` | cutandrun, 323 tasks, `sunset` |
+| :---: | :---: | :---: |
+| ![](images/megatest-ampliseq-butterfly.png) | ![](images/megatest-atacseq-butterfly.png) | ![](images/megatest-cutandrun-butterfly.png) |
+| **methylseq, 25 tasks, `nfcore`** | **rnafusion, 26 tasks, `ocean`** | **smrnaseq, 936 tasks, `magma`** |
+| ![](images/megatest-methylseq-butterfly.png) | ![](images/megatest-rnafusion-butterfly.png) | ![](images/megatest-smrnaseq-butterfly.png) |
 
 ## Custom colors
 

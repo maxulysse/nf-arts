@@ -55,6 +55,47 @@ class InsetCanvas implements Canvas {
     }
 }
 
+/**
+ * Draws lines and fills twice, reflected across a vertical axis. Arcs and text pass through once.
+ */
+@CompileStatic
+class MirrorCanvas implements Canvas {
+
+    @Delegate(excludes = ['polyline', 'polygon', 'circle'])
+    private final Canvas canvas
+    private final double axis
+
+    MirrorCanvas(Canvas canvas, double axis) {
+        this.canvas = canvas
+        this.axis = axis
+    }
+
+    private double[] reflect(double[] points) {
+        final out = points.clone()
+        for( int i = 0; i < out.length; i += 2 )
+            out[i] = 2 * axis - out[i]
+        return out
+    }
+
+    @Override
+    void polyline(double[] points, double stroke, String color, double opacity) {
+        canvas.polyline(points, stroke, color, opacity)
+        canvas.polyline(reflect(points), stroke, color, opacity)
+    }
+
+    @Override
+    void polygon(double[] points, String color, double opacity) {
+        canvas.polygon(points, color, opacity)
+        canvas.polygon(reflect(points), color, opacity)
+    }
+
+    @Override
+    void circle(double cx, double cy, double r, String color, double opacity) {
+        canvas.circle(cx, cy, r, color, opacity)
+        canvas.circle(2 * axis - cx, cy, r, color, opacity)
+    }
+}
+
 @CompileStatic
 class SvgCanvas implements Canvas {
 

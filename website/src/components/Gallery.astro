@@ -3,7 +3,7 @@
 import { readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
-const styles = ['radial', 'hilbert', 'ridgeline', 'phyllotaxis', 'flowfield', 'mondrian', 'tree', 'ginkgo', 'iris', 'custom'];
+const styles = ['radial', 'hilbert', 'ridgeline', 'phyllotaxis', 'flowfield', 'mondrian', 'tree', 'ginkgo', 'iris', 'butterfly', 'custom'];
 
 // Run details from docs/gallery.md: label, task count, palette.
 const runs = {
@@ -15,6 +15,12 @@ const runs = {
   'megatest-raredisease': ['nf-core/raredisease megatest', 990, 'sunset'],
   'megatest-viralrecon': ['nf-core/viralrecon megatest', 3239, 'mono'],
   'megatest-taxprofiler': ['nf-core/taxprofiler megatest', 239, 'rainbow'],
+  'megatest-ampliseq': ['nf-core/ampliseq megatest', 167, 'nfcore'],
+  'megatest-atacseq': ['nf-core/atacseq megatest', 269, 'rainbow'],
+  'megatest-cutandrun': ['nf-core/cutandrun megatest', 323, 'sunset'],
+  'megatest-methylseq': ['nf-core/methylseq megatest', 25, 'nfcore'],
+  'megatest-rnafusion': ['nf-core/rnafusion megatest', 26, 'ocean'],
+  'megatest-smrnaseq': ['nf-core/smrnaseq megatest', 936, 'magma'],
 };
 const runOrder = Object.keys(runs);
 

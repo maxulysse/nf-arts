@@ -22,6 +22,7 @@ class Artist {
         tree       : new TreeStyle(),
         ginkgo     : new GinkgoStyle(),
         iris       : new IrisStyle(),
+        butterfly  : new ButterflyStyle(),
     ] as Map<String, Style>
 
     static final String VERSION = version()

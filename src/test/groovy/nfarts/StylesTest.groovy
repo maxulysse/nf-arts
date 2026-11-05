@@ -136,6 +136,52 @@ class StylesTest extends Specification {
         svg('iris').count('<circle ') == 2
     }
 
+    def 'butterfly should draw every task on both sides and stay on the canvas' () {
+        given:
+        def config = new ArtsConfig(style: 'butterfly', width: width, height: height, title: false)
+        def svg = new String(Artist.paint(tiles, config, 'svg', 1))
+        def processes = tiles*.process().unique().size()
+        // a lone process fills both wings
+        def wings = processes == 1 ? 2 : 1
+        def points = (svg =~ /(-?[\d.]+),(-?[\d.]+)/).collect { [it[1] as double, it[2] as double] }
+        def circles = (svg =~ /cx="(-?[\d.]+)" cy="(-?[\d.]+)" r="([\d.]+)"/).collect { it[1..3].collect { v -> v as double } }
+        def xs = points*.getAt(0) + circles.collectMany { [it[0] - it[2], it[0] + it[2]] }
+        def ys = points*.getAt(1) + circles.collectMany { [it[1] - it[2], it[1] + it[2]] }
+
+        expect:
+        // a stroke per task and a line per cell, on both sides, plus the antennae
+        svg.count('<polyline ') == 2 * wings * (tiles.size() + processes) + 4
+        svg.count(String.format(Locale.ROOT, 'fill-opacity="%.2f"', ButterflyStyle.WASH)) == 2 * wings * processes
+        xs.min() >= 0 && xs.max() <= width
+        ys.min() >= 0 && ys.max() <= height
+
+        where:
+        tiles                                                       | width | height
+        SyntheticRun.create(1, 4)                                   | 600   | 600
+        SyntheticRun.create(1, 4)                                   | 900   | 300
+        SyntheticRun.create(1, 4).findAll { it.process() == 'BQSR' } | 600   | 600
+    }
+
+    def 'butterfly should have no eyespots without memory' () {
+        given:
+        def tiles = SyntheticRun.create(1, 4).collect { new TaskTile(it.process(), it.start(), it.duration(), 0, it.status()) }
+        def svg = new String(Artist.paint(tiles, new ArtsConfig(style: 'butterfly'), 'svg', 1))
+
+        expect:
+        // a wash per cell on both sides, then the abdomen's underlay and 8 bands, the thorax and the head
+        svg.count('<polygon ') == 2 * tiles*.process().unique().size() + 11
+    }
+
+    def 'butterfly should bite the wing for failed tasks' () {
+        given:
+        def tiles = SyntheticRun.create(1, 4)
+        def failed = tiles.withIndex().collect { t, i -> i ? t : new TaskTile(t.process(), t.start(), t.duration(), t.memory(), Status.FAILED) }
+        def circles = { list -> new String(Artist.paint(list, new ArtsConfig(style: 'butterfly'), 'svg', 1)).count('<circle ') }
+
+        expect:
+        circles(failed) == circles(tiles) + 1
+    }
+
     def 'mondrian partition should split area by weight' () {
         when:
         def blocks = MondrianStyle.partition([1d, 1d, 2d], 0, 0, 400, 100, new Random(1))
