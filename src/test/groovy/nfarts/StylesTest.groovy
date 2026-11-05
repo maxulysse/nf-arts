@@ -233,6 +233,16 @@ class StylesTest extends Specification {
         circles(failed) == circles(tiles) + 1
     }
 
+    def 'mondrian should draw every task of a dense run' () {
+        given:
+        def tiles = SyntheticRun.create(1, 2000)
+
+        when:
+        def svg = SyntheticRun.svg(tiles, new ArtsConfig(style: 'mondrian', title: false))
+        then:
+        svg.count('<polygon') + svg.count('<polyline') == tiles.size()
+    }
+
     def 'mondrian partition should split area by weight' () {
         when:
         def blocks = MondrianStyle.partition([1d, 1d, 2d], [0, 0, 400, 100] as double[], new Random(1))
