@@ -32,6 +32,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 - [#31](https://github.com/maxulysse/nf-arts/pull/31): A value given to `nextflow run` options such as `-with-trace` or `-output-dir` before the pipeline no longer ends up in the caption of images rendered from the history.
 - [#33](https://github.com/maxulysse/nf-arts/pull/33): A render that runs out of memory logs the usual warning instead of failing silently.
 - [#37](https://github.com/maxulysse/nf-arts/pull/37): Warnings and the saved artwork path show on the console during a live run, not only in `.nextflow.log`.
+- [#38](https://github.com/maxulysse/nf-arts/pull/38): The `mondrian` style draws every task. Tasks too small for the gap were skipped: 65 of 553 on the rnavar megatest, and all of them on a 100k-task run. This changes `mondrian` images.
 
 ## v1.0.0 - Tournesols
 

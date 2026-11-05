@@ -25,20 +25,24 @@ class MondrianStyle implements Style {
 
         groups.eachWithIndex { List<TaskTile> group, int i ->
             final b = blocks[i]
-            final cells = partition(group.collect { TaskTile t -> weight(t) }, [b[0] + gap / 2, b[1] + gap / 2, b[2] - gap, b[3] - gap] as double[], random)
+            final cells = partition(group.collect { TaskTile t -> weight(t) }, inset(b, gap), random)
             group.eachWithIndex { TaskTile tile, int j ->
-                final c = cells[j]
-                final x0 = c[0] + gap / 2, y0 = c[1] + gap / 2, x1 = c[0] + c[2] - gap / 2, y1 = c[1] + c[3] - gap / 2
-                if( x1 - x0 < 0.5d || y1 - y0 < 0.5d )
-                    return
+                final c = inset(cells[j], gap)
+                final x0 = c[0], y0 = c[1], x1 = c[0] + c[2], y1 = c[1] + c[3]
                 final rect = [x0, y0, x1, y0, x1, y1, x0, y1] as double[]
                 final color = run.color(tile, palette)
                 if( tile.status() == Status.FAILED )
-                    canvas.polyline([x0, y0, x1, y0, x1, y1, x0, y1, x0, y0] as double[], Math.max(1d, gap / 2), color, 1d)
+                    canvas.polyline([x0, y0, x1, y0, x1, y1, x0, y1, x0, y0] as double[], Math.min(Math.max(1d, gap / 2), Math.min(c[2], c[3])), color, 1d)
                 else
                     canvas.polygon(rect, color, tile.status() == Status.CACHED ? 0.25d : 0.75d + 0.25d * run.memory(tile))
             }
         }
+    }
+
+    /** shrink a [x, y, w, h] block by `gap`, or by half if it is too small, so every task stays visible */
+    private static double[] inset(double[] block, double gap) {
+        final dx = Math.min(gap, block[2] / 2) / 2, dy = Math.min(gap, block[3] / 2) / 2
+        [block[0] + dx, block[1] + dy, block[2] - 2 * dx, block[3] - 2 * dy] as double[]
     }
 
     private static double weight(TaskTile tile) {
