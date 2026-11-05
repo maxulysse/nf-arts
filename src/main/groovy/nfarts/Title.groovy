@@ -19,8 +19,14 @@ record Title(String pipeline, String revision, String runName) {
 
     // `nextflow run` options that take a value; any other single-dash option is a flag
     private static final Set<String> VALUE_OPTIONS = ['-r', '-revision', '-profile', '-c', '-C', '-config', '-params-file', '-name',
-        '-w', '-work-dir', '-plugins', '-ansi-log', '-entry', '-main-script', '-hub', '-user', '-qs', '-queue-size',
-        '-cache', '-bucket-dir', '-with-tower', '-with-weblog'] as Set<String>
+        '-w', '-work-dir', '-plugins', '-entry', '-main-script', '-hub', '-user', '-qs', '-queue-size', '-ps', '-pool-size',
+        '-pi', '-poll-interval', '-cache', '-bucket-dir', '-lib', '-o', '-output-dir', '-output-format', '-d', '-deep'] as Set<String>
+
+    // options that take a value only when the next argument is not an option
+    private static final Set<String> OPTIONAL_VALUE_OPTIONS = ['-ansi-log', '-test', '-dump-hashes', '-dump-channels', '-N', '-with-notification',
+        '-with-tower', '-with-wave', '-with-fusion', '-with-weblog', '-with-cloudcache', '-with-trace', '-with-report', '-with-timeline',
+        '-with-dag', '-with-docker', '-with-podman', '-with-singularity', '-with-apptainer', '-with-charliecloud', '-with-conda',
+        '-with-spack'] as Set<String>
 
     /** from a history command line, e.g. `nextflow run nf-core/rnavar -r 1.3.0 -profile test` */
     static Title fromCommand(String command, String runName) {
@@ -44,7 +50,8 @@ record Title(String pipeline, String revision, String runName) {
                     i++
             }
             else if( arg.startsWith('-') ) {
-                if( arg in VALUE_OPTIONS && next )
+                final optional = arg in OPTIONAL_VALUE_OPTIONS || arg ==~ /-(process|cluster|executor)\.[^=]+/
+                if( next && (arg in VALUE_OPTIONS || optional && !next.startsWith('-')) )
                     i++
             }
             else if( pipeline == null )

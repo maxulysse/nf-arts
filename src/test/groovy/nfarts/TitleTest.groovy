@@ -79,5 +79,13 @@ class TitleTest extends Specification {
         'nextflow run -bg -latest -with-report -c x.config nf-core/sarek'          | 'nf-core/sarek'
         'nextflow run -revision dev -profile test nf-core/sarek'                   | 'nf-core/sarek'
         'nextflow run main.nf -resume --outdir results'                            | 'main.nf'
+        'nextflow run -with-trace /home/me/trace.txt nf-core/rnavar'               | 'nf-core/rnavar'
+        'nextflow run -with-report report.html -with-dag dag.png nf-core/rnavar'   | 'nf-core/rnavar'
+        'nextflow run -with-docker my/image nf-core/rnavar'                        | 'nf-core/rnavar'
+        'nextflow run -output-dir /home/me/out -lib lib nf-core/rnavar'            | 'nf-core/rnavar'
+        'nextflow run -process.cpus 2 nf-core/rnavar'                              | 'nf-core/rnavar'
+        'nextflow run -process.cpus=2 nf-core/rnavar'                              | 'nf-core/rnavar'
+        'nextflow run -with-tower -c x.config nf-core/rnavar'                      | 'nf-core/rnavar'
+        'nextflow run -ansi-log -c x.config nf-core/rnavar'                        | 'nf-core/rnavar'
     }
 }
