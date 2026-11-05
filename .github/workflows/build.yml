@@ -49,7 +49,7 @@ jobs:
       fail-fast: false
       matrix:
         java_version: [17, 21]
-        nextflow_version: ['25.10', '26.04', '26.10']
+        nextflow_version: ['25.10.0', 'latest-everything']
 
     steps:
       - name: Environment
