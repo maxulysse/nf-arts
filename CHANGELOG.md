@@ -1,6 +1,6 @@
 # Changelog
 
-Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Semantic Versioning](https://semver.org/). From v1.1.0, entries start with their PR number, and each section is ordered by it.
+Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Semantic Versioning](https://semver.org/).
 
 ## v1.1.0-dev
 
