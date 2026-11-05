@@ -16,7 +16,10 @@ class Run {
     private final LogScale durationScale
 
     Run(List<TaskTile> tiles) {
-        this.tiles = replayCached(tiles).toSorted { TaskTile it -> it.start() }
+        // ties must not depend on arrival, which differs between a live run and its history
+        this.tiles = replayCached(tiles).toSorted { TaskTile a, TaskTile b ->
+            a.start() <=> b.start() ?: a.process() <=> b.process() ?: a.duration() <=> b.duration() ?: a.memory() <=> b.memory() ?: a.status() <=> b.status()
+        }
         // processes in order of first appearance
         this.byProcess = this.tiles.groupBy { TaskTile it -> it.process() }
         this.processes = byProcess.keySet().toList()

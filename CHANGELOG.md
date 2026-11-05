@@ -19,6 +19,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 
 - Returning visitors on the `auto` theme no longer see a flash of the light theme ([#24](https://github.com/maxulysse/nf-arts/pull/24)).
 - The website landing page uses the same width and code highlighting as the docs pages ([#20](https://github.com/maxulysse/nf-arts/pull/20)).
+- Tasks that start at the same time, such as cached tasks, are drawn in a fixed order, so a resumed run gives the same image live and from its history ([#25](https://github.com/maxulysse/nf-arts/pull/25)).
 - CI has one required check, `CI pass`, so changing the build matrix no longer needs a branch protection update ([#23](https://github.com/maxulysse/nf-arts/pull/23)).
 
 ## v1.0.0 - Tournesols

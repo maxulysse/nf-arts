@@ -72,6 +72,19 @@ class StylesTest extends Specification {
         style << ArtsConfig.STYLES
     }
 
+    def 'the order tasks arrive in should not change the art' () {
+        given:
+        def tiles = SyntheticRun.create(1, 4, true)
+        def shuffled = new ArrayList(tiles)
+        Collections.shuffle(shuffled, new Random(1))
+        def config = new ArtsConfig(style: style)
+
+        expect:
+        SyntheticRun.svg(shuffled, config) == SyntheticRun.svg(tiles, config)
+        where:
+        style << ArtsConfig.STYLES
+    }
+
     def 'cached tasks should move to the start of the run' () {
         given:
         def run = new Run([
@@ -98,10 +111,11 @@ class StylesTest extends Specification {
         def single = new TaskTile('A', 0, 1, 5, Status.COMPLETED)
 
         expect:
+        run.tiles*.memory() == [0, 1_000_000, 1_000_000_000, 1_000_000_000_000]
         run.memory(run.tiles[0]) == 0d
-        Math.abs(run.memory(run.tiles[1]) - 0.5d) < 1e-9
-        run.memory(run.tiles[2]) == 1d
-        run.memory(run.tiles[3]) == 0d
+        run.memory(run.tiles[1]) == 0d
+        Math.abs(run.memory(run.tiles[2]) - 0.5d) < 1e-9
+        run.memory(run.tiles[3]) == 1d
         new Run([single]).memory(single) == 1d
     }
 
