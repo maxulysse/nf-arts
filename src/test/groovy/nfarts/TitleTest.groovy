@@ -13,7 +13,8 @@ class TitleTest extends Specification {
         command                                                                   | pipeline         | revision
         'nextflow run nf-core/rnavar -r 1.3.0 -profile test,docker --outdir res' | 'nf-core/rnavar' | '1.3.0'
         'nextflow run -profile test nf-core/sarek'                                | 'nf-core/sarek'  | null
-        'nextflow -q run validation/ -plugins nf-arts@0.1.0'                      | 'validation/'    | null
+        'nextflow -q run nf-core/sarek -plugins nf-arts@0.1.0'                    | 'nf-core/sarek'  | null
+        'nextflow run /home/me/secret/main.nf -r dev'                             | null             | 'dev'
         'nextflow info'                                                           | null             | null
         null                                                                      | null             | null
     }
@@ -45,7 +46,8 @@ class TitleTest extends Specification {
             <dd><pre class="nfcommand"><code>nextflow run main.nf -profile test</code></pre></dd>'''
 
         expect:
-        Report.parse(html) == new Report(new Title('main.nf', null, 'sad_curie'), null)
+        Report.parse(html) == new Report(new Title(null, null, 'sad_curie'), null)
+        Report.parse(html.replace('main.nf', 'nf-core/sarek')) == new Report(new Title('nf-core/sarek', null, 'sad_curie'), null)
         Report.parse('<html></html>') == new Report(new Title(null, null, null), null)
     }
 
@@ -66,6 +68,26 @@ class TitleTest extends Specification {
         SyntheticRun.svg(tiles, new ArtsConfig([:])).count('<text') == 1
     }
 
+    def 'should keep only pipelines that are not local paths' () {
+        expect:
+        Title.shareable(pipeline) == shown
+        where:
+        pipeline                                | shown
+        'nf-core/rnavar'                        | 'nf-core/rnavar'
+        'https://github.com/nf-core/rnavar'     | 'https://github.com/nf-core/rnavar'
+        'https://user:token@github.com/a/b'     | null
+        'git@github.com:nf-core/rnavar.git'     | null
+        'main.nf'                               | null
+        'rnavar'                                | null
+        './main.nf'                             | null
+        '../rnavar/main.nf'                     | null
+        'validation/'                           | null
+        '/home/me/secret-project/main.nf'       | null
+        '~/pipelines/main.nf'                   | null
+        'a/b/main.nf'                           | null
+        null                                    | null
+    }
+
     def 'should find the pipeline among run options' () {
         expect:
         Title.fromCommand(command, null).pipeline() == pipeline
@@ -78,7 +100,7 @@ class TitleTest extends Specification {
         'nextflow run --input=samples.csv nf-core/rnavar'                          | 'nf-core/rnavar'
         'nextflow run -bg -latest -with-report -c x.config nf-core/sarek'          | 'nf-core/sarek'
         'nextflow run -revision dev -profile test nf-core/sarek'                   | 'nf-core/sarek'
-        'nextflow run main.nf -resume --outdir results'                            | 'main.nf'
+        'nextflow run nf-core/rnavar -resume --outdir results'                     | 'nf-core/rnavar'
         'nextflow run -with-trace /home/me/trace.txt nf-core/rnavar'               | 'nf-core/rnavar'
         'nextflow run -with-report report.html -with-dag dag.png nf-core/rnavar'   | 'nf-core/rnavar'
         'nextflow run -with-docker my/image nf-core/rnavar'                        | 'nf-core/rnavar'
