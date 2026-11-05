@@ -9,7 +9,7 @@
 3. Add a line to `CHANGELOG.md` under the unreleased version, with a link to your PR.
 4. Open a pull request against `main`. If it builds on another open PR, still target `main` and say "builds on #N" in the description.
 
-CI runs on every pull request: unit tests, a live run of the validation pipeline, and `render` checks, on Java 17 and 21 with Nextflow 25.10, 26.04 and 26.10.
+CI runs on every pull request: unit tests, a live run of the validation pipeline, and `render` checks, on Java 17 and 21 with Nextflow 25.10.0, the minimum version, and the latest release, edge included.
 
 ## Development
 
