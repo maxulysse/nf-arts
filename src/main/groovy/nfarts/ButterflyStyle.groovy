@@ -12,7 +12,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class ButterflyStyle implements Style {
 
-    static final int STEPS = 24, EYESPOTS = 3
+    private static final int STEPS = 24, EYESPOTS = 3
     static final double WASH = 0.3d
 
     private static final Wing.Shape FOREWING = new Wing.Shape(12d, 95d, 0.75d)

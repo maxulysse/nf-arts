@@ -10,7 +10,7 @@ import groovy.transform.CompileStatic
 record Wing(Shape shape, List<Cell> cells, double size, double tail, double cx, double cy) {
 
     // how far along the outline, in degrees, a cell's reach is felt
-    static final double BLEND = 6d
+    private static final double BLEND = 6d
 
     static record Shape(double from, double to, double skew) {}
 

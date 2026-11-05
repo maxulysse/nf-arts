@@ -211,7 +211,7 @@ class StylesTest extends Specification {
 
     def 'mondrian partition should split area by weight' () {
         when:
-        def blocks = MondrianStyle.partition([1d, 1d, 2d], 0, 0, 400, 100, new Random(1))
+        def blocks = MondrianStyle.partition([1d, 1d, 2d], [0, 0, 400, 100] as double[], new Random(1))
         then:
         blocks.size() == 3
         blocks.collect { it[2] * it[3] } == [10_000d, 10_000d, 20_000d]

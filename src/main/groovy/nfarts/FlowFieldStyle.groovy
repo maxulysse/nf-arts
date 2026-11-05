@@ -10,9 +10,9 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class FlowFieldStyle implements Style {
 
-    static final int WAVES = 4
+    private static final int WAVES = 4
     // keeps the SVG size reasonable on large runs
-    static final int MAX_POINTS = 200_000
+    private static final int MAX_POINTS = 200_000
 
     @Override
     void draw(Run run, Canvas canvas, Palette palette, Random random) {

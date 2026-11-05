@@ -18,7 +18,7 @@ record Title(String pipeline, String revision, String runName) {
     }
 
     // `nextflow run` options that take a value; any other single-dash option is a flag
-    static final Set<String> VALUE_OPTIONS = ['-r', '-revision', '-profile', '-c', '-C', '-config', '-params-file', '-name',
+    private static final Set<String> VALUE_OPTIONS = ['-r', '-revision', '-profile', '-c', '-C', '-config', '-params-file', '-name',
         '-w', '-work-dir', '-plugins', '-ansi-log', '-entry', '-main-script', '-hub', '-user', '-qs', '-queue-size',
         '-cache', '-bucket-dir', '-with-tower', '-with-weblog'] as Set<String>
 

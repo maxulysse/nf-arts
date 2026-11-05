@@ -24,7 +24,7 @@ class Palette {
     ]
 
     // colors cycle by process instead of blending
-    static final Set<String> DISCRETE = ['mondrian'] as Set<String>
+    private static final Set<String> DISCRETE = ['mondrian'] as Set<String>
 
     final String background
     final List<Color> colors
