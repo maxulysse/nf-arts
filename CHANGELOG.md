@@ -33,6 +33,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 - [#33](https://github.com/maxulysse/nf-arts/pull/33): A render that runs out of memory logs the usual warning instead of failing silently.
 - [#37](https://github.com/maxulysse/nf-arts/pull/37): Warnings and the saved artwork path show on the console during a live run, not only in `.nextflow.log`.
 - [#38](https://github.com/maxulysse/nf-arts/pull/38): The `mondrian` style draws every task. Tasks too small for the gap were skipped: 65 of 553 on the rnavar megatest, and all of them on a 100k-task run. This changes `mondrian` images.
+- [#40](https://github.com/maxulysse/nf-arts/pull/40): A run with no revision no longer shows `null` in the caption from its execution report.
 
 ## v1.0.0 - Tournesols
 

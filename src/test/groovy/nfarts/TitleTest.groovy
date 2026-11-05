@@ -51,6 +51,17 @@ class TitleTest extends Specification {
         Report.parse('<html></html>') == new Report(new Title(null, null, null), null)
     }
 
+    def 'should drop a null revision from a report' () {
+        given:
+        def html = '''<title>[zen_picasso] Nextflow Workflow Report</title>
+            <dt class="col-sm-3">Workflow repository</dt>
+            <dd class="col-sm-9"><code>https://github.com/nf-core/raredisease</code>, revision <code>REVISION</code> (commit hash <code>47a41a5</code>)</dd>'''
+
+        expect:
+        Report.parse(html.replace('REVISION', 'null')).title() == new Title('nf-core/raredisease', null, 'zen_picasso')
+        Report.parse(html.replace('REVISION', '2.3.0')).title() == new Title('nf-core/raredisease', '2.3.0', 'zen_picasso')
+    }
+
     def 'should draw the caption under the artwork' () {
         given:
         def tiles = SyntheticRun.create(1, 4)
