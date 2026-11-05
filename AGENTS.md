@@ -32,7 +32,7 @@ make -s version              # the version from build.gradle
 - Images rendered with a `-dev` build show `-dev` in their caption. At release, regenerate them with the release build.
 - README links and images are absolute GitHub URLs: the Nextflow Registry shows the README outside the repository.
 - The art only uses the task fields listed in `docs/data.md`. Anything new that reaches the image, including caption text, must be added there first.
-- The required checks in branch protection list the CI jobs by name. If you change the matrix, the protection must change too, after the PR merges.
+- Branch protection requires only the `CI pass` job, so a matrix change needs no change there.
 
 ## Pitfalls
 
