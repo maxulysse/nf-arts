@@ -60,6 +60,21 @@ class ArtsObserverTest extends Specification {
         dir.toFile().deleteDir()
     }
 
+    def 'should survive a render that fails' () {
+        given:
+        def observer = new ArtsObserver(new ArtsConfig([:]))
+        observer.onFlowCreate(Mock(Session) { getWorkflowMetadata() >> { throw failure } })
+        observer.onTaskComplete(event(process: 'FOO', start: 1000L, realtime: 500L, status: 'COMPLETED'))
+
+        when:
+        observer.onFlowComplete()
+        then:
+        noExceptionThrown()
+
+        where:
+        failure << [new IllegalStateException('boom'), new OutOfMemoryError('boom')]
+    }
+
     def 'should name the file after the run' () {
         expect:
         Artist.outputPath(new PaintedRun([], new Title(null, null, 'happy_turing'), null), new ArtsConfig([:])).toString() == 'art-happy_turing.svg'

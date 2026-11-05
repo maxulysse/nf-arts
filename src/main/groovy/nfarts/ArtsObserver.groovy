@@ -60,8 +60,8 @@ class ArtsObserver implements TraceObserverV2 {
             final path = Artist.save(new PaintedRun(getTiles(), title, session?.uniqueId), config)
             log.info "nf-arts: artwork saved to ${path}"
         }
-        catch( Exception e ) {
-            // art must never fail a pipeline
+        catch( Throwable e ) {
+            // art must never fail a pipeline, and Nextflow logs what reaches it only at debug level
             log.warn "nf-arts: unable to create artwork -- ${e.message}", e
         }
     }
