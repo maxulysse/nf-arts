@@ -21,11 +21,11 @@ class MondrianStyle implements Style {
         final gap = Math.max(1.5d, size * 0.008d)
         final groups = run.groups
         final weights = groups.collect { List<TaskTile> g -> (double) g.sum { TaskTile t -> weight(t) } }
-        final blocks = partition(weights, size * 0.05d + (canvas.width - size) / 2d, size * 0.05d + (canvas.height - size) / 2d, size * 0.9d, size * 0.9d, random)
+        final blocks = partition(weights, [size * 0.05d + (canvas.width - size) / 2d, size * 0.05d + (canvas.height - size) / 2d, size * 0.9d, size * 0.9d] as double[], random)
 
         groups.eachWithIndex { List<TaskTile> group, int i ->
             final b = blocks[i]
-            final cells = partition(group.collect { TaskTile t -> weight(t) }, b[0] + gap / 2, b[1] + gap / 2, b[2] - gap, b[3] - gap, random)
+            final cells = partition(group.collect { TaskTile t -> weight(t) }, [b[0] + gap / 2, b[1] + gap / 2, b[2] - gap, b[3] - gap] as double[], random)
             group.eachWithIndex { TaskTile tile, int j ->
                 final c = cells[j]
                 final x0 = c[0] + gap / 2, y0 = c[1] + gap / 2, x1 = c[0] + c[2] - gap / 2, y1 = c[1] + c[3] - gap / 2
@@ -46,34 +46,26 @@ class MondrianStyle implements Style {
     }
 
     /**
-     * Split a rectangle in two along its longer side, in proportion to the
-     * weights on each side, until each weight has its own block.
-     * Returns one [x, y, w, h] per weight, in order.
+     * Split a [x, y, w, h] block in two along its longer side, in proportion to
+     * the weights on each side, until each weight has its own block.
+     * Returns one block per weight, in order.
      */
-    static List<double[]> partition(List<Double> weights, double x, double y, double w, double h, Random random) {
+    static List<double[]> partition(List<Double> weights, double[] block, Random random) {
         if( weights.size() == 1 )
-            return [[x, y, w, h] as double[]]
+            return [block]
         final total = (double) weights.sum()
         double acc = 0
-        int cut = 1
-        for( int i = 0; i < weights.size() - 1; i++ ) {
-            acc += weights[i]
-            cut = i + 1
-            if( acc >= total / 2 )
-                break
-        }
-        final f = (double) weights.subList(0, cut).sum() / total
+        int cut = 0
+        while( cut < weights.size() - 1 && acc < total / 2 )
+            acc += weights[cut++]
+        final f = acc / total
+        final x = block[0], y = block[1], w = block[2], h = block[3]
         // near square blocks split either way, the seed decides
         final vertical = w > h * 1.2d || (h <= w * 1.2d && random.nextBoolean())
-        final List<double[]> result = []
-        if( vertical ) {
-            result.addAll(partition(weights.subList(0, cut), x, y, w * f, h, random))
-            result.addAll(partition(weights.subList(cut, weights.size()), x + w * f, y, w * (1 - f), h, random))
-        }
-        else {
-            result.addAll(partition(weights.subList(0, cut), x, y, w, h * f, random))
-            result.addAll(partition(weights.subList(cut, weights.size()), x, y + h * f, w, h * (1 - f), random))
-        }
+        final first = vertical ? [x, y, w * f, h] : [x, y, w, h * f]
+        final second = vertical ? [x + w * f, y, w * (1 - f), h] : [x, y + h * f, w, h * (1 - f)]
+        final List<double[]> result = partition(weights.subList(0, cut), first as double[], random)
+        result.addAll(partition(weights.subList(cut, weights.size()), second as double[], random))
         return result
     }
 }

@@ -14,6 +14,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 ### Changed
 
 - Internal restructuring of `Run`, `Artist.paint` and the `butterfly` style. Images are unchanged ([#22](https://github.com/maxulysse/nf-arts/pull/22)).
+- Smaller cleanups in the `mondrian`, `tree` and `iris` styles, and internal constants and helpers are private. Images are unchanged ([#27](https://github.com/maxulysse/nf-arts/pull/27)).
 
 ### Fixed
 

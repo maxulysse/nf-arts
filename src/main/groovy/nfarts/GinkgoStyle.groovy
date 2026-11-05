@@ -11,8 +11,8 @@ import groovy.transform.CompileStatic
 class GinkgoStyle implements Style {
 
     // half the opening of the fan
-    static final double SPREAD = Math.toRadians(56)
-    static final int STEPS = 12
+    private static final double SPREAD = Math.toRadians(56)
+    private static final int STEPS = 12
 
     @Override
     void draw(Run run, Canvas canvas, Palette palette, Random random) {
@@ -58,14 +58,14 @@ class GinkgoStyle implements Style {
     }
 
     /** distance from the stem to the leaf edge at angle a: wavy, notched in the middle, rounded at the shoulders */
-    static double rim(double a, double radius, double wave) {
+    private static double rim(double a, double radius, double wave) {
         final notch = 1 - 0.3d * Math.exp(-Math.pow(a / 0.09d, 2))
         final shoulder = 1 - 0.35d * Math.pow(Math.abs(a) / SPREAD, 5)
         return radius * (0.93d + 0.04d * Math.sin(a * 9 + wave)) * notch * shoulder
     }
 
     /** points of a vein from fraction `from` to `to` of its length, angled off by `split` after a fork */
-    static double[] vein(double cx, double by, double target, double length, double from, double to, double split) {
+    private static double[] vein(double cx, double by, double target, double length, double from, double to, double split) {
         final points = new double[(STEPS + 1) * 2]
         for( int s = 0; s <= STEPS; s++ ) {
             final t = from + (to - from) * s / STEPS

@@ -9,7 +9,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class ButterflyBody {
 
-    static final int ELLIPSE = 24, ANTENNA = 16, CLUB = 3, ABDOMEN = 32
+    private static final int ELLIPSE = 24, ANTENNA = 16, CLUB = 3, ABDOMEN = 32
 
     static void draw(Canvas canvas, double cx, double cy, int processes, Palette palette) {
         final size = canvas.size

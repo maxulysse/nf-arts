@@ -10,7 +10,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class RidgelineStyle implements Style {
 
-    static final int BINS = 240
+    private static final int BINS = 240
 
     @Override
     void draw(Run run, Canvas canvas, Palette palette, Random random) {

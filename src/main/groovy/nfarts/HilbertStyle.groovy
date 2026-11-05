@@ -70,7 +70,7 @@ class HilbertStyle implements Style {
         return [x, y] as int[]
     }
 
-    static int[] transform(int[] xy, int n, int symmetry) {
+    private static int[] transform(int[] xy, int n, int symmetry) {
         int x = xy[0], y = xy[1]
         if( symmetry & 1 ) { final tmp = x; x = y; y = tmp }
         if( symmetry & 2 ) x = n - 1 - x

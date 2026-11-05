@@ -19,7 +19,7 @@ class ArtsConfig implements ConfigScope {
     static final List<String> STYLES = Artist.STYLES.keySet().toList()
     /** names of the `arts` options */
     static final List<String> OPTIONS = ArtsConfig.declaredFields.findAll { it.isAnnotationPresent(ConfigOption) }*.name
-    static final List<String> FORMATS = ['svg', 'png']
+    private static final List<String> FORMATS = ['svg', 'png']
 
     @ConfigOption
     @Description('Draw the artwork when the run ends (default: `true`).')
