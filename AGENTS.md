@@ -21,6 +21,7 @@ make test                    # unit tests
 make install                 # install into ~/.nextflow/plugins
 make dev-repo                # local plugin repo for `nextflow plugin`
 make -s version              # the version from build.gradle
+make images                  # render docs/images from megatest traces
 ```
 
 ## Rules
@@ -29,7 +30,7 @@ make -s version              # the version from build.gradle
 - Every PR adds a `CHANGELOG.md` line, starting with its PR number, in number order.
 - A refactor must not visibly change images. `StylesTest.SVG_HASHES` pins each style's SVG; if a hash changes, render that style before and after, compare the images by eye, and update the hash only for an intended change.
 - Images in `docs/` come from real runs only.
-- Images rendered with a `-dev` build show `-dev` in their caption. At release, regenerate them with the release build.
+- Images rendered with a `-dev` build show `-dev` in their caption. At release, regenerate them with `make images` and the release build. `test-rnavar-*` stay frozen at 1.0.0: their run is gone.
 - README links and images are absolute GitHub URLs: the Nextflow Registry shows the README outside the repository.
 - The art only uses the task fields listed in `docs/data.md`. Anything new that reaches the image, including caption text, must be added there first.
 - Branch protection requires only the `CI pass` job, so a matrix change needs no change there.
