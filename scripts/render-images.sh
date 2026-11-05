@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+# Render docs/images/megatest-*.png from their nf-core megatest traces. Run with `make images`.
+# test-rnavar-* are not here: their run is gone, so they stay as rendered with 1.0.0.
+set -euo pipefail
+
+BUCKET=s3://nf-core-awsmegatests
+ALL='radial hilbert ridgeline phyllotaxis flowfield mondrian tree ginkgo iris butterfly'
+
+# render <run> <palette> <trace, from the bucket> <styles>
+render() {
+    local run=$1 palette=$2 trace=$3 style size
+    for style in $4; do
+        case $style in
+            flowfield|ginkgo|mondrian|phyllotaxis|ridgeline|tree) size=600 ;;
+            *) size=800 ;;
+        esac
+        # mondrian keeps its own palette
+        local options=()
+        [ "$style" = mondrian ] || options=(--palette "$palette")
+        nextflow plugin nf-arts:render --trace "$BUCKET/$trace" --style "$style" "${options[@]}" \
+            --width "$size" --height "$size" --file "docs/images/megatest-$run-$style.png" </dev/null
+    done
+}
+
+render rnavar nfcore rnavar/results-ea2c7b6286f5ae18f5b51dc0af6b5330ecd6a13a/pipeline_info/execution_trace_2025-12-05_11-13-40.txt "$ALL"
+render sarek magma sarek/results-5bb160ddb2cee50c811585e450b16cba13c95a02/somatic_test/pipeline_info/execution_trace_2022-08-03_12-46-37.txt "$ALL"
+render rnaseq viridis rnaseq/results-a1fcdddd3b826fe46eb46f0479f2ff8a7815af05/aligner_star_rsem/pipeline_info/execution_trace_2026-09-23_13-00-35.txt 'radial hilbert'
+render mag ocean mag/results-ccfb744aab0c00a805a2dfbf7d9c9d8729c30805/pipeline_info/execution_trace_2025-12-05_12-04-38.txt 'radial hilbert'
+render raredisease sunset raredisease/results-47a41a53ecf3c10408efb6a26a3cb2608d71289d/pipeline_info/execution_trace_2025-01-17_17-01-38.txt 'radial hilbert'
+render viralrecon mono viralrecon/results-a85d5969f9025409e3618d6c280ef15ce417df65/platform_illumina/pipeline_info/execution_trace_2021-05-14_00-10-21.txt 'radial hilbert'
+render taxprofiler rainbow taxprofiler/results-70ecc15e49b4f1fcf79d876643b5d14b65c66178/pipeline_info/execution_trace_2026-06-15_12-47-45.txt 'radial hilbert'
+render ampliseq nfcore ampliseq/results-e7bcfdadc2cebfe3fd096b02d6379a630a9d17fb/pipeline_info/execution_trace_2025-10-07_07-45-50.txt butterfly
+render atacseq rainbow atacseq/results-415795d3c14fb296c6418b427279ca34ab976844/pipeline_info/execution_trace_2023-07-24_10-28-06.txt butterfly
+render cutandrun sunset cutandrun/results-dcaa4423d783017996c30302d16d772facb0da7e/pipeline_info/execution_trace_2022-10-27_09-14-59.txt butterfly
+render methylseq nfcore methylseq/results-c9729e4b64db1c7ea50920a27dd8c5e3fbdd64f4/pipeline_info/execution_trace_2024-10-18_11-26-51.txt butterfly
+render rnafusion ocean rnafusion/results-eabd3f2d60d3e70d5e80d6c62b81d7d3473c36d1/pipeline_info/execution_trace_2026-03-18_08-14-28.txt butterfly
+render smrnaseq magma smrnaseq/results-cb0af579b24cb8d5a3accd87b2f14ea93fe04832/pipeline_info/execution_trace_2026-01-07_13-43-10.txt butterfly

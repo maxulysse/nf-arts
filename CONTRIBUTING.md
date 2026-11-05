@@ -35,11 +35,11 @@ nextflow plugin nf-arts:render --style ginkgo --file art.png
 2. Register it in `Artist.STYLES`. The config check and `render --help` pick it up from there.
 3. Add the name to the `style` description in `ArtsConfig`.
 4. Add a test in `StylesTest`: the tests over `ArtsConfig.STYLES` cover PNG size, seeds, task order and single-task runs, so add one for the shapes your style draws, and a `StylesTest.SVG_HASHES` entry.
-5. Add the style to `docs/styles.md` with its rnavar megatest image, and a row to the "Every style" table in `docs/gallery.md`. Images come from real runs only: render them with `render` from the runs already in those tables, not from synthetic data.
+5. Add the style to `docs/styles.md` with its rnavar megatest image, and a row to the "Every style" table in `docs/gallery.md`. Images come from real runs only: add them to `scripts/render-images.sh`, which renders the runs already in those tables, not synthetic data.
 
 ## Releasing
 
-Drop `-dev` from the version in `build.gradle` and `CHANGELOG.md`, add the codename to its `CHANGELOG.md` heading, copy `.env.example` to `.env`, set `NPR_API_KEY`, then run `make release`.
+Drop `-dev` from the version in `build.gradle` and `CHANGELOG.md`, add the codename to its `CHANGELOG.md` heading, run `make images`, copy `.env.example` to `.env`, set `NPR_API_KEY`, then run `make release`.
 
 ## Style
 

@@ -32,6 +32,10 @@ release:
 # Then: export NXF_PLUGINS_TEST_REPOSITORY="file://$(CURDIR)/build/plugin-repo/plugins.json"
 VERSION = $(shell sed -n "s/^version = '\(.*\)'/\1/p" build.gradle)
 
+# Render the doc images. `install` too, as `nextflow plugin` prefers an installed plugin.
+images: install dev-repo
+	NXF_PLUGINS_TEST_REPOSITORY="file://$(CURDIR)/build/plugin-repo/plugins.json" scripts/render-images.sh
+
 # Print the plugin version, e.g. for `-plugins nf-arts@$(make -s version)`
 version:
 	@echo $(VERSION)
