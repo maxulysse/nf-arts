@@ -75,6 +75,12 @@ class ArtsObserverTest extends Specification {
         failure << [new IllegalStateException('boom'), new OutOfMemoryError('boom')]
     }
 
+    def 'should log where the Nextflow console shows it' () {
+        expect:
+        Artist.log.name.startsWith('nextflow')
+        ArtsObserver.log.name.startsWith('nextflow')
+    }
+
     def 'should name the file after the run' () {
         expect:
         Artist.outputPaths(new PaintedRun([], new Title(null, null, 'happy_turing'), null), new ArtsConfig([:]))*.toString() == ['art-happy_turing.svg', 'art-happy_turing.png']

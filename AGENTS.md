@@ -37,6 +37,7 @@ make -s version              # the version from build.gradle
 ## Pitfalls
 
 - `nextflow plugin` resolves plugins by bare ID from the registry. Use `make dev-repo` plus `NXF_PLUGINS_TEST_REPOSITORY`, and call `nf-arts:render`, not `nf-arts@x.y.z:render`.
+- Nextflow's console only shows loggers under `nextflow`, so use `@Slf4j(category = 'nextflow.arts')`. `nextflow plugin` shows no log messages at all, so `RenderCommand` prints to stderr.
 - `nextflow plugin` ignores the returned exit code, so `ArtsPlugin.exec` calls `System.exit` on failure.
 - `PluginExecAware.exec` lost its `Launcher` parameter in 26.10. `ArtsPlugin` implements both signatures, so do not use the `PluginAbstractExec` trait.
 - The cache cannot be read inside Gradle tests: its serializer needs `--add-opens`, which the `nextflow` launcher passes. Test history renders through the CLI.
