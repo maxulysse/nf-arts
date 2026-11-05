@@ -6,24 +6,25 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 
 ### Added
 
-- A `rainbow` palette ([#17](https://github.com/maxulysse/nf-arts/pull/17)).
-- An `iris` style: each task is a fibre of an eye's iris ([#18](https://github.com/maxulysse/nf-arts/pull/18)).
-- A website with a gallery, built from `docs/` and deployed to GitHub Pages ([#19](https://github.com/maxulysse/nf-arts/pull/19)).
-- A `butterfly` style: each process is a wing cell and each task a stroke across it, with wing size, tails and eyespots grown from the run ([#21](https://github.com/maxulysse/nf-arts/pull/21)).
+- [#17](https://github.com/maxulysse/nf-arts/pull/17): A `rainbow` palette.
+- [#18](https://github.com/maxulysse/nf-arts/pull/18): An `iris` style: each task is a fibre of an eye's iris.
+- [#19](https://github.com/maxulysse/nf-arts/pull/19): A website with a gallery, built from `docs/` and deployed to GitHub Pages.
+- [#21](https://github.com/maxulysse/nf-arts/pull/21): A `butterfly` style: each process is a wing cell and each task a stroke across it, with wing size, tails and eyespots grown from the run.
 
 ### Changed
 
-- The docs build leaves no scratch files behind when it fails, and the CI actions are pinned to commits ([#28](https://github.com/maxulysse/nf-arts/pull/28)).
-- Internal restructuring of `Run`, `Artist.paint` and the `butterfly` style. Images are unchanged ([#22](https://github.com/maxulysse/nf-arts/pull/22)).
-- Smaller cleanups in the `mondrian`, `tree` and `iris` styles, and internal constants and helpers are private. Images are unchanged ([#27](https://github.com/maxulysse/nf-arts/pull/27), [#29](https://github.com/maxulysse/nf-arts/pull/29)).
+- [#22](https://github.com/maxulysse/nf-arts/pull/22): Internal restructuring of `Run`, `Artist.paint` and the `butterfly` style. Images are unchanged.
+- [#27](https://github.com/maxulysse/nf-arts/pull/27), [#29](https://github.com/maxulysse/nf-arts/pull/29): Smaller cleanups in the `mondrian`, `tree` and `iris` styles, and internal constants and helpers are private. Images are unchanged.
+- [#28](https://github.com/maxulysse/nf-arts/pull/28): The docs build leaves no scratch files behind when it fails, and the CI actions are pinned to commits.
+- [#30](https://github.com/maxulysse/nf-arts/pull/30): `CHANGELOG.md` entries start with their PR number and are ordered by it.
 
 ### Fixed
 
-- Returning visitors on the `auto` theme no longer see a flash of the light theme ([#24](https://github.com/maxulysse/nf-arts/pull/24)).
-- The website landing page uses the same width and code highlighting as the docs pages ([#20](https://github.com/maxulysse/nf-arts/pull/20)).
-- Tasks that start at the same time, such as cached tasks, are drawn in a fixed order, so a resumed run gives the same image live and from its history ([#25](https://github.com/maxulysse/nf-arts/pull/25)).
-- CI has one required check, `CI pass`, so changing the build matrix no longer needs a branch protection update ([#23](https://github.com/maxulysse/nf-arts/pull/23)).
-- Tasks with no start or submit time sit at the start of the run in every source, and a task name without a process loses its tag ([#26](https://github.com/maxulysse/nf-arts/pull/26)).
+- [#20](https://github.com/maxulysse/nf-arts/pull/20): The website landing page uses the same width and code highlighting as the docs pages.
+- [#23](https://github.com/maxulysse/nf-arts/pull/23): CI has one required check, `CI pass`, so changing the build matrix no longer needs a branch protection update.
+- [#24](https://github.com/maxulysse/nf-arts/pull/24): Returning visitors on the `auto` theme no longer see a flash of the light theme.
+- [#25](https://github.com/maxulysse/nf-arts/pull/25): Tasks that start at the same time, such as cached tasks, are drawn in a fixed order, so a resumed run gives the same image live and from its history.
+- [#26](https://github.com/maxulysse/nf-arts/pull/26): Tasks with no start or submit time sit at the start of the run in every source, and a task name without a process loses its tag.
 
 ## v1.0.0 - Tournesols
 
