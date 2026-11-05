@@ -25,7 +25,7 @@ plugins {
 }
 ```
 
-The run writes `art-<runName>.svg` to the launch directory. To add nf-arts to a pipeline you don't edit, see [configuration](https://github.com/maxulysse/nf-arts/blob/main/docs/configuration.md#in-a-pipeline-you-dont-edit).
+The run writes `art-<runName>.svg` and `art-<runName>.png` to the launch directory. To add nf-arts to a pipeline you don't edit, see [configuration](https://github.com/maxulysse/nf-arts/blob/main/docs/configuration.md#in-a-pipeline-you-dont-edit).
 
 ## Examples
 

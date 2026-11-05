@@ -8,7 +8,7 @@ plugins {
 }
 ```
 
-At the end of the run, nf-arts writes `art-<runName>.svg` to the launch directory.
+At the end of the run, nf-arts writes `art-<runName>.svg` and `art-<runName>.png` to the launch directory.
 
 ### In a pipeline you don't edit
 
@@ -36,7 +36,7 @@ arts {
 | Option | Default | Description |
 | --- | --- | --- |
 | `enabled` | `true` | Draw the artwork when the run ends. |
-| `file` | `art-<runName>.svg` | Output file. `.svg` or `.png` sets the format. Cloud paths work. Overwrites an existing file. |
+| `file` | `art-<runName>.svg` and `.png` | One output file instead of both. `.svg` or `.png` sets the format. Cloud paths work. Overwrites an existing file. |
 | `style` | `radial` | One of the [styles](styles.md). |
 | `palette` | `viridis` | `viridis`, `magma`, `nfcore`, `ocean`, `sunset`, `rainbow`, `mono` or `mondrian`. The mondrian style defaults to `mondrian`. |
 | `colors` | | Hex colors (`#rrggbb`), overriding `palette`. |

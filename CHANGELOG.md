@@ -20,6 +20,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 - [#32](https://github.com/maxulysse/nf-arts/pull/32): The docs promise the same SVG for the same tasks and nf-arts version, instead of the same image for a run.
 - [#34](https://github.com/maxulysse/nf-arts/pull/34): Tests pin the SVG of every style, so a change to an image cannot pass unnoticed.
 - [#35](https://github.com/maxulysse/nf-arts/pull/35): The caption shows the pipeline only if it looks like `org/name` or a URL, so local paths stay out of the image. `--pipeline` still sets it by hand.
+- [#36](https://github.com/maxulysse/nf-arts/pull/36): Without `file`, nf-arts writes both `art-<runName>.svg` and `art-<runName>.png`, and a failed file leaves the other one. `file` still writes one file.
 
 ### Fixed
 

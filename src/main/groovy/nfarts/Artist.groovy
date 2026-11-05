@@ -4,11 +4,13 @@ import java.nio.file.Files
 import java.nio.file.Path
 
 import groovy.transform.CompileStatic
+import groovy.util.logging.Slf4j
 import nextflow.file.FileHelper
 
 /**
  * Paints a run with the configured style, palette and size.
  */
+@Slf4j
 @CompileStatic
 class Artist {
 
@@ -33,18 +35,37 @@ class Artist {
         return props.getProperty('version')
     }
 
-    /** paint the run to `arts.file`, or `art-<runName>.svg` */
-    static Path save(PaintedRun run, ArtsConfig config) {
-        final path = outputPath(run, config)
-        final bytes = paint(run, config, ArtsConfig.format(path.toString()))
-        if( path.parent )
-            Files.createDirectories(path.parent)
-        Files.write(path, bytes)
-        return path
+    /** paint the run to `arts.file`, or to `art-<runName>.svg` and `.png` */
+    static List<Path> save(PaintedRun run, ArtsConfig config, Closure warn = { log.warn(it as String) }) {
+        write(run, config, outputPaths(run, config), warn)
     }
 
-    static Path outputPath(PaintedRun run, ArtsConfig config) {
-        FileHelper.asPath(config.file ?: "art-${run.title().runName() ?: 'run'}.svg".toString())
+    /** a failed file does not stop the others; fails only if no file was written */
+    static List<Path> write(PaintedRun run, ArtsConfig config, List<Path> paths, Closure warn) {
+        final written = [] as List<Path>
+        Throwable failure = null
+        for( path in paths ) {
+            try {
+                final bytes = paint(run, config, ArtsConfig.format(path.toString()))
+                if( path.parent )
+                    Files.createDirectories(path.parent)
+                Files.write(path, bytes)
+                written << path
+            }
+            catch( Throwable e ) {
+                failure = e
+                warn.call("nf-arts: unable to write ${path} -- ${e.message}".toString())
+            }
+        }
+        if( !written )
+            throw failure
+        return written
+    }
+
+    static List<Path> outputPaths(PaintedRun run, ArtsConfig config) {
+        final name = "art-${run.title().runName() ?: 'run'}"
+        final files = config.file ? [config.file] : ["${name}.svg".toString(), "${name}.png".toString()]
+        files.collect { String it -> FileHelper.asPath(it) }
     }
 
     static byte[] paint(PaintedRun run, ArtsConfig config, String format) {
