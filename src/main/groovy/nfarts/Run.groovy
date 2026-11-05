@@ -17,7 +17,7 @@ class Run {
 
     Run(List<TaskTile> tiles) {
         // ties must not depend on arrival, which differs between a live run and its history
-        this.tiles = replayCached(tiles).toSorted { TaskTile a, TaskTile b ->
+        this.tiles = alignStarts(tiles).toSorted { TaskTile a, TaskTile b ->
             a.start() <=> b.start() ?: a.process() <=> b.process() ?: a.duration() <=> b.duration() ?: a.memory() <=> b.memory() ?: a.status() <=> b.status()
         }
         // processes in order of first appearance
@@ -30,14 +30,16 @@ class Run {
         this.durationScale = LogScale.of(this.tiles*.duration())
     }
 
-    /** cached tasks carry the times of an earlier run, so move them to the start of this one */
-    private static List<TaskTile> replayCached(List<TaskTile> tiles) {
-        final fresh = tiles.findAll { TaskTile it -> it.status() != Status.CACHED }
-        if( !fresh || fresh.size() == tiles.size() )
+    /** cached tasks carry the times of an earlier run and some tasks have none, so move them to the start of this one */
+    private static List<TaskTile> alignStarts(List<TaskTile> tiles) {
+        final timed = tiles.findAll { TaskTile it -> it.start() > 0 }
+        final fresh = timed.findAll { TaskTile it -> it.status() != Status.CACHED }
+        final known = fresh ?: timed
+        if( !known )
             return tiles
-        final t0 = fresh*.start().min() as long
+        final t0 = known*.start().min() as long
         return tiles.collect { TaskTile it ->
-            it.status() == Status.CACHED ? new TaskTile(it.process(), t0, it.duration(), it.memory(), it.status()) : it
+            it.start() <= 0 || (fresh && it.status() == Status.CACHED) ? new TaskTile(it.process(), t0, it.duration(), it.memory(), it.status()) : it
         }
     }
 

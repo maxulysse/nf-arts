@@ -100,6 +100,20 @@ class StylesTest extends Specification {
         new Run([new TaskTile('A', 5, 1, 1, Status.CACHED)]).t0 == 5
     }
 
+    def 'tasks with no time should sit at the start of the run' () {
+        given:
+        def tile = { long start, Status status -> new TaskTile('A', start, 10, 1, status) }
+        def run = new Run([tile(1000, Status.COMPLETED), tile(0, Status.FAILED), tile(1500, Status.COMPLETED)])
+        def cached = new Run([tile(5, Status.CACHED), tile(0, Status.CACHED), tile(9, Status.CACHED)])
+
+        expect:
+        run.t0 == 1000
+        run.tiles*.start() == [1000, 1000, 1500]
+        // a run that is all cached keeps its times, and takes the first known one
+        cached.tiles*.start() == [5, 5, 9]
+        new Run([tile(0, Status.COMPLETED)]).t0 == 0
+    }
+
     def 'memory should be on a log scale between the smallest and largest task' () {
         given:
         def run = new Run([

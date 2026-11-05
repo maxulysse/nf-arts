@@ -7,7 +7,7 @@ nf-arts draws from a few numbers per task. Nothing about your data, samples, inp
 | Field | Read from | Used for |
 | --- | --- | --- |
 | Process name | the process, without the task tag | Grouping tasks and picking colors, in order of first start. In `butterfly`, a process's task count also sets its cell's width and its margin spot. Never written into the image. |
-| Start time | `start`, else `submit` | Position in time, relative to the first task of the run. |
+| Start time | `start`, else `submit` | Position in time, relative to the first task of the run. A task with neither sits at the start of the run. |
 | Duration | `realtime`, else `duration` | Length of the shape. In `iris`, also the ring's shape and the highlight's position. In `butterfly`, also wing size, outline and tails. |
 | Peak memory | `peak_rss` | Width or size of the shape, on a log scale. In `butterfly`, also where the eyespots sit. |
 | Status | `status`, or cached | Opacity; failed tasks are thinner, smaller, hollow or leafless, or bite a butterfly's wing. |
