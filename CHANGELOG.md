@@ -15,7 +15,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 
 - The docs build leaves no scratch files behind when it fails, and the CI actions are pinned to commits ([#28](https://github.com/maxulysse/nf-arts/pull/28)).
 - Internal restructuring of `Run`, `Artist.paint` and the `butterfly` style. Images are unchanged ([#22](https://github.com/maxulysse/nf-arts/pull/22)).
-- Smaller cleanups in the `mondrian`, `tree` and `iris` styles, and internal constants and helpers are private. Images are unchanged ([#27](https://github.com/maxulysse/nf-arts/pull/27)).
+- Smaller cleanups in the `mondrian`, `tree` and `iris` styles, and internal constants and helpers are private. Images are unchanged ([#27](https://github.com/maxulysse/nf-arts/pull/27), [#29](https://github.com/maxulysse/nf-arts/pull/29)).
 
 ### Fixed
 

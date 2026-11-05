@@ -72,7 +72,7 @@ class RunReader {
         return new PaintedRun(tasks(file), report?.title() ?: new Title(null, null, null), report?.session())
     }
 
-    static List<TaskTile> tasks(Path file) {
+    private static List<TaskTile> tasks(Path file) {
         final lines = Files.readAllLines(file)
         if( !lines )
             throw new IllegalArgumentException("Empty trace file: ${file}")

@@ -174,7 +174,7 @@ class RunReaderTest extends Specification {
         file.text = TRACE.text.readLines().take(3).join('\n') + '\n7\tab/cdef12\t-\tNFCORE_X (s1)\n'
 
         expect:
-        RunReader.tasks(file).size() == 2
+        RunReader.fromTrace(file).tiles().size() == 2
 
         cleanup:
         Files.delete(file)
