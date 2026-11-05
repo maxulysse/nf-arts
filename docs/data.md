@@ -32,7 +32,9 @@ The caption shows the pipeline name, its version, the run name and the nf-arts v
 | `render` from the history | what followed `nextflow run` | `-r` | run name |
 | `render --trace` | repository in the execution report, else its command line | revision in the report | run name in the report |
 
-From the history, "what followed `nextflow run`" can be a local path, such as `/home/me/secret-project/main.nf`. Before sharing an image, check its caption, or drop it:
+The pipeline shows only if it looks like `org/name` or an http(s) URL with no credentials, so that local paths such as `/home/me/secret-project/main.nf` stay out of the image. A `manifest.name` with no slash, such as `rnavar`, is dropped too. `--pipeline` sets it by hand, as is.
+
+A relative folder such as `secret/project` looks like `org/name`, so it still shows. Before sharing an image, check its caption, or drop it:
 
 ```groovy
 arts {

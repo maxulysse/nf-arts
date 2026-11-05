@@ -12,6 +12,11 @@ record Title(String pipeline, String revision, String runName) {
         [pipeline, revision, runName].findAll { String it -> it }.join(' · ')
     }
 
+    /** the pipeline if it is `org/name` or a URL without credentials, as anything else may be a local path */
+    static String shareable(String pipeline) {
+        pipeline ==~ /[\w-][\w.-]*\/[\w.-]+|https?:\/\/[^@]+/ ? pipeline : null
+    }
+
     /** this title, with the parts that `other` has */
     Title overriddenBy(Title other) {
         new Title(other.pipeline ?: pipeline, other.revision ?: revision, other.runName ?: runName)
@@ -57,6 +62,6 @@ record Title(String pipeline, String revision, String runName) {
             else if( pipeline == null )
                 pipeline = arg
         }
-        return new Title(pipeline, revision, runName)
+        return new Title(shareable(pipeline), revision, runName)
     }
 }

@@ -56,7 +56,7 @@ class ArtsObserver implements TraceObserverV2 {
         }
         try {
             final meta = session?.workflowMetadata
-            final title = new Title(meta?.manifest?.name ?: meta?.projectName, meta?.manifest?.version ?: meta?.revision, session?.runName)
+            final title = new Title(Title.shareable(meta?.manifest?.name ?: meta?.projectName), meta?.manifest?.version ?: meta?.revision, session?.runName)
             final path = Artist.save(new PaintedRun(getTiles(), title, session?.uniqueId), config)
             log.info "nf-arts: artwork saved to ${path}"
         }
