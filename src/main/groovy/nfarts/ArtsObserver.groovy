@@ -41,7 +41,7 @@ class ArtsObserver implements TraceObserverV2 {
 
     private void add(TraceRecord trace, boolean cached) {
         if( trace != null )
-            tiles << RunReader.tile(trace, cached, System.currentTimeMillis())
+            tiles << RunReader.tile(trace, cached)
     }
 
     List<TaskTile> getTiles() {

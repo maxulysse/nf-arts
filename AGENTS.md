@@ -9,7 +9,7 @@ Notes for AI coding agents working on nf-arts. Read `CONTRIBUTING.md` for the wo
 - `RunReader`: finished runs, from the history and cache (`fromHistory`) or a trace file (`fromTrace`). Both return a `PaintedRun`.
 - `PaintedRun`: tasks, caption (`Title`) and session. Its seed is the session, else a hash of plain task values.
 - `Artist`: the style registry (`STYLES`), `save` (output path, format, write) and `paint` (canvas, caption band).
-- `Run`: the model styles draw from: sorted tasks, processes, time span, log-scaled memory and duration. It moves cached tasks to the start of the run.
+- `Run`: the model styles draw from: sorted tasks, processes, time span, log-scaled memory and duration. It moves cached tasks, and tasks with no time, to the start of the run.
 - `Status`: `COMPLETED`, `FAILED`, `CACHED`, with opacity and `thin()`.
 - `Style` implementations, one per file, with `Wing` and `ButterflyBody` for `ButterflyStyle`. `Canvas` with `SvgCanvas`, `PngCanvas`, `InsetCanvas` (the area above the caption) and `MirrorCanvas` (draws both sides of a vertical axis).
 - `Palette`, `ArtsConfig` (the `arts` scope), `Title`, `Report` (parses the execution report next to a trace).

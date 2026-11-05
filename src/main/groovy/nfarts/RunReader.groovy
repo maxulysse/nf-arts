@@ -18,12 +18,12 @@ import nextflow.util.MemoryUnit
 @CompileStatic
 class RunReader {
 
-    /** `fallbackStart` is for tasks with neither a start nor a submit time */
-    static TaskTile tile(TraceRecord trace, boolean cached, long fallbackStart) {
+    /** a task with neither a start nor a submit time gets start 0, which `Run` places */
+    static TaskTile tile(TraceRecord trace, boolean cached) {
         final duration = (trace.get('realtime') ?: trace.get('duration') ?: 0L) as long
-        final start = (trace.get('start') ?: trace.get('submit') ?: fallbackStart) as long
+        final start = (trace.get('start') ?: trace.get('submit') ?: 0L) as long
         final memory = (trace.get('peak_rss') ?: 0L) as long
-        return new TaskTile(trace.getProcessName() ?: trace.get('name') as String, start, duration, memory, Status.of(trace.get('status'), cached))
+        return new TaskTile(trace.getProcessName() ?: process(trace.get('name') as String), start, duration, memory, Status.of(trace.get('status'), cached))
     }
 
     /**
@@ -38,7 +38,7 @@ class RunReader {
         final db = new CacheDB(new DefaultCacheStore(record.sessionId, record.runName, dir.resolve('.nextflow'))).openForRead()
         final tiles = new ArrayList<TaskTile>()
         try {
-            db.eachRecord { TraceRecord trace -> tiles << tile(trace, trace.cached, 0L) }
+            db.eachRecord { TraceRecord trace -> tiles << tile(trace, trace.cached) }
         }
         finally {
             db.close()
@@ -94,7 +94,7 @@ class RunReader {
             final time = value(row, 'realtime') ?: value(row, 'duration')
             final rss = value(row, 'peak_rss')
             tiles << new TaskTile(
-                row.name.replaceFirst(/ \(.*\)$/, ''),
+                process(row.name),
                 when ? dates.parse(when).time : 0L,
                 time ? Duration.of(time).toMillis() : 0L,
                 rss ? MemoryUnit.of(rss).toBytes() : 0L,
@@ -120,6 +120,11 @@ class RunReader {
         catch( Exception ignored ) {
             return null
         }
+    }
+
+    /** the process in a task name, without the tag */
+    private static String process(String name) {
+        name?.replaceFirst(/ \(.*\)$/, '')
     }
 
     private static String value(Map<String, String> row, String key) {

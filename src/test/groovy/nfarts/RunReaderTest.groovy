@@ -52,9 +52,18 @@ class RunReaderTest extends Specification {
         trace.putAll(process: 'FOO', start: 100L, realtime: 50L, peak_rss: 7L, status: 'COMPLETED')
 
         expect:
-        RunReader.tile(trace, false, 1) == new TaskTile('FOO', 100, 50, 7, Status.COMPLETED)
-        RunReader.tile(trace, true, 1) == new TaskTile('FOO', 100, 50, 7, Status.CACHED)
-        RunReader.tile(new TraceRecord(), false, 1).start() == 1
+        RunReader.tile(trace, false) == new TaskTile('FOO', 100, 50, 7, Status.COMPLETED)
+        RunReader.tile(trace, true) == new TaskTile('FOO', 100, 50, 7, Status.CACHED)
+        RunReader.tile(new TraceRecord(), false).start() == 0
+    }
+
+    def 'should drop the task tag when there is only a task name' () {
+        given:
+        def trace = new TraceRecord()
+        trace.put('name', 'FOO (sample1)')
+
+        expect:
+        RunReader.tile(trace, false).process() == 'FOO'
     }
 
     def 'should find runs in the history' () {
