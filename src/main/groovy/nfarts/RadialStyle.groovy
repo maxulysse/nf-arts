@@ -17,7 +17,7 @@ class RadialStyle implements Style {
         final band = (outer - inner) / run.processes.size()
 
         for( TaskTile tile : run.tiles ) {
-            final ring = run.processes.indexOf(tile.process())
+            final ring = run.rank(tile)
             // jitter inside the band so parallel tasks of one process fan out
             final r = inner + band * (ring + 0.5d + (random.nextDouble() - 0.5d) * 0.6d)
             final start = -90d + 360d * (tile.start() - run.t0) / run.span

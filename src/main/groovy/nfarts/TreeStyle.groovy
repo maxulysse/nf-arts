@@ -18,7 +18,7 @@ class TreeStyle implements Style {
         final trunk = size * 0.02d
         canvas.polyline([cx, base, cx + (random.nextDouble() - 0.5d) * size * 0.04d, crown] as double[], trunk, palette.at(0), 1d)
 
-        final groups = run.processes.collect { String p -> run.tasksOf(p) }
+        final groups = run.groups
         final most = groups*.size().max() as int
         final List<double[]> leaves = []
         final List<TaskTile> leafTiles = []

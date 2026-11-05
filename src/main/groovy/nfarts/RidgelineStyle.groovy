@@ -24,7 +24,7 @@ class RidgelineStyle implements Style {
         // running tasks per process and time bin, cached tasks count less
         final load = new double[processes][BINS]
         for( TaskTile tile : run.tiles ) {
-            final p = run.processes.indexOf(tile.process())
+            final p = run.rank(tile)
             final a = (tile.start() - run.t0) / (double) run.span * BINS
             final b = (tile.start() + Math.max(1L, tile.duration()) - run.t0) / (double) run.span * BINS
             final weight = tile.status() == Status.CACHED ? 0.3d : 1d

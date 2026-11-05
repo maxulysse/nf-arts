@@ -17,6 +17,10 @@ class SyntheticRun {
         [name: 'BCFTOOLS_STATS',min:   1, max:   4, mem:  200],
     ]
 
+    static String svg(List<TaskTile> tiles, ArtsConfig config, long seed = 1, Title title = new Title(null, null, null)) {
+        new String(Artist.paint(new PaintedRun(tiles, title, new UUID(seed, 0)), config, 'svg'))
+    }
+
     static List<TaskTile> create(long seed, int samples = 24, boolean resumed = false) {
         final rnd = new Random(seed)
         final tiles = []

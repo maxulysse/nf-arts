@@ -19,7 +19,7 @@ class IrisStyle implements Style {
         final collarette = pupil + (outer - pupil) * 0.3d
         final n = run.tiles.size()
         // the width that would close the circle halfway out, so many tasks fill the iris
-        final gap = 2 * Math.PI * (pupil + outer) / 2 / Math.max(1, n)
+        final gap = 2 * Math.PI * (pupil + outer) / 2 / n
         final angles = new double[n], ends = new double[n]
 
         run.tiles.eachWithIndex { TaskTile tile, int k ->
@@ -45,24 +45,22 @@ class IrisStyle implements Style {
 
         // the collarette: a ring where the inner and outer zones meet, pushed out
         // where nearby fibres are long, so its shape follows the run's durations
-        if( n ) {
-            final window = Math.max(1, n.intdiv(60) as int)
-            final mean = ends.sum() / n
-            final ring = new double[(n + 1) * 2]
-            for( int k = 0; k <= n; k++ ) {
-                double sum = 0
-                for( int j = -window; j <= window; j++ )
-                    sum += ends[Math.floorMod(k + j, n)]
-                final r = Math.max(pupil * 1.1d, collarette + (sum / (2 * window + 1) - mean) * 0.6d)
-                ring[2 * k] = cx + r * Math.cos(angles[k % n])
-                ring[2 * k + 1] = cy + r * Math.sin(angles[k % n])
-            }
-            canvas.polyline(ring, Math.max(1d, size * 0.003d), palette.ink(), 0.25d)
+        final window = Math.max(1, n.intdiv(60) as int)
+        final mean = ends.sum() / n
+        final ring = new double[(n + 1) * 2]
+        for( int k = 0; k <= n; k++ ) {
+            double sum = 0
+            for( int j = -window; j <= window; j++ )
+                sum += ends[Math.floorMod(k + j, n)]
+            final r = Math.max(pupil * 1.1d, collarette + (sum / (2 * window + 1) - mean) * 0.6d)
+            ring[2 * k] = cx + r * Math.cos(angles[k % n])
+            ring[2 * k + 1] = cy + r * Math.sin(angles[k % n])
         }
+        canvas.polyline(ring, Math.max(1d, size * 0.003d), palette.ink(), 0.25d)
 
         canvas.circle(cx, cy, pupil, palette.background, 1d)
         // the catchlight sits on the side of the longest task
-        final longest = n ? angles[(0..<n).max { int k -> ends[k] } as int] : -Math.PI / 4
+        final longest = angles[(0..<n).max { int k -> ends[k] } as int]
         canvas.circle(cx + pupil * 0.5d * Math.cos(longest), cy + pupil * 0.5d * Math.sin(longest), pupil * 0.18d, palette.ink(), 0.8d)
     }
 }

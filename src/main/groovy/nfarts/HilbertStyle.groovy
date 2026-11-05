@@ -30,7 +30,7 @@ class HilbertStyle implements Style {
             final to = Math.max(from + 1, Math.min(cells - 1, (int) Math.round(acc / total * (cells - 1))))
             final points = new double[(to - from + 1) * 2]
             for( int d = from; d <= to; d++ ) {
-                final xy = transform(d2xy(n, Math.min(d, cells - 1)), n, symmetry)
+                final xy = transform(d2xy(n, d), n, symmetry)
                 points[(d - from) * 2] = ox + xy[0] * cell
                 points[(d - from) * 2 + 1] = oy + xy[1] * cell
             }

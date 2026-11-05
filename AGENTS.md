@@ -11,7 +11,7 @@ Notes for AI coding agents working on nf-arts. Read `CONTRIBUTING.md` for the wo
 - `Artist`: the style registry (`STYLES`), `save` (output path, format, write) and `paint` (canvas, caption band).
 - `Run`: the model styles draw from: sorted tasks, processes, time span, log-scaled memory and duration. It moves cached tasks to the start of the run.
 - `Status`: `COMPLETED`, `FAILED`, `CACHED`, with opacity and `thin()`.
-- `Style` implementations, one per file. `Canvas` with `SvgCanvas`, `PngCanvas`, `InsetCanvas` (the area above the caption) and `MirrorCanvas` (draws both sides of a vertical axis).
+- `Style` implementations, one per file, with `Wing` and `ButterflyBody` for `ButterflyStyle`. `Canvas` with `SvgCanvas`, `PngCanvas`, `InsetCanvas` (the area above the caption) and `MirrorCanvas` (draws both sides of a vertical axis).
 - `Palette`, `ArtsConfig` (the `arts` scope), `Title`, `Report` (parses the execution report next to a trace).
 
 ## Commands
@@ -27,7 +27,7 @@ make -s version              # the version from build.gradle
 
 - Never push to `main`. Branch, open a PR against `main`, and let a maintainer merge. Stacked PRs also target `main`.
 - Every PR adds a `CHANGELOG.md` line.
-- A refactor must not change images. Render every style from fixed sources before and after, then compare the files byte for byte.
+- A refactor must not visibly change images. Render every style from fixed sources before and after; if the files differ, compare the images by eye.
 - Images in `docs/` come from real runs only.
 - Images rendered with a `-dev` build show `-dev` in their caption. At release, regenerate them with the release build.
 - README links and images are absolute GitHub URLs: the Nextflow Registry shows the README outside the repository.

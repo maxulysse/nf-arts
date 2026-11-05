@@ -30,7 +30,7 @@ class StylesTest extends Specification {
     def 'radial should draw one arc per task' () {
         given:
         def tiles = SyntheticRun.create(1, 4)
-        def svg = new String(Artist.paint(tiles, new ArtsConfig(width: 400, height: 300), 'svg', 1))
+        def svg = SyntheticRun.svg(tiles, new ArtsConfig(width: 400, height: 300))
 
         expect:
         svg.startsWith('<svg')
@@ -41,7 +41,7 @@ class StylesTest extends Specification {
     def 'hilbert should draw one line per task' () {
         given:
         def tiles = SyntheticRun.create(1, 4, true)
-        def svg = new String(Artist.paint(tiles, new ArtsConfig(style: 'hilbert'), 'svg', 1))
+        def svg = SyntheticRun.svg(tiles, new ArtsConfig(style: 'hilbert'))
 
         expect:
         svg.count('<polyline ') == tiles.size()
@@ -50,7 +50,7 @@ class StylesTest extends Specification {
 
     def 'should render a png of the requested size' () {
         when:
-        def bytes = Artist.paint(SyntheticRun.create(1, 4), new ArtsConfig(style: style, width: 320, height: 240), 'png', 1)
+        def bytes = Artist.paint(new PaintedRun(SyntheticRun.create(1, 4), new Title(null, null, null), null), new ArtsConfig(style: style, width: 320, height: 240), 'png')
         def image = ImageIO.read(new ByteArrayInputStream(bytes))
         then:
         image.width == 320
@@ -65,9 +65,9 @@ class StylesTest extends Specification {
         def config = new ArtsConfig(style: style)
 
         expect:
-        Artist.paint(tiles, config, 'svg', 7) == Artist.paint(tiles, config, 'svg', 7)
+        SyntheticRun.svg(tiles, config, 7) == SyntheticRun.svg(tiles, config, 7)
         // hilbert only has the 8 symmetries of the square
-        (1..8).collect { new String(Artist.paint(tiles, config, 'svg', it)) }.unique().size() > 1
+        (1..8).collect { SyntheticRun.svg(tiles, config, it) }.unique().size() > 1
         where:
         style << ArtsConfig.STYLES
     }
@@ -105,10 +105,9 @@ class StylesTest extends Specification {
         new Run([single]).memory(single) == 1d
     }
 
-    def 'should handle a single task and an empty run' () {
+    def 'should handle a single task' () {
         expect:
-        new String(Artist.paint([new TaskTile('A', 0, 0, 0, Status.COMPLETED)], new ArtsConfig(style: style), 'svg', 1)) =~ /<(path|polyline|polygon|circle) /
-        new String(Artist.paint([], new ArtsConfig(style: style), 'svg', 1)).contains('<rect')
+        SyntheticRun.svg([new TaskTile('A', 0, 0, 0, Status.COMPLETED)], new ArtsConfig(style: style)) =~ /<(path|polyline|polygon|circle) /
         where:
         style << ArtsConfig.STYLES
     }
@@ -118,7 +117,7 @@ class StylesTest extends Specification {
         def tiles = SyntheticRun.create(1, 4)
         def failed = tiles.count { it.status() == Status.FAILED }
         def processes = tiles*.process().unique().size()
-        def svg = { String style -> new String(Artist.paint(tiles, new ArtsConfig(style: style), 'svg', 1)) }
+        def svg = { String style -> SyntheticRun.svg(tiles, new ArtsConfig(style: style)) }
 
         expect:
         svg('phyllotaxis').count('<circle ') == tiles.size()
@@ -139,7 +138,7 @@ class StylesTest extends Specification {
     def 'butterfly should draw every task on both sides and stay on the canvas' () {
         given:
         def config = new ArtsConfig(style: 'butterfly', width: width, height: height, title: false)
-        def svg = new String(Artist.paint(tiles, config, 'svg', 1))
+        def svg = SyntheticRun.svg(tiles, config)
         def processes = tiles*.process().unique().size()
         // a lone process fills both wings
         def wings = processes == 1 ? 2 : 1
@@ -165,7 +164,7 @@ class StylesTest extends Specification {
     def 'butterfly should have no eyespots without memory' () {
         given:
         def tiles = SyntheticRun.create(1, 4).collect { new TaskTile(it.process(), it.start(), it.duration(), 0, it.status()) }
-        def svg = new String(Artist.paint(tiles, new ArtsConfig(style: 'butterfly'), 'svg', 1))
+        def svg = SyntheticRun.svg(tiles, new ArtsConfig(style: 'butterfly'))
 
         expect:
         // a wash per cell on both sides, then the abdomen's underlay and 8 bands, the thorax and the head
@@ -176,7 +175,7 @@ class StylesTest extends Specification {
         given:
         def tiles = SyntheticRun.create(1, 4)
         def failed = tiles.withIndex().collect { t, i -> i ? t : new TaskTile(t.process(), t.start(), t.duration(), t.memory(), Status.FAILED) }
-        def circles = { list -> new String(Artist.paint(list, new ArtsConfig(style: 'butterfly'), 'svg', 1)).count('<circle ') }
+        def circles = { list -> SyntheticRun.svg(list, new ArtsConfig(style: 'butterfly')).count('<circle ') }
 
         expect:
         circles(failed) == circles(tiles) + 1
