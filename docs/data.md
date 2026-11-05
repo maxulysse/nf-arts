@@ -44,7 +44,7 @@ or `--title false` with `render`. `--pipeline`, `--revision` and `--run-name` se
 
 ## Randomness
 
-The session ID seeds the random choices, such as jitter and orientation, so a run always gives the same image. Without a session, for a trace file with no execution report, a hash of the task values above is the seed. Neither is written into the image.
+The session ID seeds the random choices, such as jitter and orientation. The same tasks and the same nf-arts version give the same SVG. A PNG can differ in its caption text, which uses a font from the host. A resumed run keeps its session but its tasks can differ, and styles can change between versions, so either can change the image. Without a session, for a trace file with no execution report, a hash of the task values above is the seed. Neither is written into the image.
 
 ## The files
 
