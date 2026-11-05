@@ -12,7 +12,8 @@ record Report(Title title, UUID session) {
         final runName = find(html, /<title>\[([^\]]+)\]/)
         final session = find(html, /Workflow session<\/dt>\s*<dd[^>]*><code>([0-9a-f-]{36})</)
         final repository = find(html, /Workflow repository<\/dt>\s*<dd[^>]*><code>([^<]+)<\/code>/)
-        final revision = find(html, /Workflow repository<\/dt>\s*<dd[^>]*><code>[^<]+<\/code>, revision <code>([^<]+)</)
+        // a run with no revision reports `null`
+        final revision = find(html, /Workflow repository<\/dt>\s*<dd[^>]*><code>[^<]+<\/code>, revision <code>(?!null<)([^<]+)</)
         // a repository URL ends with <org>/<name>, else fall back to the command line
         final pipeline = repository
             ? repository.replaceFirst(/\.git$/, '').tokenize('/').takeRight(2).join('/')
