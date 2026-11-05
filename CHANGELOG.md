@@ -25,6 +25,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 - [#24](https://github.com/maxulysse/nf-arts/pull/24): Returning visitors on the `auto` theme no longer see a flash of the light theme.
 - [#25](https://github.com/maxulysse/nf-arts/pull/25): Tasks that start at the same time, such as cached tasks, are drawn in a fixed order, so a resumed run gives the same image live and from its history.
 - [#26](https://github.com/maxulysse/nf-arts/pull/26): Tasks with no start or submit time sit at the start of the run in every source, and a task name without a process loses its tag.
+- [#31](https://github.com/maxulysse/nf-arts/pull/31): A value given to `nextflow run` options such as `-with-trace` or `-output-dir` before the pipeline no longer ends up in the caption of images rendered from the history.
 
 ## v1.0.0 - Tournesols
 

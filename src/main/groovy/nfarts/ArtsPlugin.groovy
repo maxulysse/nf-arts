@@ -16,12 +16,12 @@ class ArtsPlugin extends BasePlugin implements PluginExecAware {
         super(wrapper)
     }
 
-    // Nextflow 25.x signature
+    // signature before Nextflow 26.10
     int exec(Launcher launcher, String pluginId, String cmd, List<String> args) {
         exec(pluginId, cmd, args)
     }
 
-    // Nextflow 26.x signature, not in the 25.x interface
+    // signature from Nextflow 26.10, not in the older interface
     int exec(String pluginId, String cmd, List<String> args) {
         final code = run(cmd, args)
         // `nextflow plugin` ignores the returned code, so exit with it for scripts and CI
