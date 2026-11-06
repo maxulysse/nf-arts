@@ -50,8 +50,8 @@ jobs:
       matrix:
         nextflow_version: ['25.10.0', 'latest-everything']
     env:
-      # Nextflow comes from setup-nextflow, so the matrix decides the version, not mise.toml
-      MISE_DISABLE_TOOLS: github:nextflow-io/nextflow
+      # Java and Nextflow come from setup-nextflow, so the matrix decides the version, not mise.toml
+      MISE_DISABLE_TOOLS: java,github:nextflow-io/nextflow
 
     steps:
       - name: Environment
@@ -61,6 +61,13 @@ jobs:
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
           fetch-depth: 1
+
+      - name: Setup Nextflow ${{ matrix.nextflow_version }}
+        uses: nf-core/setup-nextflow@v3
+        with:
+          version: "${{ matrix.nextflow_version }}"
+          # this action sets up Java too, 17 by default
+          java-version: 21
 
       - name: Setup tools
         uses: jdx/mise-action@f5be966e4a917d54244728e6a5fdcd1d93a35e6c # v5.2.6
@@ -72,13 +79,6 @@ jobs:
         run: mise run test
         env:
           GRADLE_OPTS: '-Dorg.gradle.daemon=false'
-
-      - name: Setup Nextflow ${{ matrix.nextflow_version }}
-        uses: nf-core/setup-nextflow@v3
-        with:
-          version: "${{ matrix.nextflow_version }}"
-          # this action sets up Java too, 17 by default
-          java-version: 21
 
       - name: Install
         run: mise run install
