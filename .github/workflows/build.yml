@@ -50,8 +50,8 @@ jobs:
       matrix:
         nextflow_version: ['25.10.0', 'latest-everything']
     env:
-      # Java and Nextflow come from setup-nextflow, so the matrix decides the version, not mise.toml
-      MISE_DISABLE_TOOLS: java,github:nextflow-io/nextflow
+      # setup-nextflow also sets up Java, so CI has one build
+      MISE_DISABLE_TOOLS: java
 
     steps:
       - name: Environment
@@ -71,6 +71,8 @@ jobs:
 
       - name: Setup tools
         uses: jdx/mise-action@f5be966e4a917d54244728e6a5fdcd1d93a35e6c # v5.2.6
+        with:
+          version: 2026.10.19
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@8da46b539cd8fe6ab27ca75128919a18d757604c # v6.4.1
@@ -80,31 +82,8 @@ jobs:
         env:
           GRADLE_OPTS: '-Dorg.gradle.daemon=false'
 
-      - name: Install
-        run: mise run install
-
-      - name: Live run
-        run: |
-          nextflow run validation/
-          file results/art.png | grep -q 'PNG image data, 1200 x 1200'
-
-      - name: Render
-        run: |
-          # the finished validation run, from the history and cache
-          nextflow plugin nf-arts:render --file results/rendered.svg
-          grep -q "$(tail -1 .nextflow/history | cut -f3)</text>" results/rendered.svg
-          ! grep -q 'validation/' results/rendered.svg
-          # with no --file, both formats
-          nextflow plugin nf-arts:render
-          ls art-*.svg art-*.png
-          # a trace file with its execution report
-          nextflow plugin nf-arts:render --trace src/test/resources/execution_trace.txt --file results/trace.svg
-          grep -q 'nf-core/rnavar · 1.2.2 · exotic_kimura' results/trace.svg
-          # an nf-core megatest on S3, one arc per task
-          nextflow plugin nf-arts:render --trace s3://nf-core-awsmegatests/rnavar/results-ea2c7b6286f5ae18f5b51dc0af6b5330ecd6a13a/pipeline_info/execution_trace_2025-12-05_11-13-40.txt --file results/megatest.svg
-          test "$(grep -c '<path ' results/megatest.svg)" -eq 553
-          # a failed render exits non-zero
-          if nextflow plugin nf-arts:render no_such_run; then exit 1; fi
+      - name: Validate
+        run: mise run validate
 
   # The only required check, so matrix changes need no change to branch protection. Skipped jobs pass.
   ci-pass:

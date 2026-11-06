@@ -17,8 +17,9 @@ Notes for AI coding agents working on nf-arts. Read `CONTRIBUTING.md` for the wo
 ## Commands
 
 ```bash
-mise install --locked        # the pinned Java and Nextflow
+mise install --locked        # the pinned Java
 mise run test                # unit tests
+mise run validate            # the validation pipeline and render checks, as in CI
 mise run install             # install, and list the build in a local plugin repo
 mise run images              # render docs/images from megatest traces
 ```

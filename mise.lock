@@ -2,56 +2,6 @@
 
 lockfile_version = 3
 
-[[tools."github:nextflow-io/nextflow"]]
-version = "26.10.2"
-backend = "github:nextflow-io/nextflow"
-specifiers = ["26.10.2"]
-
-[tools."github:nextflow-io/nextflow".options]
-asset_pattern = "nextflow"
-
-[tools."github:nextflow-io/nextflow"."platforms.linux-arm64"]
-checksum = "sha256:abbc977c3903c7226da552f21446a4ab5430629652d5bd975f1ab9240ac5e4dd"
-checksum_source = "mise-versions"
-url = "https://github.com/nextflow-io/nextflow/releases/download/v26.10.2/nextflow"
-url_api = "https://api.github.com/repos/nextflow-io/nextflow/releases/assets/644778590"
-
-[tools."github:nextflow-io/nextflow"."platforms.linux-arm64-musl"]
-checksum = "sha256:abbc977c3903c7226da552f21446a4ab5430629652d5bd975f1ab9240ac5e4dd"
-checksum_source = "mise-versions"
-url = "https://github.com/nextflow-io/nextflow/releases/download/v26.10.2/nextflow"
-url_api = "https://api.github.com/repos/nextflow-io/nextflow/releases/assets/644778590"
-
-[tools."github:nextflow-io/nextflow"."platforms.linux-x64"]
-checksum = "sha256:abbc977c3903c7226da552f21446a4ab5430629652d5bd975f1ab9240ac5e4dd"
-checksum_source = "mise-versions"
-url = "https://github.com/nextflow-io/nextflow/releases/download/v26.10.2/nextflow"
-url_api = "https://api.github.com/repos/nextflow-io/nextflow/releases/assets/644778590"
-
-[tools."github:nextflow-io/nextflow"."platforms.linux-x64-musl"]
-checksum = "sha256:abbc977c3903c7226da552f21446a4ab5430629652d5bd975f1ab9240ac5e4dd"
-checksum_source = "mise-versions"
-url = "https://github.com/nextflow-io/nextflow/releases/download/v26.10.2/nextflow"
-url_api = "https://api.github.com/repos/nextflow-io/nextflow/releases/assets/644778590"
-
-[tools."github:nextflow-io/nextflow"."platforms.macos-arm64"]
-checksum = "sha256:abbc977c3903c7226da552f21446a4ab5430629652d5bd975f1ab9240ac5e4dd"
-checksum_source = "mise-versions"
-url = "https://github.com/nextflow-io/nextflow/releases/download/v26.10.2/nextflow"
-url_api = "https://api.github.com/repos/nextflow-io/nextflow/releases/assets/644778590"
-
-[tools."github:nextflow-io/nextflow"."platforms.macos-x64"]
-checksum = "sha256:abbc977c3903c7226da552f21446a4ab5430629652d5bd975f1ab9240ac5e4dd"
-checksum_source = "mise-versions"
-url = "https://github.com/nextflow-io/nextflow/releases/download/v26.10.2/nextflow"
-url_api = "https://api.github.com/repos/nextflow-io/nextflow/releases/assets/644778590"
-
-[tools."github:nextflow-io/nextflow"."platforms.windows-x64"]
-checksum = "sha256:abbc977c3903c7226da552f21446a4ab5430629652d5bd975f1ab9240ac5e4dd"
-checksum_source = "mise-versions"
-url = "https://github.com/nextflow-io/nextflow/releases/download/v26.10.2/nextflow"
-url_api = "https://api.github.com/repos/nextflow-io/nextflow/releases/assets/644778590"
-
 [[tools.java]]
 version = "temurin-21.0.12+101.0.LTS"
 backend = "core:java"

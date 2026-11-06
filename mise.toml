@@ -1,6 +1,5 @@
 [tools]
 java = "temurin-21"
-"github:nextflow-io/nextflow" = { version = "26.10.2", asset_pattern = "nextflow", bin = "nextflow" }
 
 # Local plugin repo from `install`, so Nextflow resolves this build
 [env]
