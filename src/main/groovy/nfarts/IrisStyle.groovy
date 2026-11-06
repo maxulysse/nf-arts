@@ -3,8 +3,7 @@ package nfarts
 import groovy.transform.CompileStatic
 
 /**
- * An eye's iris: each task is a fibre running out from the pupil, in start
- * order clockwise from 12 o'clock. Length is duration, width is memory.
+ * The run as an eye's iris, one fibre per task. See `docs/styles.md`.
  */
 @CompileStatic
 class IrisStyle implements Style {
@@ -40,7 +39,7 @@ class IrisStyle implements Style {
         canvas.circle(cx + pupil * 0.5d * Math.cos(longest), cy + pupil * 0.5d * Math.sin(longest), pupil * 0.18d, palette.ink(), 0.8d)
     }
 
-    /** each fibre wanders a little, so neighbours cross like iris stroma */
+    /** each fibre wanders a little, so neighbors cross like iris stroma */
     private static double[] fibre(double cx, double cy, double pupil, double end, double a0, int n, Random random) {
         final wobble = (0.3d + random.nextDouble()) * Math.min(0.03d, 6d / n)
         final phase = random.nextDouble() * 2 * Math.PI

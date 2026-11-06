@@ -44,7 +44,7 @@ arts {
 | `colors` | | Hex colors (`#rrggbb`), overriding `palette`. |
 | `background` | from the palette | Hex background color. |
 | `width`, `height` | `1200` | Size in pixels, 16 to 10000. |
-| `title` | `true` | The caption: pipeline, version, run name and nf-arts version. See [what goes into the art](data.md#the-caption). |
+| `title` | `true` | The caption. See [what goes into the art](data.md#the-caption). |
 
 A bad value stops the run at the start, not at the end.
 

@@ -28,6 +28,6 @@ The [`arts` options](configuration.md#the-arts-scope) as flags, except `enabled`
 
 ## Caption and seed
 
-From the history, the caption comes from the command line and the run name. From a trace, it comes from the `execution_report_*.html` next to it, which nf-core pipelines publish in `pipeline_info/`. Without a report, set it with `--pipeline`, `--revision` and `--run-name`, or drop it with `--title false`. [What goes into the art](data.md#the-caption) lists each source.
+From a trace, the caption comes from the `execution_report_*.html` next to it, which nf-core pipelines publish in `pipeline_info/`. Without a report, set it with `--pipeline`, `--revision` and `--run-name`, or drop it with `--title false`. [What goes into the art](data.md#the-caption) lists each source.
 
-A run from the history, or a trace with its report, gets the same seed as the live plugin, so the same art with the same nf-arts version. The caption depends on [its source](data.md#the-caption).
+A run from the history, or a trace with its report, [gets the seed of the live run](data.md#randomness).

@@ -3,8 +3,7 @@ package nfarts
 import groovy.transform.CompileStatic
 
 /**
- * Tasks as seeds of a sunflower: dots on a golden-angle spiral in start
- * order, dot size is memory.
+ * Tasks as the seeds of a sunflower. See `docs/styles.md`.
  */
 @CompileStatic
 class PhyllotaxisStyle implements Style {

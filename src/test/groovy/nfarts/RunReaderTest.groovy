@@ -25,7 +25,7 @@ class RunReaderTest extends Specification {
         tiles[1].duration() == 23_000
         tiles[1].memory() == 5 * 1024 * 1024
         tiles*.status() == [Status.COMPLETED, Status.COMPLETED, Status.COMPLETED, Status.CACHED, Status.FAILED]
-        // '-' values
+        // a trace writes '-' for a missing value
         tiles[4].duration() == 0
         tiles[4].memory() == 0
         // cached tasks keep the times of the run they come from

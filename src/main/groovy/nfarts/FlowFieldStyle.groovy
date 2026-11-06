@@ -3,9 +3,7 @@ package nfarts
 import groovy.transform.CompileStatic
 
 /**
- * Each task is a stroke drifting through a flow field seeded by the run.
- * It starts at its place in start order (x) in the row of its process (y);
- * stroke length is duration, width is memory.
+ * Each task is a stroke drifting through a seeded flow field. See `docs/styles.md`.
  */
 @CompileStatic
 class FlowFieldStyle implements Style {

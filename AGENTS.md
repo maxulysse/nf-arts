@@ -17,32 +17,23 @@ Notes for AI coding agents working on nf-arts. Read `CONTRIBUTING.md` for the wo
 ## Commands
 
 ```bash
-mise install --locked        # the pinned Java
-mise run test                # unit tests
-mise run validate            # the validation pipeline and render checks, as in CI
-mise run install             # install, and list the build in a local plugin repo
-mise run images              # render docs/images from megatest traces
-prek run --all-files         # the commit hooks, as in CI
+mise run images       # render docs/images from megatest traces
+prek run --all-files  # the commit hooks, as in CI
 ```
 
 ## Rules
 
-- Never push to `main`. Branch, open a PR against `main`, and let a maintainer merge. Stacked PRs also target `main`.
-- Every PR adds a `CHANGELOG.md` line, starting with its PR number, in number order.
 - A refactor must not visibly change images. `StylesTest.SVG_HASHES` pins each style's SVG; if a hash changes, render that style before and after, compare the images by eye, and update the hash only for an intended change.
 - Images rendered with a `-dev` build show `-dev` in their caption. `test-rnavar-*` are not regenerated: their runs are gone.
 - README links and images are absolute GitHub URLs: the Nextflow Registry shows the README outside the repository.
 - The art only uses the task fields listed in `docs/data.md`. Anything new that reaches the image, including caption text, must be added there first.
-- Branch protection requires the `CI pass` and `prek` jobs, so a matrix change needs no change there.
 
 ## Pitfalls
 
 - `nextflow plugin` resolves plugins by bare ID from the registry. `mise run install` lists the build in a local repo and `mise exec --` sets `NXF_PLUGINS_TEST_REPOSITORY`, so call `nf-arts:render`, not `nf-arts@x.y.z:render`.
-- Nextflow's console only shows loggers under `nextflow`, so use `@Slf4j(category = 'nextflow.arts')`. `nextflow plugin` shows no log messages at all, so `RenderCommand` prints to stderr.
-- `nextflow plugin` ignores the returned exit code, so `ArtsPlugin.exec` calls `System.exit` on failure.
+- Nextflow's console only shows loggers under `nextflow`, so use `@Slf4j(category = 'nextflow.arts')`.
 - `PluginExecAware.exec` lost its `Launcher` parameter in 26.10. `ArtsPlugin` implements both signatures, so do not use the `PluginAbstractExec` trait.
 - The cache cannot be read inside Gradle tests: its serializer needs `--add-opens`, which the `nextflow` launcher passes. Test history renders through the CLI.
-- `-plugins` and a `plugins {}` block in a `-c` config replace a pipeline's plugins. Repeat the pipeline's own plugins when adding nf-arts.
 - Enums hash by identity, which changes between JVM runs. Never seed from a hash that includes one.
 - In Groovy, `'false' as boolean` is `true`. Text values go through `ArtsConfig`, which parses them.
 - Nextflow's `CmdRun` cannot parse a history command line on its own: the launcher rewrites the arguments first. `Title.fromCommand` keeps its own small parser.

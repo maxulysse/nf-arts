@@ -3,9 +3,7 @@ package nfarts
 import groovy.transform.CompileStatic
 
 /**
- * The run is the trunk, each process a branch in start order, each task a
- * twig with a leaf. Branch length is how long the process was active,
- * twig length is duration, leaf size is memory. Failed tasks have no leaf.
+ * The run as a tree, one branch per process, one twig per task. See `docs/styles.md`.
  */
 @CompileStatic
 class TreeStyle implements Style {

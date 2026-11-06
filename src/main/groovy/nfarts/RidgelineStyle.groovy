@@ -3,9 +3,7 @@ package nfarts
 import groovy.transform.CompileStatic
 
 /**
- * One ridge per process, stacked top to bottom: the height of the ridge
- * is how many tasks of the process were running at that time, relative
- * to the busiest moment of that process.
+ * One ridge per process. See `docs/styles.md`.
  */
 @CompileStatic
 class RidgelineStyle implements Style {
