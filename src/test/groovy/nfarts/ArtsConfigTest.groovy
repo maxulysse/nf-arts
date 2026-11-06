@@ -56,7 +56,7 @@ class ArtsConfigTest extends Specification {
         'ginkgo'      | 'autumn'
         'tree'        | 'forest'
         'butterfly'   | 'monarch'
-        'phyllotaxis' | 'autumn'
+        'phyllotaxis' | 'rainbow'
         'iris'        | 'ocean'
     }
 

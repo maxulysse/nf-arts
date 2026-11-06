@@ -15,7 +15,7 @@ class StylesTest extends Specification {
         hive:        'c4f4068c2d2286f8faaf46ed19b74a43',
         iris:        'f616f33257bc4d6049ae5b5b5413dbc6',
         mondrian:    '7ff75d32b21744d94de05af637349a43',
-        phyllotaxis: 'c6daf016a8878b211af49f242e1ba330',
+        phyllotaxis: 'ad105a18961e5701a458ca389ec5ee66',
         radial:      '9343dca8c3de9aad83235cc1e877804d',
         ridgeline:   'e3914331ece14c44ad3148f1d3c037b3',
         tree:        '51063372070b4ff54dad7b21309785d1',
