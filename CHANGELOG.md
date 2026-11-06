@@ -23,6 +23,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 - [#36](https://github.com/maxulysse/nf-arts/pull/36): Without `file`, nf-arts writes both `art-<runName>.svg` and `art-<runName>.png`, and a failed file leaves the other one. `file` still writes one file.
 - [#41](https://github.com/maxulysse/nf-arts/pull/41): `make images` renders the megatest images from a recorded list of traces. The rnavar test images stay as rendered with 1.0.0, as their run is gone.
 - [#42](https://github.com/maxulysse/nf-arts/pull/42): `mise` replaces `make`, with Java 21 pinned in `mise.toml`, and CI runs on Java 21 only. `prek` hooks run Nextflow lint, whitespace and end-of-file checks on commit and unit tests on push, and CI runs them.
+- [#46](https://github.com/maxulysse/nf-arts/pull/46): `AGENTS.md` and the docs drop repeated text.
 
 ### Fixed
 

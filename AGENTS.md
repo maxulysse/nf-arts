@@ -17,18 +17,12 @@ Notes for AI coding agents working on nf-arts. Read `CONTRIBUTING.md` for the wo
 ## Commands
 
 ```bash
-mise install --locked        # the pinned Java
-mise run test                # unit tests
-mise run validate            # the validation pipeline and render checks, as in CI
-mise run install             # install, and list the build in a local plugin repo
-mise run images              # render docs/images from megatest traces
-prek run --all-files         # the commit hooks, as in CI
+mise run images       # render docs/images from megatest traces
+prek run --all-files  # the commit hooks, as in CI
 ```
 
 ## Rules
 
-- Never push to `main`. Branch, open a PR against `main`, and let a maintainer merge. Stacked PRs also target `main`.
-- Every PR adds a `CHANGELOG.md` line, starting with its PR number, in number order.
 - A refactor must not visibly change images. `StylesTest.SVG_HASHES` pins each style's SVG; if a hash changes, render that style before and after, compare the images by eye, and update the hash only for an intended change.
 - Images in `docs/` come from real runs only.
 - Images rendered with a `-dev` build show `-dev` in their caption. At release, regenerate them with `mise run images` and the release build. `test-rnavar-*` stay frozen at 1.0.0: their run is gone.
@@ -43,7 +37,6 @@ prek run --all-files         # the commit hooks, as in CI
 - `nextflow plugin` ignores the returned exit code, so `ArtsPlugin.exec` calls `System.exit` on failure.
 - `PluginExecAware.exec` lost its `Launcher` parameter in 26.10. `ArtsPlugin` implements both signatures, so do not use the `PluginAbstractExec` trait.
 - The cache cannot be read inside Gradle tests: its serializer needs `--add-opens`, which the `nextflow` launcher passes. Test history renders through the CLI.
-- `-plugins` and a `plugins {}` block in a `-c` config replace a pipeline's plugins. Repeat the pipeline's own plugins when adding nf-arts.
 - Enums hash by identity, which changes between JVM runs. Never seed from a hash that includes one.
 - In Groovy, `'false' as boolean` is `true`. Text values go through `ArtsConfig`, which parses them.
 - Nextflow's `CmdRun` cannot parse a history command line on its own: the launcher rewrites the arguments first. `Title.fromCommand` keeps its own small parser.

@@ -42,7 +42,7 @@ arts {
 }
 ```
 
-or `--title false` with `render`. `--pipeline`, `--revision` and `--run-name` set the caption by hand.
+or `--title false` with `render`.
 
 ## Randomness
 

@@ -1,6 +1,6 @@
 # Styles
 
-In every style, color is the process, cached tasks are faded and failed tasks are thinner, smaller, hollow or leafless. The session ID seeds the random choices, so the same tasks and the same nf-arts version give the same SVG. See [Randomness](data.md#randomness).
+In every style, color is the process, cached tasks are faded and failed tasks are thinner, smaller, hollow or leafless. The session ID [seeds the random choices](data.md#randomness).
 
 Each style below shows the same run: the nf-core/rnavar megatest, 553 tasks, with the `nfcore` palette (`mondrian` for the mondrian style). More runs are in the [gallery](gallery.md).
 
