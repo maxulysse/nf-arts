@@ -16,16 +16,17 @@ import nextflow.file.FileHelper
 class Artist {
 
     static final Map<String, Style> STYLES = [
-        radial     : new RadialStyle(),
-        hilbert    : new HilbertStyle(),
-        ridgeline  : new RidgelineStyle(),
-        phyllotaxis: new PhyllotaxisStyle(),
-        flowfield  : new FlowFieldStyle(),
-        mondrian   : new MondrianStyle(),
-        tree       : new TreeStyle(),
-        ginkgo     : new GinkgoStyle(),
-        iris       : new IrisStyle(),
         butterfly  : new ButterflyStyle(),
+        flowfield  : new FlowFieldStyle(),
+        ginkgo     : new GinkgoStyle(),
+        hilbert    : new HilbertStyle(),
+        hive       : new HiveStyle(),
+        iris       : new IrisStyle(),
+        mondrian   : new MondrianStyle(),
+        phyllotaxis: new PhyllotaxisStyle(),
+        radial     : new RadialStyle(),
+        ridgeline  : new RidgelineStyle(),
+        tree       : new TreeStyle(),
     ] as Map<String, Style>
 
     static final String VERSION = version()
@@ -74,7 +75,7 @@ class Artist {
         final Canvas canvas = format == 'png'
             ? new PngCanvas(config.width, config.height, palette.background)
             : new SvgCanvas(config.width, config.height, palette.background)
-        final style = STYLES[config.style]
+        final style = STYLES[config.style].configured(config)
         // caption band at the bottom, the artwork above it
         final band = config.title ? (int) Math.round(Math.min(config.width, config.height) * 0.1d) : 0
         // mix the seed: java.util.Random gives near-identical first draws for nearby seeds

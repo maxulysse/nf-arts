@@ -38,6 +38,8 @@ arts {
 | `enabled` | `true` | Draw the artwork when the run ends. |
 | `file` | `art-<runName>.svg` and `.png` | One output file instead of both. `.svg` or `.png` sets the format. Cloud paths work. Overwrites an existing file. |
 | `style` | `radial` | One of the [styles](styles.md). |
+| `layout` | `spiral` | How the `hive` style places processes on its spokes: `spiral` or `phase`. |
+| `spokes` | `5` | Number of spokes in the `hive` style, at least 2, and at most one per process. |
 | `palette` | `viridis` | `viridis`, `magma`, `nfcore`, `ocean`, `sunset`, `rainbow`, `mono` or `mondrian`. The mondrian style defaults to `mondrian`. |
 | `colors` | | Hex colors (`#rrggbb`), overriding `palette`. |
 | `background` | from the palette | Hex background color. |

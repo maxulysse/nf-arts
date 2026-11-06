@@ -1,21 +1,22 @@
 # Gallery
 
-Every image here comes from a real run, rendered with `render`: the nf-core/rnavar test profile from its local history with nf-arts 1.0.0, and nf-core megatests from their trace files on `s3://nf-core-awsmegatests`.
+Every image here comes from a real run, rendered with `render`: the nf-core/rnavar test profile from its local history, and nf-core megatests from their trace files on `s3://nf-core-awsmegatests`.
 
 ## Every style
 
 | Style | rnavar test, 43 tasks | rnavar megatest, 553 tasks | sarek megatest, 2314 tasks |
 | --- | :---: | :---: | :---: |
-| radial | ![](images/test-rnavar-radial.png) | ![](images/megatest-rnavar-radial.png) | ![](images/megatest-sarek-radial.png) |
-| hilbert | ![](images/test-rnavar-hilbert.png) | ![](images/megatest-rnavar-hilbert.png) | ![](images/megatest-sarek-hilbert.png) |
-| ridgeline | ![](images/test-rnavar-ridgeline.png) | ![](images/megatest-rnavar-ridgeline.png) | ![](images/megatest-sarek-ridgeline.png) |
-| phyllotaxis | ![](images/test-rnavar-phyllotaxis.png) | ![](images/megatest-rnavar-phyllotaxis.png) | ![](images/megatest-sarek-phyllotaxis.png) |
-| flowfield | ![](images/test-rnavar-flowfield.png) | ![](images/megatest-rnavar-flowfield.png) | ![](images/megatest-sarek-flowfield.png) |
-| mondrian | ![](images/test-rnavar-mondrian.png) | ![](images/megatest-rnavar-mondrian.png) | ![](images/megatest-sarek-mondrian.png) |
-| tree | ![](images/test-rnavar-tree.png) | ![](images/megatest-rnavar-tree.png) | ![](images/megatest-sarek-tree.png) |
-| ginkgo | ![](images/test-rnavar-ginkgo.png) | ![](images/megatest-rnavar-ginkgo.png) | ![](images/megatest-sarek-ginkgo.png) |
-| iris | ![](images/test-rnavar-iris.png) | ![](images/megatest-rnavar-iris.png) | ![](images/megatest-sarek-iris.png) |
 | butterfly | ![](images/test-rnavar-butterfly.png) | ![](images/megatest-rnavar-butterfly.png) | ![](images/megatest-sarek-butterfly.png) |
+| flowfield | ![](images/test-rnavar-flowfield.png) | ![](images/megatest-rnavar-flowfield.png) | ![](images/megatest-sarek-flowfield.png) |
+| ginkgo | ![](images/test-rnavar-ginkgo.png) | ![](images/megatest-rnavar-ginkgo.png) | ![](images/megatest-sarek-ginkgo.png) |
+| hilbert | ![](images/test-rnavar-hilbert.png) | ![](images/megatest-rnavar-hilbert.png) | ![](images/megatest-sarek-hilbert.png) |
+| hive | ![](images/test-rnavar-hive.png) | ![](images/megatest-rnavar-hive.png) | ![](images/megatest-sarek-hive.png) |
+| iris | ![](images/test-rnavar-iris.png) | ![](images/megatest-rnavar-iris.png) | ![](images/megatest-sarek-iris.png) |
+| mondrian | ![](images/test-rnavar-mondrian.png) | ![](images/megatest-rnavar-mondrian.png) | ![](images/megatest-sarek-mondrian.png) |
+| phyllotaxis | ![](images/test-rnavar-phyllotaxis.png) | ![](images/megatest-rnavar-phyllotaxis.png) | ![](images/megatest-sarek-phyllotaxis.png) |
+| radial | ![](images/test-rnavar-radial.png) | ![](images/megatest-rnavar-radial.png) | ![](images/megatest-sarek-radial.png) |
+| ridgeline | ![](images/test-rnavar-ridgeline.png) | ![](images/megatest-rnavar-ridgeline.png) | ![](images/megatest-sarek-ridgeline.png) |
+| tree | ![](images/test-rnavar-tree.png) | ![](images/megatest-rnavar-tree.png) | ![](images/megatest-sarek-tree.png) |
 
 The rnavar images use the `nfcore` palette, sarek `magma`, and mondrian its own `mondrian` palette.
 
