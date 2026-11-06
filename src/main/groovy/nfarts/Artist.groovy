@@ -26,6 +26,7 @@ class Artist {
         ginkgo     : new GinkgoStyle(),
         iris       : new IrisStyle(),
         butterfly  : new ButterflyStyle(),
+        hive       : new HiveStyle(),
     ] as Map<String, Style>
 
     static final String VERSION = version()
@@ -74,7 +75,7 @@ class Artist {
         final Canvas canvas = format == 'png'
             ? new PngCanvas(config.width, config.height, palette.background)
             : new SvgCanvas(config.width, config.height, palette.background)
-        final style = STYLES[config.style]
+        final style = STYLES[config.style].configured(config)
         // caption band at the bottom, the artwork above it
         final band = config.title ? (int) Math.round(Math.min(config.width, config.height) * 0.1d) : 0
         // mix the seed: java.util.Random gives near-identical first draws for nearby seeds

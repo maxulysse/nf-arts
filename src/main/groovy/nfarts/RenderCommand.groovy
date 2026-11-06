@@ -22,6 +22,8 @@ Options:
   --dir DIR           project directory with the .nextflow history (default: .)
   --file FILE         output .svg or .png (default: art-<run>.svg and .png)
   --style NAME        ${Artist.STYLES.keySet().join(', ')}
+  --layout NAME       hive layout: ${HiveStyle.LAYOUTS.join(', ')}
+  --spokes N          hive spokes
   --palette NAME      ${Palette.NAMED.keySet().join(', ')}
   --colors A,B,...    custom hex colors
   --background HEX    background color

@@ -18,6 +18,7 @@ class StylesTest extends Specification {
         ginkgo:      'ad8d16ec806c5e44763c78adb4611f55',
         iris:        '64ecc7869dada35c6b3a75e68787dd84',
         butterfly:   '6a705ebb91b5a61ad77eadacb1e0a14d',
+        hive:        'c4f4068c2d2286f8faaf46ed19b74a43',
     ]
 
     def 'hilbert curve should visit every cell once with unit steps' () {
@@ -185,6 +186,56 @@ class StylesTest extends Specification {
         // a fibre per task plus the collarette, then the pupil and its catchlight
         svg('iris').count('<polyline ') == tiles.size() + 1
         svg('iris').count('<circle ') == 2
+        svg('hive').count('<circle ') == tiles.size()
+    }
+
+    def 'hive should give every process its own slot' () {
+        given:
+        def slots = (0..<count).collect { HiveStyle.slot(layout, it, count, axes) }
+
+        expect:
+        slots.unique(false).size() == count
+        slots.every { it.spoke() in 0..<axes && it.level() in 0..<levels }
+        slots[0..3].collect { [it.spoke(), it.level()] } == first
+        where:
+        layout   | count | axes | levels | first
+        'spiral' | 29    | 5    | 6      | [[0, 0], [1, 0], [2, 0], [3, 0]]
+        'spiral' | 4     | 4    | 1      | [[0, 0], [1, 0], [2, 0], [3, 0]]
+        'phase'  | 29    | 5    | 6      | [[0, 0], [0, 1], [0, 2], [0, 3]]
+        'phase'  | 4     | 4    | 1      | [[0, 0], [1, 0], [2, 0], [3, 0]]
+    }
+
+    def 'hive should link a task to the last one that finished on another spoke' () {
+        given:
+        def tiles = [
+            new TaskTile('A', 1000, 100, 1000, Status.COMPLETED),
+            new TaskTile('B', 2000, 100, 1000, Status.COMPLETED),
+            new TaskTile('C', 3000, 100, 1000, Status.COMPLETED),
+        ]
+        def svg = SyntheticRun.svg(tiles, new ArtsConfig(style: 'hive', spokes: spokes, layout: layout))
+
+        expect:
+        // one segment per process, plus a curve for every task with a task before it on another spoke
+        svg.count('<polyline ') == 3 + curves
+        where:
+        layout   | spokes | curves
+        'spiral' | 3      | 2
+        'phase'  | 3      | 2
+        // A and B share the first spoke, so B has nothing to link to
+        'phase'  | 2      | 1
+    }
+
+    def 'hive options should change the art, and spare spokes should not' () {
+        given:
+        def tiles = SyntheticRun.create(1, 4)
+        def svg = { Map opts -> SyntheticRun.svg(tiles, new ArtsConfig([style: 'hive'] + opts)) }
+        def processes = tiles*.process().unique().size()
+
+        expect:
+        svg([:]) == svg(layout: 'spiral', spokes: 5)
+        svg(layout: 'phase') != svg(layout: 'spiral')
+        svg(spokes: 3) != svg(spokes: 5)
+        svg(spokes: processes + 7) == svg(spokes: processes)
     }
 
     def 'butterfly should draw every task on both sides and stay on the canvas' () {

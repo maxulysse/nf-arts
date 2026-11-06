@@ -14,6 +14,8 @@ class ArtsConfigTest extends Specification {
         config.width == 1200
         config.height == 1200
         config.file == null
+        config.layout == 'spiral'
+        config.spokes == 5
     }
 
     def 'should read options' () {
@@ -40,6 +42,9 @@ class ArtsConfigTest extends Specification {
             [file: 'art.jpg'],
             [palette: 'plaid'],
             [colors: ['red']],
+            [layout: 'circle'],
+            [spokes: 1],
+            [spokes: 'many'],
         ]
     }
 
@@ -52,13 +57,15 @@ class ArtsConfigTest extends Specification {
 
     def 'should read options given as text' () {
         when:
-        def config = new ArtsConfig(enabled: 'false', title: 'false', width: '800', height: '600', colors: '#000000,#ffffff')
+        def config = new ArtsConfig(enabled: 'false', title: 'false', width: '800', height: '600', colors: '#000000,#ffffff', layout: 'phase', spokes: '3')
         then:
         !config.enabled
         !config.title
         config.width == 800
         config.height == 600
         config.colors == ['#000000', '#ffffff']
+        config.layout == 'phase'
+        config.spokes == 3
     }
 
     def 'should reject options that are not what they claim' () {
@@ -77,6 +84,6 @@ class ArtsConfigTest extends Specification {
 
     def 'should list the arts options' () {
         expect:
-        ArtsConfig.OPTIONS.toSet() == ['enabled', 'file', 'style', 'palette', 'colors', 'background', 'width', 'height', 'title'] as Set
+        ArtsConfig.OPTIONS.toSet() == ['enabled', 'file', 'style', 'layout', 'spokes', 'palette', 'colors', 'background', 'width', 'height', 'title'] as Set
     }
 }
