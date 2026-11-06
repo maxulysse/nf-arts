@@ -21,6 +21,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 - [#34](https://github.com/maxulysse/nf-arts/pull/34): Tests pin the SVG of every style, so a change to an image cannot pass unnoticed.
 - [#35](https://github.com/maxulysse/nf-arts/pull/35): The caption shows the pipeline only if it looks like `org/name` or a URL, so local paths stay out of the image. `--pipeline` still sets it by hand.
 - [#36](https://github.com/maxulysse/nf-arts/pull/36): Without `file`, nf-arts writes both `art-<runName>.svg` and `art-<runName>.png`, and a failed file leaves the other one. `file` still writes one file.
+- [#39](https://github.com/maxulysse/nf-arts/pull/39): The `raredisease`, `iris` and `butterfly` images in the docs are rendered with the current `-dev` build, which removes `null` from the `raredisease` captions. `test-rnavar-iris` and `test-rnavar-butterfly` come from a new run of the rnavar test profile.
 - [#41](https://github.com/maxulysse/nf-arts/pull/41): `make images` renders the megatest images from a recorded list of traces. The rnavar test images stay as rendered with 1.0.0, as their run is gone.
 - [#42](https://github.com/maxulysse/nf-arts/pull/42): `mise` replaces `make`, with Java 21 pinned in `mise.toml`, and CI runs on Java 21 only. `prek` hooks run Nextflow lint, whitespace and end-of-file checks on commit and unit tests on push, and CI runs them.
 
