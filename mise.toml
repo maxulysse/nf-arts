@@ -2,14 +2,14 @@
 java = "temurin-21"
 "github:nextflow-io/nextflow" = { version = "26.10.2", asset_pattern = "nextflow", bin = "nextflow" }
 
-[tasks.assemble]
-description = "Build the plugin"
-run = "./gradlew assemble"
+# Local plugin repo from `dev-repo`, so `nextflow plugin nf-arts:render` resolves this build
+[env]
+NXF_PLUGINS_TEST_REPOSITORY = "file://{{ config_root }}/build/plugin-repo/plugins.json"
 
 [tasks.clean]
 description = "Remove build and Nextflow run artifacts"
 run = """
-rm -rf .nextflow* work build
+rm -rf .nextflow* work
 ./gradlew clean
 """
 
@@ -23,10 +23,8 @@ run = "./gradlew install"
 
 [tasks.release]
 description = "Publish the plugin, with the registry settings from .env"
-run = """
-set -a; [ -f .env ] && . ./.env; set +a
-./gradlew releasePlugin
-"""
+env = { _.file = ".env" }
+run = "./gradlew releasePlugin"
 
 [tasks.version]
 description = "Print the plugin version"
@@ -35,8 +33,9 @@ sed -n "s/^version = '\(.*\)'/\1/p" build.gradle
 '''
 
 [tasks.dev-repo]
-description = "Build a local plugin repo, so `nextflow plugin nf-arts:render` resolves this build"
-depends = ["assemble"]
+description = "Install this build and list it in a local plugin repo"
+# `install`, as `nextflow plugin` prefers an installed plugin
+depends = ["install"]
 run = '''
 VERSION=$(mise run -q version)
 ZIP="$PWD/build/distributions/nf-arts-$VERSION.zip"
@@ -47,6 +46,5 @@ printf '[{"id": "nf-arts", "releases": [{"version": "%s", "date": "1970-01-01T00
 
 [tasks.images]
 description = "Render docs/images from megatest traces"
-env = { NXF_PLUGINS_TEST_REPOSITORY = "file://{{ config_root }}/build/plugin-repo/plugins.json" }
-# `install` too, as `nextflow plugin` prefers an installed plugin. In order: `depends` run in parallel.
-run = [{ task = "install" }, { task = "dev-repo" }, "scripts/render-images.sh"]
+depends = ["dev-repo"]
+run = "scripts/render-images.sh"

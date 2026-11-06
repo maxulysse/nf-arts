@@ -20,7 +20,7 @@ Notes for AI coding agents working on nf-arts. Read `CONTRIBUTING.md` for the wo
 mise install --locked        # the pinned Java and Nextflow
 mise run test                # unit tests
 mise run install             # install into ~/.nextflow/plugins
-mise run dev-repo            # local plugin repo for `nextflow plugin`
+mise run dev-repo            # install, plus a local plugin repo for `nextflow plugin`
 mise run -q version          # the version from build.gradle
 mise run images              # render docs/images from megatest traces
 ```
@@ -38,7 +38,7 @@ mise run images              # render docs/images from megatest traces
 
 ## Pitfalls
 
-- `nextflow plugin` resolves plugins by bare ID from the registry. Use `mise run dev-repo` plus `NXF_PLUGINS_TEST_REPOSITORY`, and call `nf-arts:render`, not `nf-arts@x.y.z:render`.
+- `nextflow plugin` resolves plugins by bare ID from the registry. Use `mise run dev-repo`, which installs the build, then `mise exec --`, which sets `NXF_PLUGINS_TEST_REPOSITORY`, and call `nf-arts:render`, not `nf-arts@x.y.z:render`.
 - Nextflow's console only shows loggers under `nextflow`, so use `@Slf4j(category = 'nextflow.arts')`. `nextflow plugin` shows no log messages at all, so `RenderCommand` prints to stderr.
 - `nextflow plugin` ignores the returned exit code, so `ArtsPlugin.exec` calls `System.exit` on failure.
 - `PluginExecAware.exec` lost its `Launcher` parameter in 26.10. `ArtsPlugin` implements both signatures, so do not use the `PluginAbstractExec` trait.

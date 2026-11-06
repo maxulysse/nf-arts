@@ -27,7 +27,6 @@ mise exec -- nextflow run validation/ -plugins nf-arts@$(mise run -q version)
 
 ```bash
 mise run dev-repo
-export NXF_PLUGINS_TEST_REPOSITORY="file://$PWD/build/plugin-repo/plugins.json"
 mise exec -- nextflow plugin nf-arts:render --style ginkgo --file art.png
 ```
 
