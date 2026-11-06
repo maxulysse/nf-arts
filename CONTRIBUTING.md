@@ -9,24 +9,25 @@
 3. Add a line to `CHANGELOG.md` under the unreleased version, starting with a link to your PR, in PR number order.
 4. Open a pull request against `main`. If it builds on another open PR, still target `main` and say "builds on #N" in the description.
 
-CI runs on every pull request: unit tests, a live run of the validation pipeline, and `render` checks, on Java 17 and 21 with Nextflow 25.10.0, the minimum version, and the latest release, edge included.
+CI runs on every pull request: unit tests, a live run of the validation pipeline, and `render` checks, on Java 21 with Nextflow 25.10.0, the minimum version, and the latest release, edge included.
 
 ## Development
 
-You need Java 17 or later and Nextflow 25.10 or later.
+You need [mise](https://mise.jdx.dev), which installs the pinned Java and Nextflow from `mise.toml`.
 
 ```bash
-make test       # unit tests
-make install    # install the plugin into ~/.nextflow/plugins
-nextflow run validation/ -plugins nf-arts@$(make -s version)
+mise install --locked
+mise run test       # unit tests
+mise run install    # install the plugin into ~/.nextflow/plugins
+mise exec -- nextflow run validation/ -plugins nf-arts@$(mise run -q version)
 ```
 
 `nextflow plugin` only finds plugins in the registry. To try `render` on your build:
 
 ```bash
-make dev-repo
+mise run dev-repo
 export NXF_PLUGINS_TEST_REPOSITORY="file://$PWD/build/plugin-repo/plugins.json"
-nextflow plugin nf-arts:render --style ginkgo --file art.png
+mise exec -- nextflow plugin nf-arts:render --style ginkgo --file art.png
 ```
 
 ## Adding a style
@@ -39,7 +40,7 @@ nextflow plugin nf-arts:render --style ginkgo --file art.png
 
 ## Releasing
 
-Drop `-dev` from the version in `build.gradle` and `CHANGELOG.md`, add the codename to its `CHANGELOG.md` heading, run `make images`, copy `.env.example` to `.env`, set `NPR_API_KEY`, then run `make release`.
+Drop `-dev` from the version in `build.gradle` and `CHANGELOG.md`, add the codename to its `CHANGELOG.md` heading, run `mise run images`, copy `.env.example` to `.env`, set `NPR_API_KEY`, then run `mise run release`.
 
 ## Style
 

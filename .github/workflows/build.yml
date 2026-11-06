@@ -48,7 +48,6 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        java_version: [17, 21]
         nextflow_version: ['25.10.0', 'latest-everything']
 
     steps:
@@ -60,36 +59,37 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Setup Java ${{ matrix.java_version }}
-        uses: actions/setup-java@77dd5b2ce225ea11469928ac317850245a74ae78 # v6.2.0
-        with:
-          java-version: ${{matrix.java_version}}
-          architecture: x64
-          distribution: 'temurin'
+      - name: Setup tools
+        uses: jdx/mise-action@f5be966e4a917d54244728e6a5fdcd1d93a35e6c # v5.2.6
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@8da46b539cd8fe6ab27ca75128919a18d757604c # v6.4.1
 
       - name: Tests
-        run: make test
+        run: mise run test
         env:
           GRADLE_OPTS: '-Dorg.gradle.daemon=false'
 
+      # after mise, so this version comes first on the PATH, ahead of the one in mise.toml
       - name: Setup Nextflow ${{ matrix.nextflow_version }}
         uses: nf-core/setup-nextflow@b9f764e8ba5c76b712ace14ecbfcef0e40ae2dd8 # v1
         with:
           version: "${{ matrix.nextflow_version }}"
 
       - name: Install
-        run: make install
+        run: mise run install
 
       - name: Live run
         run: |
-          nextflow run validation/ -plugins nf-arts@$(make -s version)
+          nextflow -version
+          nextflow run validation/ -plugins nf-arts@$(mise run -q version)
           file results/art.png | grep -q 'PNG image data, 1200 x 1200'
 
       - name: Render
         env:
           NXF_PLUGINS_TEST_REPOSITORY: file://${{ github.workspace }}/build/plugin-repo/plugins.json
         run: |
-          make dev-repo
+          mise run dev-repo
           # the finished validation run, from the history and cache
           nextflow plugin nf-arts:render --file results/rendered.svg
           grep -q "$(tail -1 .nextflow/history | cut -f3)</text>" results/rendered.svg

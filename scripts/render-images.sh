@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Render docs/images/megatest-*.png from their nf-core megatest traces. Run with `make images`.
+# Render docs/images/megatest-*.png from their nf-core megatest traces. Run with `mise run images`.
 # test-rnavar-* are not here: their run is gone, so they stay as rendered with 1.0.0.
 set -euo pipefail
 

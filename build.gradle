@@ -15,7 +15,7 @@ nextflowPlugin {
     ]
 
     registry {
-        // Taken from the environment, which `make` fills from .env. Set here because this block
+        // Taken from the environment, which `mise run release` fills from .env. Set here because this block
         // outranks every other source the release task consults, so a token in .env is what gets
         // used; and never passed as a command-line property, which would put it in the process
         // list.

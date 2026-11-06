@@ -17,11 +17,12 @@ Notes for AI coding agents working on nf-arts. Read `CONTRIBUTING.md` for the wo
 ## Commands
 
 ```bash
-make test                    # unit tests
-make install                 # install into ~/.nextflow/plugins
-make dev-repo                # local plugin repo for `nextflow plugin`
-make -s version              # the version from build.gradle
-make images                  # render docs/images from megatest traces
+mise install --locked        # the pinned Java and Nextflow
+mise run test                # unit tests
+mise run install             # install into ~/.nextflow/plugins
+mise run dev-repo            # local plugin repo for `nextflow plugin`
+mise run -q version          # the version from build.gradle
+mise run images              # render docs/images from megatest traces
 ```
 
 ## Rules
@@ -30,14 +31,14 @@ make images                  # render docs/images from megatest traces
 - Every PR adds a `CHANGELOG.md` line, starting with its PR number, in number order.
 - A refactor must not visibly change images. `StylesTest.SVG_HASHES` pins each style's SVG; if a hash changes, render that style before and after, compare the images by eye, and update the hash only for an intended change.
 - Images in `docs/` come from real runs only.
-- Images rendered with a `-dev` build show `-dev` in their caption. At release, regenerate them with `make images` and the release build. `test-rnavar-*` stay frozen at 1.0.0: their run is gone.
+- Images rendered with a `-dev` build show `-dev` in their caption. At release, regenerate them with `mise run images` and the release build. `test-rnavar-*` stay frozen at 1.0.0: their run is gone.
 - README links and images are absolute GitHub URLs: the Nextflow Registry shows the README outside the repository.
 - The art only uses the task fields listed in `docs/data.md`. Anything new that reaches the image, including caption text, must be added there first.
 - Branch protection requires only the `CI pass` job, so a matrix change needs no change there.
 
 ## Pitfalls
 
-- `nextflow plugin` resolves plugins by bare ID from the registry. Use `make dev-repo` plus `NXF_PLUGINS_TEST_REPOSITORY`, and call `nf-arts:render`, not `nf-arts@x.y.z:render`.
+- `nextflow plugin` resolves plugins by bare ID from the registry. Use `mise run dev-repo` plus `NXF_PLUGINS_TEST_REPOSITORY`, and call `nf-arts:render`, not `nf-arts@x.y.z:render`.
 - Nextflow's console only shows loggers under `nextflow`, so use `@Slf4j(category = 'nextflow.arts')`. `nextflow plugin` shows no log messages at all, so `RenderCommand` prints to stderr.
 - `nextflow plugin` ignores the returned exit code, so `ArtsPlugin.exec` calls `System.exit` on failure.
 - `PluginExecAware.exec` lost its `Launcher` parameter in 26.10. `ArtsPlugin` implements both signatures, so do not use the `PluginAbstractExec` trait.
