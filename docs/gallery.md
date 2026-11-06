@@ -1,6 +1,6 @@
 # Gallery
 
-Every image here comes from a real run, rendered with `render`: the nf-core/rnavar test profile from its local history with nf-arts 1.0.0, and nf-core megatests from their trace files on `s3://nf-core-awsmegatests`.
+Every image here comes from a real run, rendered with `render`: the nf-core/rnavar test profile from its local history, with nf-arts 1.0.0 and for `iris` and `butterfly` a later run, and nf-core megatests from their trace files on `s3://nf-core-awsmegatests`.
 
 ## Every style
 
