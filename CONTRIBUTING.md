@@ -19,14 +19,8 @@ You need [mise](https://mise.jdx.dev), which installs the pinned Java and Nextfl
 mise trust
 mise install --locked
 mise run test       # unit tests
-mise run install    # install the plugin into ~/.nextflow/plugins
-mise exec -- nextflow run validation/ -plugins nf-arts@$(mise run -q version)
-```
-
-`nextflow plugin` only finds plugins in the registry. To try `render` on your build:
-
-```bash
-mise run dev-repo
+mise run install    # install this build, for Nextflow to use
+mise exec -- nextflow run validation/
 mise exec -- nextflow plugin nf-arts:render --style ginkgo --file art.png
 ```
 

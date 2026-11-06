@@ -2,7 +2,7 @@
 java = "temurin-21"
 "github:nextflow-io/nextflow" = { version = "26.10.2", asset_pattern = "nextflow", bin = "nextflow" }
 
-# Local plugin repo from `dev-repo`, so `nextflow plugin nf-arts:render` resolves this build
+# Local plugin repo from `install`, so Nextflow resolves this build
 [env]
 NXF_PLUGINS_TEST_REPOSITORY = "file://{{ config_root }}/build/plugin-repo/plugins.json"
 
@@ -18,28 +18,17 @@ description = "Run plugin unit tests"
 run = "./gradlew test"
 
 [tasks.install]
-description = "Install the plugin into the local Nextflow plugins directory"
-run = "./gradlew install"
+description = "Install this build into ~/.nextflow/plugins and list it in the local plugin repo"
+run = '''
+./gradlew install
+VERSION=$(sed -n "s/^version = '\(.*\)'/\1/p" build.gradle)
+ZIP="$PWD/build/distributions/nf-arts-$VERSION.zip"
+SHA=$(sha512sum "$ZIP" | cut -d' ' -f1)
+mkdir -p build/plugin-repo
+printf '[{"id": "nf-arts", "releases": [{"version": "%s", "date": "1970-01-01T00:00:00.000Z", "requires": "*", "url": "file://%s", "sha512sum": "%s"}]}]\n' "$VERSION" "$ZIP" "$SHA" > build/plugin-repo/plugins.json
+'''
 
 [tasks.release]
 description = "Publish the plugin, with the registry settings from .env"
 env = { _.file = ".env" }
 run = "./gradlew releasePlugin"
-
-[tasks.version]
-description = "Print the plugin version"
-run = '''
-sed -n "s/^version = '\(.*\)'/\1/p" build.gradle
-'''
-
-[tasks.dev-repo]
-description = "Install this build and list it in a local plugin repo"
-# `install`, as `nextflow plugin` prefers an installed plugin
-depends = ["install"]
-run = '''
-VERSION=$(mise run -q version)
-ZIP="$PWD/build/distributions/nf-arts-$VERSION.zip"
-SHA=$(sha512sum "$ZIP" | cut -d' ' -f1)
-mkdir -p build/plugin-repo
-printf '[{"id": "nf-arts", "releases": [{"version": "%s", "date": "1970-01-01T00:00:00.000Z", "requires": ">=25.10.0", "url": "file://%s", "sha512sum": "%s"}]}]\n' "$VERSION" "$ZIP" "$SHA" > build/plugin-repo/plugins.json
-'''

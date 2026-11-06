@@ -51,7 +51,7 @@ jobs:
         nextflow_version: ['25.10.0', 'latest-everything']
     env:
       # Nextflow comes from setup-nextflow, so the matrix decides the version, not mise.toml
-      MISE_TASK_RUN_AUTO_INSTALL: false
+      MISE_DISABLE_TOOLS: github:nextflow-io/nextflow
 
     steps:
       - name: Environment
@@ -64,8 +64,6 @@ jobs:
 
       - name: Setup tools
         uses: jdx/mise-action@f5be966e4a917d54244728e6a5fdcd1d93a35e6c # v5.2.6
-        with:
-          install_args: java
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@8da46b539cd8fe6ab27ca75128919a18d757604c # v6.4.1
@@ -85,14 +83,11 @@ jobs:
 
       - name: Live run
         run: |
-          nextflow run validation/ -plugins nf-arts@$(mise run -q version)
+          nextflow run validation/
           file results/art.png | grep -q 'PNG image data, 1200 x 1200'
 
       - name: Render
-        env:
-          NXF_PLUGINS_TEST_REPOSITORY: file://${{ github.workspace }}/build/plugin-repo/plugins.json
         run: |
-          mise run dev-repo
           # the finished validation run, from the history and cache
           nextflow plugin nf-arts:render --file results/rendered.svg
           grep -q "$(tail -1 .nextflow/history | cut -f3)</text>" results/rendered.svg
