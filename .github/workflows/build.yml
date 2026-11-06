@@ -79,8 +79,6 @@ jobs:
 
       - name: Tests
         run: mise run test
-        env:
-          GRADLE_OPTS: '-Dorg.gradle.daemon=false'
 
       - name: Validate
         # a new Nextflow release warns, it does not block

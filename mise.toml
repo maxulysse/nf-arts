@@ -8,24 +8,13 @@ NXF_PLUGINS_TEST_REPOSITORY = "file://{{ config_root }}/build/plugin-repo/plugin
 [tasks.clean]
 description = "Remove build and Nextflow run artifacts"
 run = """
-rm -rf .nextflow* work
+rm -rf .nextflow* work results
 ./gradlew clean
 """
 
 [tasks.test]
 description = "Run plugin unit tests"
 run = "./gradlew test"
-
-[tasks.install]
-description = "Install this build into ~/.nextflow/plugins and list it in the local plugin repo"
-run = '''
-./gradlew install
-VERSION=$(sed -n "s/^version = '\(.*\)'/\1/p" build.gradle)
-ZIP="$PWD/build/distributions/nf-arts-$VERSION.zip"
-SHA=$(sha512sum "$ZIP" | cut -d' ' -f1)
-mkdir -p build/plugin-repo
-printf '[{"id": "nf-arts", "releases": [{"version": "%s", "date": "1970-01-01T00:00:00.000Z", "requires": "*", "url": "file://%s", "sha512sum": "%s"}]}]\n' "$VERSION" "$ZIP" "$SHA" > build/plugin-repo/plugins.json
-'''
 
 [tasks.release]
 description = "Publish the plugin, with the registry settings from .env"
