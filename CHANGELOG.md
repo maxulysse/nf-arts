@@ -22,7 +22,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 - [#35](https://github.com/maxulysse/nf-arts/pull/35): The caption shows the pipeline only if it looks like `org/name` or a URL, so local paths stay out of the image. `--pipeline` still sets it by hand.
 - [#36](https://github.com/maxulysse/nf-arts/pull/36): Without `file`, nf-arts writes both `art-<runName>.svg` and `art-<runName>.png`, and a failed file leaves the other one. `file` still writes one file.
 - [#41](https://github.com/maxulysse/nf-arts/pull/41): `make images` renders the megatest images from a recorded list of traces. The rnavar test images stay as rendered with 1.0.0, as their run is gone.
-- [#42](https://github.com/maxulysse/nf-arts/pull/42): `mise` replaces `make`, with Java 21 pinned in `mise.toml`, and CI runs on Java 21 only. `prek` hooks run Nextflow lint, whitespace and end-of-file checks on commit and unit tests on push, and CI runs them. A `release.yml` workflow publishes a version from `main`, checks the published plugin, then creates the GitHub release and updates the website.
+- [#42](https://github.com/maxulysse/nf-arts/pull/42): `mise` replaces `make`, with Java 21 pinned in `mise.toml`, and CI runs on Java 21 only. `prek` hooks run Nextflow lint, whitespace and end-of-file checks on commit and unit tests on push, and CI runs them.
 
 ### Fixed
 

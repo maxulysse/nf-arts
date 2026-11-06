@@ -35,9 +35,7 @@ mise exec -- nextflow plugin nf-arts:render --style ginkgo --file art.png
 
 ## Releasing
 
-Drop `-dev` from the version in `build.gradle` and `CHANGELOG.md`, add the codename to its `CHANGELOG.md` heading, run `mise run images`, and merge that in a pull request. Then run `gh workflow run release.yml -f version=1.1.0`, with your version. It tests `main`, publishes to the Nextflow Registry, checks the published plugin, creates the GitHub release and tag, and updates the website.
-
-To publish by hand instead, copy `.env.example` to `.env`, set `NPR_API_KEY`, then run `mise run release`.
+Drop `-dev` from the version in `build.gradle` and `CHANGELOG.md`, add the codename to its `CHANGELOG.md` heading, run `mise run images`, copy `.env.example` to `.env`, set `NPR_API_KEY`, then run `mise run release`.
 
 ## Style
 
