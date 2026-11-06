@@ -43,8 +43,3 @@ SHA=$(sha512sum "$ZIP" | cut -d' ' -f1)
 mkdir -p build/plugin-repo
 printf '[{"id": "nf-arts", "releases": [{"version": "%s", "date": "1970-01-01T00:00:00.000Z", "requires": ">=25.10.0", "url": "file://%s", "sha512sum": "%s"}]}]\n' "$VERSION" "$ZIP" "$SHA" > build/plugin-repo/plugins.json
 '''
-
-[tasks.images]
-description = "Render docs/images from megatest traces"
-depends = ["dev-repo"]
-run = "scripts/render-images.sh"
