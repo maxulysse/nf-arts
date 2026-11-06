@@ -8,10 +8,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class MondrianStyle implements Style {
 
-    @Override
-    String getDefaultPalette() {
-        'mondrian'
-    }
+    final String defaultPalette = 'mondrian'
 
     @Override
     void draw(Run run, Canvas canvas, Palette palette, Random random) {

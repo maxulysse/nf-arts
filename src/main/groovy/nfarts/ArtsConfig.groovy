@@ -42,7 +42,7 @@ class ArtsConfig implements ConfigScope {
     final int spokes
 
     @ConfigOption
-    @Description('Named color palette (default: `viridis`; `autumn` for ginkgo, `forest` for tree, `mondrian` for mondrian, `monarch` for butterfly, `ocean` for iris, `rainbow` for phyllotaxis).')
+    @Description('Named color palette (default: `viridis`, or the style\'s own).')
     final String palette
 
     @ConfigOption

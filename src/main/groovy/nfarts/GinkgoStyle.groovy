@@ -8,10 +8,7 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class GinkgoStyle implements Style {
 
-    @Override
-    String getDefaultPalette() {
-        'autumn'
-    }
+    final String defaultPalette = 'autumn'
 
     // half the opening of the fan
     private static final double SPREAD = Math.toRadians(56)

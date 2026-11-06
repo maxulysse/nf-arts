@@ -58,13 +58,13 @@ class ArtsConfigTest extends Specification {
         'butterfly'   | 'monarch'
         'phyllotaxis' | 'rainbow'
         'iris'        | 'ocean'
+        'mondrian'    | 'mondrian'
+        'radial'      | 'viridis'
     }
 
-    def 'mondrian style should default to the mondrian palette' () {
+    def 'a set palette should win over the style default' () {
         expect:
-        new ArtsConfig(style: 'mondrian').palette == 'mondrian'
         new ArtsConfig(style: 'mondrian', palette: 'magma').palette == 'magma'
-        new ArtsConfig(style: 'radial').palette == 'viridis'
     }
 
     def 'should read options given as text' () {

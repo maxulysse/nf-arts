@@ -40,7 +40,7 @@ arts {
 | `style` | `radial` | One of the [styles](styles.md). |
 | `layout` | `spiral` | How the `hive` style places processes on its spokes: `spiral` or `phase`. |
 | `spokes` | `5` | Number of spokes in the `hive` style, at least 2, and at most one per process. |
-| `palette` | `viridis` | `autumn`, `cividis`, `forest`, `magma`, `monarch`, `mondrian`, `mono`, `nfcore`, `ocean`, `okabe`, `rainbow`, `sunset` or `viridis`. The `butterfly`, `ginkgo`, `iris`, `mondrian`, `phyllotaxis` and `tree` styles [have their own default](styles.md). |
+| `palette` | `viridis` | `autumn`, `cividis`, `forest`, `magma`, `monarch`, `mondrian`, `mono`, `nfcore`, `ocean`, `okabe`, `rainbow`, `sunset` or `viridis`. Some [styles](styles.md) have their own default. |
 | `colors` | | Hex colors (`#rrggbb`), overriding `palette`. |
 | `background` | from the palette | Hex background color. |
 | `width`, `height` | `1200` | Size in pixels, 16 to 10000. |
