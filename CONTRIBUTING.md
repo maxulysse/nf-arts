@@ -27,7 +27,7 @@ mise exec -- nextflow plugin nf-arts:render --style ginkgo --file art.png
 
 ## Adding a style
 
-1. Write a class implementing `Style` in its own file, e.g. `src/main/groovy/nfarts/SpiralStyle.groovy`. `draw` gets the `Run`, a `Canvas`, the `Palette` and a seeded `Random`. Use only that `Random`, so the same run gives the same image.
+1. Write a class implementing `Style` in its own file, e.g. `src/main/groovy/nfarts/SpiralStyle.groovy`. `draw` gets the `Run`, a `Canvas`, the `Palette` and a seeded `Random`. Use only that `Random`, so the same run gives the same image. A style with options of its own overrides `configured`.
 2. Register it in `Artist.STYLES`. The config check and `render --help` pick it up from there.
 3. Add the name to the `style` description in `ArtsConfig`.
 4. Add a test in `StylesTest`: the tests over `ArtsConfig.STYLES` cover PNG size, seeds, task order and single-task runs, so add one for the shapes your style draws, and a `StylesTest.SVG_HASHES` entry.

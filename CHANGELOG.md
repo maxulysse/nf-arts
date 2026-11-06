@@ -10,6 +10,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 - [#18](https://github.com/maxulysse/nf-arts/pull/18): An `iris` style: each task is a fibre of an eye's iris.
 - [#19](https://github.com/maxulysse/nf-arts/pull/19): A website with a gallery, built from `docs/` and deployed to GitHub Pages.
 - [#21](https://github.com/maxulysse/nf-arts/pull/21): A `butterfly` style: each process is a wing cell and each task a stroke across it, with wing size, tails and eyespots grown from the run.
+- [#45](https://github.com/maxulysse/nf-arts/pull/45): A `hive` style: tasks sit on spokes and curves link each task to the one that finished before it, with `layout` and `spokes` options.
 
 ### Changed
 

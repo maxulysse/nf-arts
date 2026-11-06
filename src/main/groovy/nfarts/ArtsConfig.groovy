@@ -30,8 +30,16 @@ class ArtsConfig implements ConfigScope {
     final String file
 
     @ConfigOption
-    @Description('Art style: `radial`, `hilbert`, `ridgeline`, `phyllotaxis`, `flowfield`, `mondrian`, `tree`, `ginkgo`, `iris` or `butterfly` (default: `radial`).')
+    @Description('Art style: `butterfly`, `flowfield`, `ginkgo`, `hilbert`, `hive`, `iris`, `mondrian`, `phyllotaxis`, `radial`, `ridgeline` or `tree` (default: `radial`).')
     final String style
+
+    @ConfigOption
+    @Description('How the `hive` style places processes on its spokes: `spiral` or `phase` (default: `spiral`).')
+    final String layout
+
+    @ConfigOption
+    @Description('Number of spokes in the `hive` style, at least 2 (default: `5`).')
+    final int spokes
 
     @ConfigOption
     @Description('Named color palette (default: `viridis`, or `mondrian` for the mondrian style).')
@@ -68,6 +76,12 @@ class ArtsConfig implements ConfigScope {
         style = (opts.style ?: 'radial') as String
         if( style !in STYLES )
             throw new IllegalArgumentException("Unknown arts.style '${style}'. Use one of: ${STYLES.join(', ')}")
+        layout = (opts.layout ?: HiveStyle.LAYOUTS[0]) as String
+        if( layout !in HiveStyle.LAYOUTS )
+            throw new IllegalArgumentException("Unknown arts.layout '${layout}'. Use one of: ${HiveStyle.LAYOUTS.join(', ')}")
+        spokes = number(opts, 'spokes', HiveStyle.DEFAULT_SPOKES)
+        if( spokes < 2 )
+            throw new IllegalArgumentException("arts.spokes must be at least 2, got ${spokes}")
         palette = (opts.palette ?: Artist.STYLES[style].defaultPalette) as String
         colors = opts.colors instanceof CharSequence ? opts.colors.toString().tokenize(',') : opts.colors as List<String>
         background = opts.background as String

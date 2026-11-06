@@ -16,7 +16,7 @@ Public buckets such as `nf-core-awsmegatests` need no AWS credentials.
 
 ## Options
 
-The [`arts` options](configuration.md#the-arts-scope) as flags, except `enabled`: `--file`, `--style`, `--palette`, `--colors a,b,c`, `--background`, `--width`, `--height` and `--title false`. Plus:
+The [`arts` options](configuration.md#the-arts-scope) as flags, except `enabled`: `--file`, `--style`, `--layout`, `--spokes`, `--palette`, `--colors a,b,c`, `--background`, `--width`, `--height` and `--title false`. Plus:
 
 | Option | Description |
 | --- | --- |
