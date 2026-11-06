@@ -74,9 +74,11 @@ jobs:
           GRADLE_OPTS: '-Dorg.gradle.daemon=false'
 
       - name: Setup Nextflow ${{ matrix.nextflow_version }}
-        uses: nf-core/setup-nextflow@b9f764e8ba5c76b712ace14ecbfcef0e40ae2dd8 # v1
+        uses: nf-core/setup-nextflow@v3
         with:
           version: "${{ matrix.nextflow_version }}"
+          # this action sets up Java too, 17 by default
+          java-version: 21
 
       - name: Install
         run: mise run install
