@@ -9,24 +9,20 @@
 3. Add a line to `CHANGELOG.md` under the unreleased version, starting with a link to your PR, in PR number order.
 4. Open a pull request against `main`. If it builds on another open PR, still target `main` and say "builds on #N" in the description.
 
-CI runs on every pull request: unit tests, a live run of the validation pipeline, and `render` checks, on Java 17 and 21 with Nextflow 25.10.0, the minimum version, and the latest release, edge included.
+CI runs on every pull request: the hooks, unit tests, a live run of the validation pipeline, and `render` checks, on Java 21 with Nextflow 25.10.0, the minimum version, and the latest release, edge included, where a failure of the validation checks does not block.
 
 ## Development
 
-You need Java 17 or later and Nextflow 25.10 or later.
+You need [mise](https://mise.jdx.dev), which installs the pinned Java from `mise.toml`, Nextflow 25.10 or later, and [prek](https://prek.j178.dev) for the Git hooks.
 
 ```bash
-make test       # unit tests
-make install    # install the plugin into ~/.nextflow/plugins
-nextflow run validation/ -plugins nf-arts@$(make -s version)
-```
-
-`nextflow plugin` only finds plugins in the registry. To try `render` on your build:
-
-```bash
-make dev-repo
-export NXF_PLUGINS_TEST_REPOSITORY="file://$PWD/build/plugin-repo/plugins.json"
-nextflow plugin nf-arts:render --style ginkgo --file art.png
+mise trust
+mise install --locked
+prek install        # format on commit, unit tests on push
+mise run test       # unit tests
+mise run validate   # the checks CI runs: the validation pipeline, then render
+mise run install    # install this build, for Nextflow to use
+mise exec -- nextflow plugin nf-arts:render --style ginkgo --file art.png
 ```
 
 ## Adding a style
@@ -35,11 +31,11 @@ nextflow plugin nf-arts:render --style ginkgo --file art.png
 2. Register it in `Artist.STYLES`. The config check and `render --help` pick it up from there.
 3. Add the name to the `style` description in `ArtsConfig`.
 4. Add a test in `StylesTest`: the tests over `ArtsConfig.STYLES` cover PNG size, seeds, task order and single-task runs, so add one for the shapes your style draws, and a `StylesTest.SVG_HASHES` entry.
-5. Add the style to `docs/styles.md` with its rnavar megatest image, and a row to the "Every style" table in `docs/gallery.md`. Images come from real runs only: add them to `scripts/render-images.sh`, which renders the runs already in those tables, not synthetic data.
+5. Add the style to `docs/styles.md` with its rnavar megatest image, and a row to the "Every style" table in `docs/gallery.md`. Images come from real runs only: add them to `mise-tasks/images`, which renders the runs already in those tables, not synthetic data.
 
 ## Releasing
 
-Drop `-dev` from the version in `build.gradle` and `CHANGELOG.md`, add the codename to its `CHANGELOG.md` heading, run `make images`, copy `.env.example` to `.env`, set `NPR_API_KEY`, then run `make release`.
+Drop `-dev` from the version in `build.gradle` and `CHANGELOG.md`, add the codename to its `CHANGELOG.md` heading, run `mise run images`, copy `.env.example` to `.env`, set `NPR_API_KEY`, then run `mise run release`.
 
 ## Style
 

@@ -1,0 +1,22 @@
+[tools]
+java = "temurin-21"
+
+# Local plugin repo from `install`, so Nextflow resolves this build
+[env]
+NXF_PLUGINS_TEST_REPOSITORY = "file://{{ config_root }}/build/plugin-repo/plugins.json"
+
+[tasks.clean]
+description = "Remove build and Nextflow run artifacts"
+run = """
+rm -rf .nextflow* work results
+./gradlew clean
+"""
+
+[tasks.test]
+description = "Run plugin unit tests"
+run = "./gradlew test"
+
+[tasks.release]
+description = "Publish the plugin, with the registry settings from .env"
+env = { _.file = ".env" }
+run = "./gradlew releasePlugin"

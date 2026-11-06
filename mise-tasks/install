@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+#MISE description="Install this build into ~/.nextflow/plugins and list it in the local plugin repo"
+set -euo pipefail
+
+./gradlew install
+
+version=$(sed -n "s/^version = '\(.*\)'/\1/p" build.gradle)
+zip="$PWD/build/distributions/nf-arts-$version.zip"
+sha=$(sha512sum "$zip" | cut -d' ' -f1)
+mkdir -p build/plugin-repo
+printf '[{"id": "nf-arts", "releases": [{"version": "%s", "date": "1970-01-01T00:00:00.000Z", "requires": "*", "url": "file://%s", "sha512sum": "%s"}]}]\n' "$version" "$zip" "$sha" > build/plugin-repo/plugins.json
