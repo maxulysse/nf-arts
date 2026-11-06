@@ -85,29 +85,10 @@ jobs:
         continue-on-error: ${{ matrix.nextflow_version == 'latest-everything' }}
         run: mise run validate
 
-  hooks:
-    name: Check hooks
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-        with:
-          fetch-depth: 1
-
-      - name: Setup Nextflow
-        uses: nf-core/setup-nextflow@v3
-        with:
-          # this action sets up Java too, 17 by default
-          java-version: 21
-
-      - name: Run the hooks
-        uses: j178/prek-action@44924fe9ef4a6f88253c4b6b1bf11c689d3ce53d # v3.1.0
-
-  # The only required check, so matrix changes need no change to branch protection. Skipped jobs pass.
+  # Required with prek, so matrix changes need no change to branch protection. Skipped jobs pass.
   ci-pass:
     name: CI pass
-    needs: [changes, build, hooks]
+    needs: [changes, build]
     if: always()
     runs-on: ubuntu-latest
     steps:

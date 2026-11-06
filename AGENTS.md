@@ -34,7 +34,7 @@ prek run --all-files         # the commit hooks, as in CI
 - Images rendered with a `-dev` build show `-dev` in their caption. At release, regenerate them with `mise run images` and the release build. `test-rnavar-*` stay frozen at 1.0.0: their run is gone.
 - README links and images are absolute GitHub URLs: the Nextflow Registry shows the README outside the repository.
 - The art only uses the task fields listed in `docs/data.md`. Anything new that reaches the image, including caption text, must be added there first.
-- Branch protection requires only the `CI pass` job, so a matrix change needs no change there.
+- Branch protection requires the `CI pass` and `prek` jobs, so a matrix change needs no change there.
 
 ## Pitfalls
 
