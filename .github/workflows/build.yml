@@ -49,6 +49,9 @@ jobs:
       fail-fast: false
       matrix:
         nextflow_version: ['25.10.0', 'latest-everything']
+    env:
+      # Nextflow comes from setup-nextflow, so the matrix decides the version, not mise.toml
+      MISE_TASK_RUN_AUTO_INSTALL: false
 
     steps:
       - name: Environment
@@ -61,6 +64,8 @@ jobs:
 
       - name: Setup tools
         uses: jdx/mise-action@f5be966e4a917d54244728e6a5fdcd1d93a35e6c # v5.2.6
+        with:
+          install_args: java
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@8da46b539cd8fe6ab27ca75128919a18d757604c # v6.4.1
@@ -70,18 +75,20 @@ jobs:
         env:
           GRADLE_OPTS: '-Dorg.gradle.daemon=false'
 
-      # after mise, so this version comes first on the PATH, ahead of the one in mise.toml
       - name: Setup Nextflow ${{ matrix.nextflow_version }}
         uses: nf-core/setup-nextflow@b9f764e8ba5c76b712ace14ecbfcef0e40ae2dd8 # v1
         with:
           version: "${{ matrix.nextflow_version }}"
+
+      - name: Check the Nextflow version
+        if: matrix.nextflow_version != 'latest-everything'
+        run: nextflow -version | grep -q "version ${{ matrix.nextflow_version }} "
 
       - name: Install
         run: mise run install
 
       - name: Live run
         run: |
-          nextflow -version
           nextflow run validation/ -plugins nf-arts@$(mise run -q version)
           file results/art.png | grep -q 'PNG image data, 1200 x 1200'
 

@@ -38,7 +38,7 @@ sed -n "s/^version = '\(.*\)'/\1/p" build.gradle
 description = "Build a local plugin repo, so `nextflow plugin nf-arts:render` resolves this build"
 depends = ["assemble"]
 run = '''
-VERSION=$(sed -n "s/^version = '\(.*\)'/\1/p" build.gradle)
+VERSION=$(mise run -q version)
 ZIP="$PWD/build/distributions/nf-arts-$VERSION.zip"
 SHA=$(sha512sum "$ZIP" | cut -d' ' -f1)
 mkdir -p build/plugin-repo

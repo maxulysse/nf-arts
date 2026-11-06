@@ -16,6 +16,7 @@ CI runs on every pull request: unit tests, a live run of the validation pipeline
 You need [mise](https://mise.jdx.dev), which installs the pinned Java and Nextflow from `mise.toml`.
 
 ```bash
+mise trust
 mise install --locked
 mise run test       # unit tests
 mise run install    # install the plugin into ~/.nextflow/plugins
