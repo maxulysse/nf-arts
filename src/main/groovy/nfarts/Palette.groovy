@@ -12,19 +12,26 @@ class Palette {
 
     // first entry is the background
     static final Map<String, List<String>> NAMED = [
-        viridis: ['#0b0b12', '#5b2a86', '#3b528b', '#21918c', '#5ec962', '#fde725'],
+        autumn : ['#17120a', '#8a5a12', '#c98a1a', '#e8b923', '#f5d547', '#fbeea0'],
+        cividis: ['#00132b', '#123570', '#575d6d', '#8a8678', '#c3b369', '#fee838'],
+        forest : ['#0c140f', '#1f4d2e', '#2f7a45', '#5a9e4b', '#8fbf5a', '#c9dd7c'],
         magma  : ['#000004', '#5c1a8f', '#8c2981', '#de4968', '#fe9f6d', '#fcfdbf'],
-        nfcore : ['#1b1d1e', '#24b064', '#9fd36a', '#ecdc86', '#f9a440', '#e35a2c'],
-        ocean  : ['#03111f', '#155e8b', '#2a8fc4', '#4fb9e0', '#93dcec', '#e0f7fa'],
-        sunset : ['#1a0b1e', '#5c2a9d', '#b5179e', '#f72585', '#ff8c42', '#ffd166'],
-        rainbow: ['#0b0b12', '#e8343a', '#f7862b', '#f9d423', '#3fb950', '#2f80ed', '#8e44ad'],
-        mono   : ['#f6f4ef', '#111111', '#3a3a3a', '#6b6b6b', '#9c9c9c'],
+        // orange and cream on near-black, cycled for contrast like mondrian
+        monarch: ['#0b0706', '#f47a14', '#fdf3e1', '#c93c0a', '#ffb52e'],
         // mostly white, the background shows as the black lines between blocks
         mondrian: ['#111111', '#f2efe6', '#d62e24', '#f2efe6', '#1d4f9c', '#f2efe6', '#f2efe6', '#f2c81f', '#f2efe6'],
+        mono   : ['#f6f4ef', '#111111', '#3a3a3a', '#6b6b6b', '#9c9c9c'],
+        nfcore : ['#1b1d1e', '#24b064', '#9fd36a', '#ecdc86', '#f9a440', '#e35a2c'],
+        ocean  : ['#03111f', '#155e8b', '#2a8fc4', '#4fb9e0', '#93dcec', '#e0f7fa'],
+        // Okabe-Ito, distinct under color vision deficiency
+        okabe  : ['#000000', '#e69f00', '#56b4e9', '#009e73', '#f0e442', '#0072b2', '#d55e00', '#cc79a7'],
+        rainbow: ['#0b0b12', '#e8343a', '#f7862b', '#f9d423', '#3fb950', '#2f80ed', '#8e44ad'],
+        sunset : ['#10122b', '#2d3f8f', '#5f6fb8', '#e8826a', '#e8452c', '#b3201f'],
+        viridis: ['#0b0b12', '#5b2a86', '#3b528b', '#21918c', '#5ec962', '#fde725'],
     ]
 
     // colors cycle by process instead of blending
-    private static final Set<String> DISCRETE = ['mondrian'] as Set<String>
+    private static final Set<String> DISCRETE = ['monarch', 'mondrian', 'okabe'] as Set<String>
 
     final String background
     final List<Color> colors

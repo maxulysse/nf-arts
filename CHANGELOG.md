@@ -11,6 +11,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 - [#19](https://github.com/maxulysse/nf-arts/pull/19): A website with a gallery, built from `docs/` and deployed to GitHub Pages.
 - [#21](https://github.com/maxulysse/nf-arts/pull/21): A `butterfly` style: each process is a wing cell and each task a stroke across it, with wing size, tails and eyespots grown from the run.
 - [#45](https://github.com/maxulysse/nf-arts/pull/45): A `hive` style: tasks sit on spokes and curves link each task to the one that finished before it, with `layout` and `spokes` options.
+- [#47](https://github.com/maxulysse/nf-arts/pull/47): `autumn`, `cividis`, `forest`, `monarch` and `okabe` palettes.
 
 ### Changed
 
@@ -25,6 +26,8 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 - [#41](https://github.com/maxulysse/nf-arts/pull/41): `make images` renders the megatest images from a recorded list of traces. The rnavar test images stay as rendered with 1.0.0, as their run is gone.
 - [#42](https://github.com/maxulysse/nf-arts/pull/42): `mise` replaces `make`, with Java 21 pinned in `mise.toml`, and CI runs on Java 21 only. `prek` hooks run Nextflow lint, whitespace and end-of-file checks on commit and unit tests on push, and CI runs them.
 - [#46](https://github.com/maxulysse/nf-arts/pull/46): `AGENTS.md`, the docs and code comments drop repeated text.
+- [#47](https://github.com/maxulysse/nf-arts/pull/47): `ginkgo` defaults to the `autumn` palette, `tree` to `forest`, `butterfly` to `monarch`, `iris` to `ocean` and `phyllotaxis` to `rainbow`.
+- [#47](https://github.com/maxulysse/nf-arts/pull/47): The `sunset` palette runs from blue to red, to tell it from `magma`.
 
 ### Fixed
 

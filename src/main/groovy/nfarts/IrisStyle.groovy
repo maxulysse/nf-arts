@@ -8,6 +8,8 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class IrisStyle implements Style {
 
+    final String defaultPalette = 'ocean'
+
     private static final int STEPS = 24
 
     @Override

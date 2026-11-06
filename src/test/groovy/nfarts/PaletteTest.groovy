@@ -37,6 +37,17 @@ class PaletteTest extends Specification {
         thrown(IllegalArgumentException)
     }
 
+    def 'okabe and monarch palettes should cycle colors without blending' () {
+        given:
+        def palette = Palette.of('okabe')
+
+        expect:
+        palette.discrete
+        palette.color(0, 20) == '#e69f00'
+        palette.color(7, 20) == '#e69f00'
+        Palette.of('monarch').discrete
+    }
+
     def 'mondrian palette should cycle colors without blending' () {
         given:
         def palette = Palette.of('mondrian')

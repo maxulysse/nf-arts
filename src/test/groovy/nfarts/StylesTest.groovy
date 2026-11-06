@@ -8,17 +8,17 @@ class StylesTest extends Specification {
 
     // MD5 of each style's SVG. A change here is a visible change: compare the images, then update it
     static final Map<String, String> SVG_HASHES = [
-        butterfly:   '6a705ebb91b5a61ad77eadacb1e0a14d',
+        butterfly:   'aff652f4f713f1a9e4557c817067f792',
         flowfield:   'dad1317b5ca85dcfaa7fd90c9c6e701a',
-        ginkgo:      'ad8d16ec806c5e44763c78adb4611f55',
+        ginkgo:      'b4ca8de6322a7ad69b09af865a9fbc21',
         hilbert:     'c59360e2e3e88f8c96c6437e303a9aba',
         hive:        'c4f4068c2d2286f8faaf46ed19b74a43',
-        iris:        '64ecc7869dada35c6b3a75e68787dd84',
+        iris:        'f616f33257bc4d6049ae5b5b5413dbc6',
         mondrian:    '7ff75d32b21744d94de05af637349a43',
-        phyllotaxis: '180d8552edca82e8c0dae995ad33b4f7',
+        phyllotaxis: 'ad105a18961e5701a458ca389ec5ee66',
         radial:      '9343dca8c3de9aad83235cc1e877804d',
         ridgeline:   'e3914331ece14c44ad3148f1d3c037b3',
-        tree:        '8b9a5472157e9a9f17e5e9fc8cfd479f',
+        tree:        '51063372070b4ff54dad7b21309785d1',
     ]
 
     def 'hilbert curve should visit every cell once with unit steps' () {

@@ -8,6 +8,8 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class TreeStyle implements Style {
 
+    final String defaultPalette = 'forest'
+
     private static record Leaf(double x, double y, double r, TaskTile tile) {}
 
     @Override

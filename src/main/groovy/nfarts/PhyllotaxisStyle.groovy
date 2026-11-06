@@ -8,6 +8,8 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class PhyllotaxisStyle implements Style {
 
+    final String defaultPalette = 'rainbow'
+
     private static final double GOLDEN_ANGLE = Math.PI * (3 - Math.sqrt(5))
 
     @Override

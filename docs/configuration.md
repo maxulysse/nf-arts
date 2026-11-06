@@ -40,7 +40,7 @@ arts {
 | `style` | `radial` | One of the [styles](styles.md). |
 | `layout` | `spiral` | How the `hive` style places processes on its spokes: `spiral` or `phase`. |
 | `spokes` | `5` | Number of spokes in the `hive` style, at least 2, and at most one per process. |
-| `palette` | `viridis` | `viridis`, `magma`, `nfcore`, `ocean`, `sunset`, `rainbow`, `mono` or `mondrian`. The mondrian style defaults to `mondrian`. |
+| `palette` | `viridis` | `autumn`, `cividis`, `forest`, `magma`, `monarch`, `mondrian`, `mono`, `nfcore`, `ocean`, `okabe`, `rainbow`, `sunset` or `viridis`. Some [styles](styles.md) have their own default. |
 | `colors` | | Hex colors (`#rrggbb`), overriding `palette`. |
 | `background` | from the palette | Hex background color. |
 | `width`, `height` | `1200` | Size in pixels, 16 to 10000. |
@@ -50,7 +50,7 @@ A bad value stops the run at the start, not at the end.
 
 ## Palettes
 
-Every palette but `mondrian` blends its colors from the first process to the last. `mondrian` cycles off-white, red, blue and yellow on black lines, without blending.
+Most palettes blend their colors from the first process to the last. `mondrian` cycles off-white, red, blue and yellow on black lines, without blending. `monarch` cycles orange, cream, red and amber on near-black. `okabe`, the colorblind-safe Okabe-Ito set, also cycles, so its 7 colors repeat in a run with more processes. `cividis` is a colorblind-safe blend.
 
 Custom colors blend the same way:
 

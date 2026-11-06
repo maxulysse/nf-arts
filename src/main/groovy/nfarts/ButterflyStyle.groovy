@@ -8,6 +8,8 @@ import groovy.transform.CompileStatic
 @CompileStatic
 class ButterflyStyle implements Style {
 
+    final String defaultPalette = 'monarch'
+
     private static final int STEPS = 24, EYESPOTS = 3
     static final double WASH = 0.3d
 

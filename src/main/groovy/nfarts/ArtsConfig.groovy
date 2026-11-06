@@ -42,7 +42,7 @@ class ArtsConfig implements ConfigScope {
     final int spokes
 
     @ConfigOption
-    @Description('Named color palette (default: `viridis`, or `mondrian` for the mondrian style).')
+    @Description('Named color palette (default: `viridis`, or the style\'s own).')
     final String palette
 
     @ConfigOption
