@@ -16,17 +16,17 @@ import nextflow.file.FileHelper
 class Artist {
 
     static final Map<String, Style> STYLES = [
-        radial     : new RadialStyle(),
-        hilbert    : new HilbertStyle(),
-        ridgeline  : new RidgelineStyle(),
-        phyllotaxis: new PhyllotaxisStyle(),
-        flowfield  : new FlowFieldStyle(),
-        mondrian   : new MondrianStyle(),
-        tree       : new TreeStyle(),
-        ginkgo     : new GinkgoStyle(),
-        iris       : new IrisStyle(),
         butterfly  : new ButterflyStyle(),
+        flowfield  : new FlowFieldStyle(),
+        ginkgo     : new GinkgoStyle(),
+        hilbert    : new HilbertStyle(),
         hive       : new HiveStyle(),
+        iris       : new IrisStyle(),
+        mondrian   : new MondrianStyle(),
+        phyllotaxis: new PhyllotaxisStyle(),
+        radial     : new RadialStyle(),
+        ridgeline  : new RidgelineStyle(),
+        tree       : new TreeStyle(),
     ] as Map<String, Style>
 
     static final String VERSION = version()

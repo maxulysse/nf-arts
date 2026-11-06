@@ -30,7 +30,7 @@ class ArtsConfig implements ConfigScope {
     final String file
 
     @ConfigOption
-    @Description('Art style: `radial`, `hilbert`, `ridgeline`, `phyllotaxis`, `flowfield`, `mondrian`, `tree`, `ginkgo`, `iris`, `butterfly` or `hive` (default: `radial`).')
+    @Description('Art style: `butterfly`, `flowfield`, `ginkgo`, `hilbert`, `hive`, `iris`, `mondrian`, `phyllotaxis`, `radial`, `ridgeline` or `tree` (default: `radial`).')
     final String style
 
     @ConfigOption
