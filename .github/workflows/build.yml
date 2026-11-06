@@ -83,6 +83,8 @@ jobs:
           GRADLE_OPTS: '-Dorg.gradle.daemon=false'
 
       - name: Validate
+        # a new Nextflow release warns, it does not block
+        continue-on-error: ${{ matrix.nextflow_version == 'latest-everything' }}
         run: mise run validate
 
   hooks:
@@ -97,6 +99,9 @@ jobs:
 
       - name: Setup Nextflow
         uses: nf-core/setup-nextflow@v3
+        with:
+          # this action sets up Java too, 17 by default
+          java-version: 21
 
       - name: Run the hooks
         uses: j178/prek-action@44924fe9ef4a6f88253c4b6b1bf11c689d3ce53d # v3.1.0
