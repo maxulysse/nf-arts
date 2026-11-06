@@ -9,15 +9,16 @@
 3. Add a line to `CHANGELOG.md` under the unreleased version, starting with a link to your PR, in PR number order.
 4. Open a pull request against `main`. If it builds on another open PR, still target `main` and say "builds on #N" in the description.
 
-CI runs on every pull request: unit tests, a live run of the validation pipeline, and `render` checks, on Java 21 with Nextflow 25.10.0, the minimum version, and the latest release, edge included.
+CI runs on every pull request: the hooks, unit tests, a live run of the validation pipeline, and `render` checks, on Java 21 with Nextflow 25.10.0, the minimum version, and the latest release, edge included.
 
 ## Development
 
-You need [mise](https://mise.jdx.dev), which installs the pinned Java from `mise.toml`, and Nextflow 25.10 or later.
+You need [mise](https://mise.jdx.dev), which installs the pinned Java from `mise.toml`, Nextflow 25.10 or later, and [prek](https://prek.j178.dev) for the Git hooks.
 
 ```bash
 mise trust
 mise install --locked
+prek install        # format on commit, unit tests on push
 mise run test       # unit tests
 mise run validate   # the checks CI runs: the validation pipeline, then render
 mise run install    # install this build, for Nextflow to use
