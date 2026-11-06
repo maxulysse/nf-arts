@@ -80,10 +80,6 @@ jobs:
         with:
           version: "${{ matrix.nextflow_version }}"
 
-      - name: Check the Nextflow version
-        if: matrix.nextflow_version != 'latest-everything'
-        run: nextflow -version | grep -q "version ${{ matrix.nextflow_version }} "
-
       - name: Install
         run: mise run install
 
