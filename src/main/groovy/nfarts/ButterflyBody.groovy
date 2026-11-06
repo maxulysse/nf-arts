@@ -18,7 +18,7 @@ class ButterflyBody {
         for( int side : [-1, 1] )
             antenna(canvas, cx, head, side, palette.ink())
 
-        // the underlay shows between the bands: three slices of colour, then one of underlay
+        // the underlay shows between the bands: three slices of color, then one of underlay
         canvas.polygon(abdomen(0, ABDOMEN, cx, cy, size), palette.ink(), 0.45d)
         for( int i = 0; i < ABDOMEN; i += 4 )
             canvas.polygon(abdomen(i, i + 3, cx, cy, size), palette.color((i * processes).intdiv(ABDOMEN) as int, processes), 1d)

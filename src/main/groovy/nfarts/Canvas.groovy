@@ -16,7 +16,7 @@ import groovy.transform.CompileStatic
 
 /**
  * Drawing surface shared by the styles. Angles are in degrees,
- * clockwise from 3 o'clock (y axis points down).
+ * clockwise from 3 o'clock (y axis points down). Points are interleaved x,y pairs.
  */
 @CompileStatic
 interface Canvas {
@@ -28,9 +28,8 @@ interface Canvas {
         Math.min(width, height)
     }
     void arc(double cx, double cy, double r, double startDeg, double sweepDeg, double stroke, String color, double opacity)
-    /** points are interleaved x,y pairs */
     void polyline(double[] points, double stroke, String color, double opacity)
-    /** filled, no outline; points are interleaved x,y pairs */
+    /** filled, no outline */
     void polygon(double[] points, String color, double opacity)
     void circle(double cx, double cy, double r, String color, double opacity)
     /** one line of text centered on x, with its baseline at y */

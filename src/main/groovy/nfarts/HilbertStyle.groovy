@@ -3,8 +3,7 @@ package nfarts
 import groovy.transform.CompileStatic
 
 /**
- * Tasks end to end along a Hilbert curve in start order, each taking a
- * share proportional to its duration.
+ * Tasks end to end along a Hilbert curve. See `docs/styles.md`.
  */
 @CompileStatic
 class HilbertStyle implements Style {

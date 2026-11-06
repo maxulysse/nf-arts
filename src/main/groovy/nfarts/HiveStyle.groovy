@@ -3,10 +3,7 @@ package nfarts
 import groovy.transform.CompileStatic
 
 /**
- * A hive plot. Spokes hold one segment per process, tasks are dots on them,
- * distance along a segment is memory. Each task has a curve from the last
- * task that finished before it started on another spoke: a handoff in time,
- * not a dependency, as runs carry no task graph.
+ * A hive plot. Curves are handoffs in time, not dependencies: runs carry no task graph. See `docs/styles.md`.
  */
 @CompileStatic
 class HiveStyle implements Style {
@@ -89,7 +86,7 @@ class HiveStyle implements Style {
         return new Slot(spoke, i - Math.floorDiv(spoke * count + axes - 1, axes))
     }
 
-    /** `nodes` in start order, so the finished tasks only grow */
+    /** links each task to the last one finished before it on another spoke; needs `nodes` in start order */
     private static List<Handoff> handoffs(List<Node> nodes, int axes) {
         final byEnd = nodes.toSorted { Node a, Node b -> a.end() <=> b.end() }
         final latest = new Node[axes]

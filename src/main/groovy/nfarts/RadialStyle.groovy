@@ -3,8 +3,7 @@ package nfarts
 import groovy.transform.CompileStatic
 
 /**
- * Each process is a ring, each task an arc on it: angle is time,
- * clockwise from 12 o'clock, thickness is memory.
+ * One ring per process, one arc per task. See `docs/styles.md`.
  */
 @CompileStatic
 class RadialStyle implements Style {

@@ -3,11 +3,7 @@ package nfarts
 import groovy.transform.CompileStatic
 
 /**
- * A butterfly grown from the run. Processes that start in the first half of
- * the run fill the forewings, the rest the hindwings, and each is a cell
- * between two veins. Each task is a stroke in its cell, on both sides:
- * distance from the body is start time, length is duration, width is memory,
- * so bands appear where processes ran at the same time.
+ * The run as a butterfly, one wing cell per process. See `docs/styles.md`.
  */
 @CompileStatic
 class ButterflyStyle implements Style {

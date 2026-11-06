@@ -3,9 +3,7 @@ package nfarts
 import groovy.transform.CompileStatic
 
 /**
- * The run as one ginkgo leaf. Each task is a vein fanning out from the
- * stem and forking near its tip: angle is start time, left to right across
- * the fan, length is duration, width is memory.
+ * The run as one ginkgo leaf, one forking vein per task. See `docs/styles.md`.
  */
 @CompileStatic
 class GinkgoStyle implements Style {

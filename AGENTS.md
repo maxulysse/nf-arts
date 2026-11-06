@@ -27,13 +27,11 @@ prek run --all-files  # the commit hooks, as in CI
 - Images rendered with a `-dev` build show `-dev` in their caption. `test-rnavar-*` are not regenerated: their runs are gone.
 - README links and images are absolute GitHub URLs: the Nextflow Registry shows the README outside the repository.
 - The art only uses the task fields listed in `docs/data.md`. Anything new that reaches the image, including caption text, must be added there first.
-- Branch protection requires the `CI pass` and `prek` jobs, so a matrix change needs no change there.
 
 ## Pitfalls
 
 - `nextflow plugin` resolves plugins by bare ID from the registry. `mise run install` lists the build in a local repo and `mise exec --` sets `NXF_PLUGINS_TEST_REPOSITORY`, so call `nf-arts:render`, not `nf-arts@x.y.z:render`.
-- Nextflow's console only shows loggers under `nextflow`, so use `@Slf4j(category = 'nextflow.arts')`. `nextflow plugin` shows no log messages at all, so `RenderCommand` prints to stderr.
-- `nextflow plugin` ignores the returned exit code, so `ArtsPlugin.exec` calls `System.exit` on failure.
+- Nextflow's console only shows loggers under `nextflow`, so use `@Slf4j(category = 'nextflow.arts')`.
 - `PluginExecAware.exec` lost its `Launcher` parameter in 26.10. `ArtsPlugin` implements both signatures, so do not use the `PluginAbstractExec` trait.
 - The cache cannot be read inside Gradle tests: its serializer needs `--add-opens`, which the `nextflow` launcher passes. Test history renders through the CLI.
 - Enums hash by identity, which changes between JVM runs. Never seed from a hash that includes one.

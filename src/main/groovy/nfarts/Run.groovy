@@ -20,7 +20,7 @@ class Run {
         this.tiles = alignStarts(tiles).toSorted { TaskTile a, TaskTile b ->
             a.start() <=> b.start() ?: a.process() <=> b.process() ?: a.duration() <=> b.duration() ?: a.memory() <=> b.memory() ?: a.status() <=> b.status()
         }
-        // processes in order of first appearance
+        // processes in start order
         this.byProcess = this.tiles.groupBy { TaskTile it -> it.process() }
         this.processes = byProcess.keySet().toList()
         this.t0 = this.tiles*.start().min() as long
@@ -43,7 +43,7 @@ class Run {
         }
     }
 
-    /** the place of the task's process, in order of first appearance */
+    /** the place of the task's process, in start order */
     int rank(TaskTile tile) {
         processes.indexOf(tile.process())
     }

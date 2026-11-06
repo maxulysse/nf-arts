@@ -6,7 +6,7 @@ nf-arts draws from a few numbers per task. Nothing about your data, samples, inp
 
 | Field | Read from | Used for |
 | --- | --- | --- |
-| Process name | the process, without the task tag | Grouping tasks and picking colors, in order of first start. In `hive`, the order also sets each process's place on the spokes. In `butterfly`, a process's task count also sets its cell's width and its margin spot. Never written into the image. |
+| Process name | the process, without the task tag | Grouping tasks and picking colors, in start order. In `hive`, the order also sets each process's place on the spokes. In `butterfly`, a process's task count also sets its cell's width and its margin spot. Never written into the image. |
 | Start time | `start`, else `submit` | Position in time, relative to the first task of the run. A task with neither sits at the start of the run. In `hive`, also which task a curve links to. |
 | Duration | `realtime`, else `duration` | Length of the shape. In `iris`, also the ring's shape and the highlight's position. In `butterfly`, also wing size, outline and tails. In `hive`, also which task a curve links to. |
 | Peak memory | `peak_rss` | Width or size of the shape, on a log scale. In `butterfly`, also where the eyespots sit. In `hive`, also the position along a spoke. |
@@ -46,7 +46,7 @@ or `--title false` with `render`.
 
 ## Randomness
 
-The session ID seeds the random choices, such as jitter and orientation. The same tasks and the same nf-arts version give the same SVG. A PNG can differ in its caption text, which uses a font from the host. A resumed run keeps its session but its tasks can differ, and styles can change between versions, so either can change the image. Without a session, for a trace file with no execution report, a hash of the task values above is the seed. Neither is written into the image.
+The session ID seeds the random choices, such as jitter and orientation. The same tasks and the same nf-arts version give the same SVG, so `render` from the history, or from a trace with its report, matches the live run apart from the caption. A PNG can differ in its caption text, which uses a font from the host. A resumed run keeps its session but its tasks can differ, and styles can change between versions, so either can change the image. Without a session, for a trace file with no execution report, a hash of the task values above is the seed. Neither is written into the image.
 
 ## The files
 
