@@ -2,7 +2,7 @@
 
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Semantic Versioning](https://semver.org/).
 
-## v1.1.0
+## v1.1.0 - Iris
 
 ### Added
 
