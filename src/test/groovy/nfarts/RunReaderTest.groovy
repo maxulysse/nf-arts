@@ -168,6 +168,34 @@ class RunReaderTest extends Specification {
         dir.toFile().deleteDir()
     }
 
+    def 'should read a raw trace' () {
+        given:
+        def file = Files.createTempFile('trace', '.txt')
+        file.text = 'name\tstatus\tstart\trealtime\tpeak_rss\nFOO (a)\tCOMPLETED\t1733400000000\t23000\t5242880\n'
+
+        expect:
+        RunReader.fromTrace(file).tiles() == [new TaskTile('FOO', 1733400000000L, 23_000, 5 * 1024 * 1024, Status.COMPLETED)]
+
+        cleanup:
+        Files.delete(file)
+    }
+
+    def 'a trace should give the same tasks in every time zone' () {
+        given:
+        def zone = TimeZone.default
+
+        when:
+        TimeZone.default = TimeZone.getTimeZone('Europe/Paris')
+        def paris = RunReader.fromTrace(TRACE).tiles()
+        TimeZone.default = TimeZone.getTimeZone('America/New_York')
+        def newYork = RunReader.fromTrace(TRACE).tiles()
+        then:
+        paris == newYork
+
+        cleanup:
+        TimeZone.default = zone
+    }
+
     def 'should skip a partial last row' () {
         given:
         def file = Files.createTempFile('trace', '.txt')
