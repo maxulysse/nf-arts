@@ -1,50 +1,50 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="800" height="800" viewBox="0 0 800 800">
 <rect width="100%" height="100%" fill="#ffffff"/>
 <g fill="none" stroke-linecap="round" stroke-linejoin="round">
-<path d="M400.00 283.69 A76.31 76.31 0 0 1 400.80 283.70" stroke="#ff006e" stroke-width="3.01" stroke-opacity="0.80"/>
-<path d="M400.98 277.12 A82.89 82.89 0 0 1 401.85 277.14" stroke="#f80375" stroke-width="3.05" stroke-opacity="0.80"/>
-<path d="M401.07 271.13 A88.88 88.88 0 0 1 402.00 271.14" stroke="#f0077d" stroke-width="3.06" stroke-opacity="0.80"/>
-<path d="M401.19 261.56 A98.45 98.45 0 0 1 404.67 261.67" stroke="#e90a84" stroke-width="2.96" stroke-opacity="0.80"/>
-<path d="M401.26 256.24 A103.77 103.77 0 0 1 402.35 256.26" stroke="#e20d8c" stroke-width="3.05" stroke-opacity="0.80"/>
-<path d="M406.07 248.91 A111.26 111.26 0 0 1 416.78 250.01" stroke="#db1093" stroke-width="4.20" stroke-opacity="0.80"/>
-<path d="M407.16 241.69 A118.53 118.53 0 0 1 421.15 243.37" stroke="#d3149a" stroke-width="6.83" stroke-opacity="0.80"/>
-<path d="M407.84 230.83 A129.40 129.40 0 0 1 493.32 449.65" stroke="#cc17a2" stroke-width="7.68" stroke-opacity="0.80"/>
-<path d="M421.07 225.98 A135.67 135.67 0 0 1 432.20 228.21" stroke="#c51aa9" stroke-width="3.92" stroke-opacity="0.80"/>
-<path d="M433.86 223.79 A140.36 140.36 0 0 1 452.10 229.67" stroke="#bd1eb1" stroke-width="6.86" stroke-opacity="0.80"/>
-<path d="M465.50 223.15 A151.72 151.72 0 0 1 484.26 233.82" stroke="#b621b8" stroke-width="6.85" stroke-opacity="0.80"/>
-<path d="M508.49 471.01 A155.22 155.22 0 0 1 507.33 472.14" stroke="#af24c0" stroke-width="4.28" stroke-opacity="0.80"/>
-<path d="M512.06 481.26 A165.11 165.11 0 0 1 510.79 482.43" stroke="#a728c7" stroke-width="3.02" stroke-opacity="0.80"/>
-<path d="M516.00 485.55 A170.93 170.93 0 0 1 481.65 510.17" stroke="#a02bce" stroke-width="8.89" stroke-opacity="0.80"/>
-<path d="M519.75 495.70 A180.99 180.99 0 0 1 518.33 496.95" stroke="#992ed6" stroke-width="3.05" stroke-opacity="0.80"/>
-<path d="M523.67 500.19 A186.95 186.95 0 0 1 522.20 501.48" stroke="#9231dd" stroke-width="3.01" stroke-opacity="0.80"/>
-<path d="M528.59 505.79 A194.40 194.40 0 0 1 527.05 507.13" stroke="#8a35e5" stroke-width="3.81" stroke-opacity="0.80"/>
-<path d="M484.09 544.84 A203.07 203.07 0 0 1 482.15 545.71" stroke="#8338ec" stroke-width="3.03" stroke-opacity="0.80"/>
-<path d="M482.12 553.37 A210.08 210.08 0 0 1 480.09 554.22" stroke="#7f3ded" stroke-width="3.05" stroke-opacity="0.80"/>
-<path d="M485.36 561.08 A218.45 218.45 0 0 1 483.25 561.96" stroke="#7a41ee" stroke-width="3.03" stroke-opacity="0.80"/>
-<path d="M484.42 565.59 A222.24 222.24 0 0 1 482.26 566.46" stroke="#7646ef" stroke-width="3.80" stroke-opacity="0.80"/>
-<path d="M485.75 572.45 A229.10 229.10 0 0 1 388.94 588.83" stroke="#724af0" stroke-width="6.77" stroke-opacity="0.80"/>
-<path d="M485.83 572.71 A229.38 229.38 0 0 1 395.38 589.33" stroke="#724af0" stroke-width="6.78" stroke-opacity="0.80"/>
-<path d="M486.02 573.30 A229.99 229.99 0 0 1 391.34 589.82" stroke="#724af0" stroke-width="6.83" stroke-opacity="0.80"/>
-<path d="M486.73 575.10 A231.93 231.93 0 0 1 394.74 591.87" stroke="#724af0" stroke-width="6.77" stroke-opacity="0.80"/>
-<path d="M486.87 575.55 A232.39 232.39 0 0 1 396.12 592.36" stroke="#724af0" stroke-width="6.89" stroke-opacity="0.80"/>
-<path d="M351.05 595.00 A240.05 240.05 0 0 1 348.59 594.48" stroke="#6e4ff2" stroke-width="3.79" stroke-opacity="0.80"/>
-<path d="M342.82 598.48 A245.24 245.24 0 0 1 340.32 597.87" stroke="#6954f3" stroke-width="3.05" stroke-opacity="0.80"/>
-<path d="M333.14 602.88 A251.91 251.91 0 0 1 294.11 588.57" stroke="#6558f4" stroke-width="6.93" stroke-opacity="0.80"/>
-<path d="M272.45 589.83 A262.86 262.86 0 0 1 231.09 561.40" stroke="#615df5" stroke-width="6.94" stroke-opacity="0.80"/>
-<path d="M204.64 546.32 A269.96 269.96 0 0 1 202.70 544.26" stroke="#5c61f6" stroke-width="3.03" stroke-opacity="0.80"/>
-<path d="M195.05 545.35 A276.33 276.33 0 0 1 193.12 543.20" stroke="#5866f7" stroke-width="3.07" stroke-opacity="0.80"/>
-<path d="M191.30 548.70 A281.37 281.37 0 0 1 189.33 546.51" stroke="#546af8" stroke-width="3.08" stroke-opacity="0.80"/>
-<path d="M180.82 553.53 A292.40 292.40 0 0 1 178.81 551.23" stroke="#4f6ff9" stroke-width="3.06" stroke-opacity="0.80"/>
-<path d="M170.74 553.00 A299.69 299.69 0 0 1 107.41 424.82" stroke="#4b74fb" stroke-width="6.86" stroke-opacity="0.80"/>
-<path d="M173.37 550.74 A296.21 296.21 0 0 1 106.97 403.34" stroke="#4b74fb" stroke-width="7.12" stroke-opacity="0.80"/>
-<path d="M171.28 551.48 A298.29 298.29 0 0 1 107.82 420.02" stroke="#4b74fb" stroke-width="6.90" stroke-opacity="0.80"/>
-<path d="M171.96 550.84 A297.35 297.35 0 0 1 109.16 421.88" stroke="#4b74fb" stroke-width="6.89" stroke-opacity="0.80"/>
-<path d="M170.74 549.65 A297.53 297.53 0 0 1 108.67 420.46" stroke="#4b74fb" stroke-width="7.06" stroke-opacity="0.80"/>
-<path d="M95.80 356.68 A304.22 304.22 0 0 1 101.66 300.46" stroke="#4778fc" stroke-width="6.82" stroke-opacity="0.80"/>
-<path d="M97.20 277.20 A313.92 313.92 0 0 1 98.08 274.03" stroke="#437dfd" stroke-width="3.04" stroke-opacity="0.80"/>
-<path d="M134.74 178.95 A321.16 321.16 0 0 1 166.60 139.40" stroke="#3e81fe" stroke-width="6.83" stroke-opacity="0.80"/>
-<path d="M182.74 116.08 A326.64 326.64 0 0 1 400.00 33.36" stroke="#3a86ff" stroke-width="7.82" stroke-opacity="0.80"/>
-<text x="400.00" y="760.00" font-family="Helvetica, Arial, sans-serif" font-size="22.40" text-anchor="middle" fill="#222222" fill-opacity="0.90" stroke="none">nf-core/rnavar · 1.3.0 · determined_booth</text>
-<text x="400.00" y="785.60" font-family="Helvetica, Arial, sans-serif" font-size="11.20" text-anchor="middle" fill="#222222" fill-opacity="0.60" stroke="none">generated by nf-arts v1.0.0</text>
+<path d="M400.00 282.21 A77.79 77.79 0 0 1 400.81 282.22" stroke="#ff006e" stroke-width="3.64" stroke-opacity="0.80"/>
+<path d="M400.66 274.92 A85.08 85.08 0 0 1 401.56 274.93" stroke="#f80375" stroke-width="3.04" stroke-opacity="0.80"/>
+<path d="M400.72 270.28 A89.72 89.72 0 0 1 403.90 270.36" stroke="#f0077d" stroke-width="2.96" stroke-opacity="0.80"/>
+<path d="M401.56 260.17 A99.84 99.84 0 0 1 402.61 260.20" stroke="#e90a84" stroke-width="3.06" stroke-opacity="0.80"/>
+<path d="M401.65 255.57 A104.44 104.44 0 0 1 402.74 255.59" stroke="#e20d8c" stroke-width="3.04" stroke-opacity="0.80"/>
+<path d="M405.93 246.17 A113.98 113.98 0 0 1 414.80 246.99" stroke="#db1093" stroke-width="3.07" stroke-opacity="0.80"/>
+<path d="M407.59 239.89 A120.35 120.35 0 0 1 426.19 242.53" stroke="#d3149a" stroke-width="6.77" stroke-opacity="0.80"/>
+<path d="M408.00 233.54 A126.72 126.72 0 0 1 442.99 479.20" stroke="#cc17a2" stroke-width="7.75" stroke-opacity="0.80"/>
+<path d="M424.56 228.39 A133.89 133.89 0 0 1 438.71 231.83" stroke="#c51aa9" stroke-width="3.60" stroke-opacity="0.80"/>
+<path d="M441.69 225.00 A141.29 141.29 0 0 1 469.50 236.99" stroke="#bd1eb1" stroke-width="6.68" stroke-opacity="0.80"/>
+<path d="M489.60 238.92 A150.62 150.62 0 0 1 507.38 254.38" stroke="#b621b8" stroke-width="6.86" stroke-opacity="0.80"/>
+<path d="M448.39 511.42 A158.96 158.96 0 0 1 446.80 511.92" stroke="#af24c0" stroke-width="4.31" stroke-opacity="0.80"/>
+<path d="M444.41 518.87 A164.96 164.96 0 0 1 442.74 519.32" stroke="#a728c7" stroke-width="3.08" stroke-opacity="0.80"/>
+<path d="M446.62 526.83 A173.22 173.22 0 0 1 404.74 533.16" stroke="#a02bce" stroke-width="8.89" stroke-opacity="0.80"/>
+<path d="M442.65 534.35 A179.49 179.49 0 0 1 440.82 534.79" stroke="#992ed6" stroke-width="3.07" stroke-opacity="0.80"/>
+<path d="M444.42 541.67 A187.02 187.02 0 0 1 442.52 542.12" stroke="#9231dd" stroke-width="3.09" stroke-opacity="0.80"/>
+<path d="M446.25 549.19 A194.76 194.76 0 0 1 444.26 549.66" stroke="#8a35e5" stroke-width="3.81" stroke-opacity="0.80"/>
+<path d="M381.88 561.46 A202.28 202.28 0 0 1 379.77 561.26" stroke="#8338ec" stroke-width="3.07" stroke-opacity="0.80"/>
+<path d="M374.40 568.62 A210.19 210.19 0 0 1 372.21 568.34" stroke="#7f3ded" stroke-width="3.06" stroke-opacity="0.80"/>
+<path d="M373.37 576.39 A218.02 218.02 0 0 1 371.11 576.10" stroke="#7a41ee" stroke-width="3.08" stroke-opacity="0.80"/>
+<path d="M371.13 580.92 A222.79 222.79 0 0 1 368.82 580.60" stroke="#7646ef" stroke-width="3.82" stroke-opacity="0.80"/>
+<path d="M368.29 588.76 A230.95 230.95 0 0 1 298.22 567.31" stroke="#724af0" stroke-width="6.88" stroke-opacity="0.80"/>
+<path d="M368.34 587.33 A229.53 229.53 0 0 1 299.39 566.30" stroke="#724af0" stroke-width="6.78" stroke-opacity="0.80"/>
+<path d="M367.99 589.47 A231.70 231.70 0 0 1 300.35 569.17" stroke="#724af0" stroke-width="6.89" stroke-opacity="0.80"/>
+<path d="M367.89 589.53 A231.77 231.77 0 0 1 297.19 567.72" stroke="#724af0" stroke-width="6.79" stroke-opacity="0.80"/>
+<path d="M367.98 588.33 A230.57 230.57 0 0 1 299.55 567.54" stroke="#724af0" stroke-width="6.81" stroke-opacity="0.80"/>
+<path d="M269.13 559.76 A238.82 238.82 0 0 1 267.04 558.38" stroke="#6e4ff2" stroke-width="3.79" stroke-opacity="0.80"/>
+<path d="M258.71 559.70 A244.63 244.63 0 0 1 256.62 558.20" stroke="#6954f3" stroke-width="3.06" stroke-opacity="0.80"/>
+<path d="M243.51 558.13 A252.48 252.48 0 0 1 209.01 525.13" stroke="#6558f4" stroke-width="7.00" stroke-opacity="0.80"/>
+<path d="M185.44 509.05 A261.26 261.26 0 0 1 162.49 468.83" stroke="#615df5" stroke-width="6.96" stroke-opacity="0.80"/>
+<path d="M150.34 452.33 A266.18 266.18 0 0 1 149.39 449.71" stroke="#5c61f6" stroke-width="3.06" stroke-opacity="0.80"/>
+<path d="M137.23 448.54 A277.28 277.28 0 0 1 136.32 445.78" stroke="#5866f7" stroke-width="3.07" stroke-opacity="0.80"/>
+<path d="M133.08 449.89 A281.65 281.65 0 0 1 132.15 447.09" stroke="#546af8" stroke-width="3.09" stroke-opacity="0.80"/>
+<path d="M122.47 448.68 A291.36 291.36 0 0 1 121.55 445.77" stroke="#4f6ff9" stroke-width="3.07" stroke-opacity="0.80"/>
+<path d="M111.90 439.24 A298.80 298.80 0 0 1 103.36 324.10" stroke="#4b74fb" stroke-width="7.05" stroke-opacity="0.80"/>
+<path d="M113.14 438.88 A297.50 297.50 0 0 1 104.69 323.94" stroke="#4b74fb" stroke-width="6.95" stroke-opacity="0.80"/>
+<path d="M113.44 438.77 A297.19 297.19 0 0 1 105.13 322.87" stroke="#4b74fb" stroke-width="6.97" stroke-opacity="0.80"/>
+<path d="M111.89 439.20 A298.80 298.80 0 0 1 103.94 319.64" stroke="#4b74fb" stroke-width="6.99" stroke-opacity="0.80"/>
+<path d="M113.63 438.70 A296.99 296.99 0 0 1 106.89 312.14" stroke="#4b74fb" stroke-width="7.22" stroke-opacity="0.80"/>
+<path d="M106.85 277.46 A304.55 304.55 0 0 1 122.72 234.04" stroke="#4778fc" stroke-width="5.23" stroke-opacity="0.80"/>
+<path d="M126.83 209.09 A312.08 312.08 0 0 1 128.43 206.23" stroke="#437dfd" stroke-width="3.04" stroke-opacity="0.80"/>
+<path d="M123.18 196.01 A321.75 321.75 0 0 1 154.71 151.77" stroke="#3e81fe" stroke-width="6.84" stroke-opacity="0.80"/>
+<path d="M170.02 129.12 A325.88 325.88 0 0 1 400.00 34.12" stroke="#3a86ff" stroke-width="7.89" stroke-opacity="0.80"/>
+<text x="400.00" y="760.00" font-family="Helvetica, Arial, sans-serif" font-size="22.40" text-anchor="middle" fill="#222222" fill-opacity="0.90" stroke="none">nf-core/rnavar · 1.3.0 · mad_volhard</text>
+<text x="400.00" y="785.60" font-family="Helvetica, Arial, sans-serif" font-size="11.20" text-anchor="middle" fill="#222222" fill-opacity="0.60" stroke="none">generated by nf-arts v1.1.0</text>
 </g>
 </svg>

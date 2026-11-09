@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
-#MISE description="Render docs/images from megatest traces"
+#MISE description="Render docs/images from megatest traces and an rnavar test run"
 #MISE depends=["install"]
-# Render docs/images/megatest-*.png from their nf-core megatest traces.
-# test-rnavar-* are not here: their runs are gone.
+# Render docs/images/megatest-*.png from their nf-core megatest traces, and
+# docs/images/test-rnavar-* from the history of a fresh run of the nf-core/rnavar test profile.
 set -euo pipefail
 
 BUCKET=s3://nf-core-awsmegatests
 ALL='butterfly flowfield ginkgo hilbert hive iris mondrian phyllotaxis radial ridgeline tree'
 
-# render <run> <palette> <trace, from the bucket> <styles>
+# render <image prefix> <palette> <source option> <source> <styles>
 render() {
-    local run=$1 palette=$2 trace=$3 style size
-    for style in $4; do
+    local name=$1 palette=$2 from=$3 source=$4 style size
+    for style in $5; do
         case $style in
             flowfield|ginkgo|mondrian|phyllotaxis|ridgeline|tree) size=600 ;;
             *) size=800 ;;
@@ -19,21 +19,33 @@ render() {
         # mondrian keeps its own palette
         local options=()
         [ "$style" = mondrian ] || options=(--palette "$palette")
-        nextflow plugin nf-arts:render --trace "$BUCKET/$trace" --style "$style" "${options[@]}" \
-            --width "$size" --height "$size" --file "docs/images/megatest-$run-$style.png" </dev/null
+        nextflow plugin nf-arts:render "$from" "$source" --style "$style" "${options[@]}" \
+            --width "$size" --height "$size" --file "docs/images/$name-$style.png" </dev/null
     done
 }
 
-render rnavar nfcore rnavar/results-ea2c7b6286f5ae18f5b51dc0af6b5330ecd6a13a/pipeline_info/execution_trace_2025-12-05_11-13-40.txt "$ALL"
-render sarek magma sarek/results-5bb160ddb2cee50c811585e450b16cba13c95a02/somatic_test/pipeline_info/execution_trace_2022-08-03_12-46-37.txt "$ALL"
-render rnaseq viridis rnaseq/results-a1fcdddd3b826fe46eb46f0479f2ff8a7815af05/aligner_star_rsem/pipeline_info/execution_trace_2026-09-23_13-00-35.txt 'radial hilbert'
-render mag ocean mag/results-ccfb744aab0c00a805a2dfbf7d9c9d8729c30805/pipeline_info/execution_trace_2025-12-05_12-04-38.txt 'radial hilbert'
-render raredisease sunset raredisease/results-47a41a53ecf3c10408efb6a26a3cb2608d71289d/pipeline_info/execution_trace_2025-01-17_17-01-38.txt 'radial hilbert'
-render viralrecon mono viralrecon/results-a85d5969f9025409e3618d6c280ef15ce417df65/platform_illumina/pipeline_info/execution_trace_2021-05-14_00-10-21.txt 'radial hilbert'
-render taxprofiler rainbow taxprofiler/results-70ecc15e49b4f1fcf79d876643b5d14b65c66178/pipeline_info/execution_trace_2026-06-15_12-47-45.txt 'radial hilbert'
-render ampliseq nfcore ampliseq/results-e7bcfdadc2cebfe3fd096b02d6379a630a9d17fb/pipeline_info/execution_trace_2025-10-07_07-45-50.txt butterfly
-render atacseq rainbow atacseq/results-415795d3c14fb296c6418b427279ca34ab976844/pipeline_info/execution_trace_2023-07-24_10-28-06.txt butterfly
-render cutandrun sunset cutandrun/results-dcaa4423d783017996c30302d16d772facb0da7e/pipeline_info/execution_trace_2022-10-27_09-14-59.txt butterfly
-render methylseq nfcore methylseq/results-c9729e4b64db1c7ea50920a27dd8c5e3fbdd64f4/pipeline_info/execution_trace_2024-10-18_11-26-51.txt butterfly
-render rnafusion ocean rnafusion/results-eabd3f2d60d3e70d5e80d6c62b81d7d3473c36d1/pipeline_info/execution_trace_2026-03-18_08-14-28.txt butterfly
-render smrnaseq magma smrnaseq/results-cb0af579b24cb8d5a3accd87b2f14ea93fe04832/pipeline_info/execution_trace_2026-01-07_13-43-10.txt butterfly
+# megatest <run> <palette> <trace, from the bucket> <styles>
+megatest() {
+    render "megatest-$1" "$2" --trace "$BUCKET/$3" "$4"
+}
+
+megatest rnavar nfcore rnavar/results-ea2c7b6286f5ae18f5b51dc0af6b5330ecd6a13a/pipeline_info/execution_trace_2025-12-05_11-13-40.txt "$ALL"
+megatest sarek magma sarek/results-5bb160ddb2cee50c811585e450b16cba13c95a02/somatic_test/pipeline_info/execution_trace_2022-08-03_12-46-37.txt "$ALL"
+megatest rnaseq viridis rnaseq/results-a1fcdddd3b826fe46eb46f0479f2ff8a7815af05/aligner_star_rsem/pipeline_info/execution_trace_2026-09-23_13-00-35.txt 'radial hilbert'
+megatest mag ocean mag/results-ccfb744aab0c00a805a2dfbf7d9c9d8729c30805/pipeline_info/execution_trace_2025-12-05_12-04-38.txt 'radial hilbert'
+megatest raredisease sunset raredisease/results-47a41a53ecf3c10408efb6a26a3cb2608d71289d/pipeline_info/execution_trace_2025-01-17_17-01-38.txt 'radial hilbert'
+megatest viralrecon mono viralrecon/results-a85d5969f9025409e3618d6c280ef15ce417df65/platform_illumina/pipeline_info/execution_trace_2021-05-14_00-10-21.txt 'radial hilbert'
+megatest taxprofiler rainbow taxprofiler/results-70ecc15e49b4f1fcf79d876643b5d14b65c66178/pipeline_info/execution_trace_2026-06-15_12-47-45.txt 'radial hilbert'
+megatest ampliseq nfcore ampliseq/results-e7bcfdadc2cebfe3fd096b02d6379a630a9d17fb/pipeline_info/execution_trace_2025-10-07_07-45-50.txt butterfly
+megatest atacseq rainbow atacseq/results-415795d3c14fb296c6418b427279ca34ab976844/pipeline_info/execution_trace_2023-07-24_10-28-06.txt butterfly
+megatest cutandrun sunset cutandrun/results-dcaa4423d783017996c30302d16d772facb0da7e/pipeline_info/execution_trace_2022-10-27_09-14-59.txt butterfly
+megatest methylseq nfcore methylseq/results-c9729e4b64db1c7ea50920a27dd8c5e3fbdd64f4/pipeline_info/execution_trace_2024-10-18_11-26-51.txt butterfly
+megatest rnafusion ocean rnafusion/results-eabd3f2d60d3e70d5e80d6c62b81d7d3473c36d1/pipeline_info/execution_trace_2026-03-18_08-14-28.txt butterfly
+megatest smrnaseq magma smrnaseq/results-cb0af579b24cb8d5a3accd87b2f14ea93fe04832/pipeline_info/execution_trace_2026-01-07_13-43-10.txt butterfly
+
+rnavar=$(mktemp -d)
+trap 'rm -rf "$rnavar"' EXIT
+(cd "$rnavar" && nextflow run nf-core/rnavar -r 1.3.0 -profile test,docker --outdir results </dev/null)
+render test-rnavar nfcore --dir "$rnavar" "$ALL"
+nextflow plugin nf-arts:render --dir "$rnavar" --style radial --colors '#ff006e,#8338ec,#3a86ff' --background '#ffffff' \
+    --width 800 --height 800 --file docs/images/test-rnavar-custom.svg </dev/null

@@ -4,7 +4,7 @@
 
 ```groovy
 plugins {
-    id 'nf-arts@1.0.0'
+    id 'nf-arts@1.1.0'
 }
 ```
 
@@ -16,7 +16,7 @@ At the end of the run, nf-arts writes `art-<runName>.svg` and `art-<runName>.png
 
 ```bash
 nextflow run nf-core/rnavar -profile test,docker --outdir results \
-    -plugins nf-core-utils@0.4.0,nf-schema@2.6.1,nf-arts@1.0.0
+    -plugins nf-core-utils@0.4.0,nf-schema@2.6.1,nf-arts@1.1.0
 ```
 
 The pipeline's plugins are in the `plugins` block of its `nextflow.config`.
