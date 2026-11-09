@@ -24,7 +24,7 @@ class FlowFieldStyle implements Style {
         final left = canvas.width * 0.08d, width = canvas.width * 0.84d
         final top = canvas.height * 0.08d, height = canvas.height * 0.84d
         final row = height / run.processes.size()
-        final maxSteps = Math.min(40, Math.max(8, MAX_POINTS.intdiv(run.tiles.size()) as int))
+        final maxSteps = Math.min(40, MAX_POINTS.intdiv(run.tiles.size()) as int)
         final step = size * 0.004d
 
         run.tiles.eachWithIndex { TaskTile tile, int i ->
