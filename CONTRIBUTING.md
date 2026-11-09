@@ -35,7 +35,20 @@ mise exec -- nextflow plugin nf-arts:render --style ginkgo --file art.png
 
 ## Releasing
 
-Drop `-dev` from the version in `build.gradle` and `CHANGELOG.md`, add the codename to its `CHANGELOG.md` heading, run `mise run images`, copy `.env.example` to `.env`, set `NPR_API_KEY`, then run `mise run release`.
+1. In a pull request, drop `-dev` from the version in `build.gradle` and `CHANGELOG.md`, add the codename to its `CHANGELOG.md` heading, set the `nf-arts@x.y.z` pins in `README.md` and `docs/configuration.md`, and run `mise run images`.
+2. Once it is merged, copy `.env.example` to `.env`, set `NPR_API_KEY`, and run `mise run release` from `main`.
+3. Check that `https://registry.nextflow.io/api/v1/plugins/nf-arts/x.y.z` reports `PUBLISHED`.
+4. Tag that commit and publish its GitHub release, with the version's `CHANGELOG.md` section as notes:
+
+   ```bash
+   git tag -a x.y.z -m "nf-arts x.y.z - Codename" && git push origin x.y.z
+   gh release create x.y.z --verify-tag --title "nf-arts x.y.z - Codename" --notes-file notes.md --latest
+   ```
+
+   The release deploys the website, which builds `/x.y.z/` from the tag.
+5. In a pull request, set the next `-dev` version in `build.gradle` and add its section to `CHANGELOG.md`.
+
+Publish to the registry before tagging: a failed publish is fixed on `main` and run again, with no tag to move.
 
 ## Style
 
