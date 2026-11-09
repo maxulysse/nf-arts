@@ -46,6 +46,7 @@ mise exec -- nextflow plugin nf-arts:render --style ginkgo --file art.png
    ```
 
    The release deploys the website, which builds `/x.y.z/` from the tag.
+5. In a pull request, set the next `-dev` version in `build.gradle` and add its section to `CHANGELOG.md`.
 
 Publish to the registry before tagging: a failed publish is fixed on `main` and run again, with no tag to move.
 

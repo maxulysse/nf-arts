@@ -2,6 +2,12 @@
 
 Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Semantic Versioning](https://semver.org/).
 
+## v1.2.0-dev
+
+### Changed
+
+- [#48](https://github.com/maxulysse/nf-arts/pull/48): `CONTRIBUTING.md` lists every release step, including the tag and GitHub release, and the version is back to `-dev`.
+
 ## v1.1.0 - Iris
 
 ### Added
