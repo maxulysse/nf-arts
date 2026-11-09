@@ -8,6 +8,10 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 
 - [#48](https://github.com/maxulysse/nf-arts/pull/48): `CONTRIBUTING.md` lists every release step, including the tag and GitHub release, and the version is back to `-dev`.
 
+### Fixed
+
+- [#49](https://github.com/maxulysse/nf-arts/pull/49): `render --trace` reads traces written with `trace.raw = true`, and reads trace times as UTC, so a trace with no execution report gives the same image in every time zone.
+
 ## v1.1.0 - Iris
 
 ### Added

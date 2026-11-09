@@ -81,6 +81,8 @@ class RunReader {
             if( col !in header )
                 throw new IllegalArgumentException("Trace file ${file} has no '${col}' column")
         final dates = new SimpleDateFormat('yyyy-MM-dd HH:mm:ss.SSS')
+        // trace times carry no zone: read them the same on every host, so the seed does not depend on where `render` runs
+        dates.timeZone = TimeZone.getTimeZone('UTC')
         final tiles = new ArrayList<TaskTile>()
         for( String line : lines.drop(1) ) {
             if( !line.trim() )
@@ -95,9 +97,9 @@ class RunReader {
             final rss = value(row, 'peak_rss')
             tiles << new TaskTile(
                 process(row.name),
-                when ? dates.parse(when).time : 0L,
-                time ? Duration.of(time).toMillis() : 0L,
-                rss ? MemoryUnit.of(rss).toBytes() : 0L,
+                number(when) { String it -> dates.parse(it).time },
+                number(time) { String it -> Duration.of(it).toMillis() },
+                number(rss) { String it -> MemoryUnit.of(it).toBytes() },
                 Status.of(row.status, false))
         }
         return tiles
@@ -125,6 +127,11 @@ class RunReader {
     /** the process in a task name, without the tag */
     private static String process(String name) {
         name?.replaceFirst(/ \(.*\)$/, '')
+    }
+
+    /** a trace value as a number: plain digits with `trace.raw = true`, else parsed from text */
+    private static long number(String value, Closure<Long> parse) {
+        !value ? 0L : value ==~ /\d+/ ? Long.parseLong(value) : parse.call(value)
     }
 
     private static String value(Map<String, String> row, String key) {
