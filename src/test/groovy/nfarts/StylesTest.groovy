@@ -18,7 +18,7 @@ class StylesTest extends Specification {
         phyllotaxis: 'ad105a18961e5701a458ca389ec5ee66',
         radial:      '9343dca8c3de9aad83235cc1e877804d',
         ridgeline:   'e3914331ece14c44ad3148f1d3c037b3',
-        tree:        '51063372070b4ff54dad7b21309785d1',
+        tree:        '315b107bb2e8954a9434156919f5ec05',
     ]
 
     def 'hilbert curve should visit every cell once with unit steps' () {
@@ -236,6 +236,27 @@ class StylesTest extends Specification {
         svg(layout: 'phase') != svg(layout: 'spiral')
         svg(spokes: 3) != svg(spokes: 5)
         svg(spokes: processes + 7) == svg(spokes: processes)
+    }
+
+    def 'tree should stay on the canvas when the last process runs to the end' () {
+        given:
+        // B starts last, so it is the top branch, and is active for the whole run
+        def tiles = (0..<10).collectMany { int i ->
+            [new TaskTile('A', 1_000_000 + i * 1000, 3_600_000, (i + 1) * 1_048_576, Status.COMPLETED),
+             new TaskTile('B', 1_060_000 + i * 1000, 3_540_000, (i + 1) * 1_048_576, Status.COMPLETED)]
+        }
+        def svg = SyntheticRun.svg(tiles, new ArtsConfig(style: 'tree', width: width, height: height))
+        def ys = (svg =~ /,(-?[\d.]+)/).collect { it[1] as double } +
+            (svg =~ /cy="(-?[\d.]+)" r="([\d.]+)"/).collect { (it[1] as double) - (it[2] as double) }
+
+        expect:
+        ys.min() >= 0
+
+        where:
+        width | height
+        600   | 600
+        900   | 300
+        300   | 900
     }
 
     def 'butterfly should draw every task on both sides and stay on the canvas' () {
