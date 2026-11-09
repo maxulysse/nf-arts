@@ -31,7 +31,9 @@ class TreeStyle implements Style {
             final y0 = base - (base - crown) * (0.1d + 0.85d * (groups.size() > 1 ? i / (double) (groups.size() - 1) : 0.5d))
             final side = i % 2 == 0 ? -1 : 1
             final angle = Math.toRadians(35 + 30 * random.nextDouble())
-            final length = size * (0.1d + 0.3d * Math.sqrt(active / (double) run.span))
+            final grown = size * (0.1d + 0.3d * Math.sqrt(active / (double) run.span))
+            // a high branch stops short of the top, leaving room for its longest twig (0.075) and largest leaf (0.016)
+            final length = Math.min(grown, (y0 - size * 0.1d) / Math.cos(angle))
             final dx = side * Math.sin(angle), dy = -Math.cos(angle)
             final x1 = cx + dx * length, y1 = y0 + dy * length
             canvas.polyline([cx, y0, x1, y1] as double[], Math.max(1d, trunk * 0.5d * Math.sqrt(group.size() / (double) most)), palette.at(0), 1d)

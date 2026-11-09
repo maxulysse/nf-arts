@@ -11,6 +11,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Versions: [Sem
 ### Fixed
 
 - [#49](https://github.com/maxulysse/nf-arts/pull/49): `render --trace` reads traces written with `trace.raw = true`, and reads trace times as UTC, so a trace with no execution report gives the same image in every time zone.
+- [#50](https://github.com/maxulysse/nf-arts/pull/50): A long branch high on the `tree` stops short of the top, so its twigs and leaves stay on the canvas. This changes some `tree` images.
 
 ## v1.1.0 - Iris
 
