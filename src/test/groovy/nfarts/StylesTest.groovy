@@ -238,6 +238,14 @@ class StylesTest extends Specification {
         svg(spokes: processes + 7) == svg(spokes: processes)
     }
 
+    /** every x and every y an SVG's shapes reach: polyline points, and circles out to their radius */
+    static List<List<Double>> extent(String svg) {
+        def points = (svg =~ /(-?[\d.]+),(-?[\d.]+)/).collect { [it[1] as double, it[2] as double] }
+        def circles = (svg =~ /cx="(-?[\d.]+)" cy="(-?[\d.]+)" r="([\d.]+)"/).collect { it[1..3].collect { v -> v as double } }
+        [points*.getAt(0) + circles.collectMany { [it[0] - it[2], it[0] + it[2]] },
+         points*.getAt(1) + circles.collectMany { [it[1] - it[2], it[1] + it[2]] }]
+    }
+
     def 'tree should stay on the canvas when the last process runs to the end' () {
         given:
         // B starts last, so it is the top branch, and is active for the whole run
@@ -245,12 +253,11 @@ class StylesTest extends Specification {
             [new TaskTile('A', 1_000_000 + i * 1000, 3_600_000, (i + 1) * 1_048_576, Status.COMPLETED),
              new TaskTile('B', 1_060_000 + i * 1000, 3_540_000, (i + 1) * 1_048_576, Status.COMPLETED)]
         }
-        def svg = SyntheticRun.svg(tiles, new ArtsConfig(style: 'tree', width: width, height: height))
-        def ys = (svg =~ /,(-?[\d.]+)/).collect { it[1] as double } +
-            (svg =~ /cy="(-?[\d.]+)" r="([\d.]+)"/).collect { (it[1] as double) - (it[2] as double) }
+        def (xs, ys) = extent(SyntheticRun.svg(tiles, new ArtsConfig(style: 'tree', width: width, height: height)))
 
         expect:
-        ys.min() >= 0
+        xs.min() >= 0 && xs.max() <= width
+        ys.min() >= 0 && ys.max() <= height
 
         where:
         width | height
@@ -266,10 +273,7 @@ class StylesTest extends Specification {
         def processes = tiles*.process().unique().size()
         // a lone process fills both wings
         def wings = processes == 1 ? 2 : 1
-        def points = (svg =~ /(-?[\d.]+),(-?[\d.]+)/).collect { [it[1] as double, it[2] as double] }
-        def circles = (svg =~ /cx="(-?[\d.]+)" cy="(-?[\d.]+)" r="([\d.]+)"/).collect { it[1..3].collect { v -> v as double } }
-        def xs = points*.getAt(0) + circles.collectMany { [it[0] - it[2], it[0] + it[2]] }
-        def ys = points*.getAt(1) + circles.collectMany { [it[1] - it[2], it[1] + it[2]] }
+        def (xs, ys) = extent(svg)
 
         expect:
         // a stroke per task and a line per cell, on both sides, plus the antennae
