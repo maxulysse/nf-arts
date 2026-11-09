@@ -37,7 +37,7 @@ class Palette {
     final List<Color> colors
     final boolean discrete
 
-    Palette(String background, List<Color> colors, boolean discrete = false) {
+    Palette(String background, List<Color> colors, boolean discrete) {
         this.background = background
         this.colors = colors
         this.discrete = discrete

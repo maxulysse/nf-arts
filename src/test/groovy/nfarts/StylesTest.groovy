@@ -246,6 +246,18 @@ class StylesTest extends Specification {
          points*.getAt(1) + circles.collectMany { [it[1] - it[2], it[1] + it[2]] }]
     }
 
+    def 'flowfield should keep to its point cap on a large run' () {
+        given:
+        def tasks = 100_000
+        // equal durations put every task at the longest stroke
+        def tiles = (0..<tasks).collect { int i -> new TaskTile("P${i % 50}", i * 1000L, 60_000, 1_048_576, Status.COMPLETED) }
+        def points = SyntheticRun.svg(tiles, new ArtsConfig(style: 'flowfield', title: false)).count(',')
+
+        expect:
+        // a stroke has at least 2 points, on top of the cap
+        points <= FlowFieldStyle.MAX_POINTS + 2 * tasks
+    }
+
     def 'tree should stay on the canvas when the last process runs to the end' () {
         given:
         // B starts last, so it is the top branch, and is active for the whole run
