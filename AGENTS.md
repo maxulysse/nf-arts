@@ -17,14 +17,14 @@ Notes for AI coding agents working on nf-arts. Read `CONTRIBUTING.md` for the wo
 ## Commands
 
 ```bash
-mise run images       # render docs/images from megatest traces
+mise run images       # render docs/images from megatest traces and an rnavar test run
 prek run --all-files  # the commit hooks, as in CI
 ```
 
 ## Rules
 
 - A refactor must not visibly change images. `StylesTest.SVG_HASHES` pins each style's SVG; if a hash changes, render that style before and after, compare the images by eye, and update the hash only for an intended change.
-- Images rendered with a `-dev` build show `-dev` in their caption. `test-rnavar-*` are not regenerated: their runs are gone.
+- Images rendered with a `-dev` build show `-dev` in their caption, so `docs/images` are rendered at release only.
 - README links and images are absolute GitHub URLs: the Nextflow Registry shows the README outside the repository.
 - The art only uses the task fields listed in `docs/data.md`. Anything new that reaches the image, including caption text, must be added there first.
 

@@ -21,7 +21,7 @@ Add the plugin to `nextflow.config`:
 
 ```groovy
 plugins {
-    id 'nf-arts@1.0.0'
+    id 'nf-arts@1.1.0'
 }
 ```
 
