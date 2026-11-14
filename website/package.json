@@ -11,6 +11,6 @@
     "test": "node --test scripts/sync-docs.test.mjs"
   },
   "dependencies": {
-    "astro": "^7.4.4"
+    "astro": "^7.4.7"
   }
 }
